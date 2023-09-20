@@ -78,7 +78,6 @@ várias configurações podem ser feitas por variáveis css, já constam algumas
 
 
 #### Exemplos de customização de estilo:
-* fundo da notificação de sucesso:
 ```css
 .success {
     /* muda a cor de fundo */
