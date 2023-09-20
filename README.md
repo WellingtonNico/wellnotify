@@ -52,7 +52,7 @@ as opções padrão podem ser definidas ao criar a instância ou no terceiro arg
 ## Estilos
 várias configurações podem ser feitas por variáveis css, já constam algumas configurações para tema escuro:
 ```css
-.notificacao-ContainerPosicional {
+.wellnotify-ContainerPosicional {
     --wellnotify-container-padding: 15px;
     --wellnotify-max-width:350px;
     --wellnotify-success-color: #09B30E;
@@ -67,8 +67,8 @@ várias configurações podem ser feitas por variáveis css, já constam algumas
     --wellnotify-border-color:var(--wellnotify-default-color);
 }
 
-[data-bs-theme='dark'] .notificacao-ContainerPosicional,    
-[data-theme='dark'] .notificacao-ContainerPosicional {
+[data-bs-theme='dark'] .wellnotify-ContainerPosicional,    
+[data-theme='dark'] .wellnotify-ContainerPosicional {
     --wellnotify-text-color: white;
     --wellnotify-background-color: black;
     --wellnotify-botao-fechar-color:gray;

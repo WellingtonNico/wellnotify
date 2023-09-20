@@ -51,7 +51,7 @@ class WellNotify {
    */
   atualizarBarraDeProgresso = (notificacao, duracao) => {
     const barraDeProgresso = notificacao.querySelector(
-      ".notificacao-BarraAnimada"
+      ".wellnotify-BarraAnimada"
     );
     let inicio = new Date().getTime();
     let hover = false;
@@ -97,7 +97,7 @@ class WellNotify {
 
     if (!document.contains(containerNotificacao)) {
       containerNotificacao = document.createElement("div");
-      containerNotificacao.classList.add("notificacao-ContainerPosicional");
+      containerNotificacao.classList.add("wellnotify-ContainerPosicional");
       containerNotificacao.id = idContainerNotificacao;
       containerNotificacao.innerHTML += this.obterRegrasCss();
       document.body.appendChild(containerNotificacao);
@@ -115,8 +115,8 @@ class WellNotify {
   obterAnimacao = (reverse) => {
     const posicao = this.obterPosicao();
     let animacao = posicao.endsWith("direito")
-      ? "notificacao-animacao-deslizar-para-esquerda"
-      : "notificacao-animacao-deslizar-para-direita";
+      ? "wellnotify-animacao-deslizar-para-esquerda"
+      : "wellnotify-animacao-deslizar-para-direita";
     animacao += " .3s forwards";
     if (reverse === true) {
       animacao += " reverse";
@@ -146,7 +146,7 @@ class WellNotify {
 
     const htmlBarraDeProgresso = `
         <div class="notificacao_BarraProgressoWrapper">
-          <div class="notificacao-BarraAnimada" style="width:0%;"></div>
+          <div class="wellnotify-BarraAnimada" style="width:0%;"></div>
         </div>
       `;
 
@@ -242,7 +242,7 @@ class WellNotify {
     return `
       <style>
     
-        .notificacao-ContainerPosicional {
+        .wellnotify-ContainerPosicional {
           --wellnotify-container-padding: 15px;
           --wellnotify-max-width:350px;
           --wellnotify-success-color: #09B30E;
@@ -259,8 +259,8 @@ class WellNotify {
         }
     
         
-        [data-bs-theme='dark'] .notificacao-ContainerPosicional,    
-        [data-theme='dark'] .notificacao-ContainerPosicional {
+        [data-bs-theme='dark'] .wellnotify-ContainerPosicional,    
+        [data-theme='dark'] .wellnotify-ContainerPosicional {
           --wellnotify-text-color: white;
           --wellnotify-background-color: black;
           --wellnotify-botao-fechar-color:gray;
@@ -268,13 +268,13 @@ class WellNotify {
         }
     
         @media (max-width:365px) {
-          .notificacao-ContainerPosicional {
+          .wellnotify-ContainerPosicional {
             --wellnotify-max-width: 100% !important;
             --wellnotify-container-padding:0px;            
           } 
         }
     
-        .notificacao-ContainerPosicional {
+        .wellnotify-ContainerPosicional {
           overflow-y:auto;
           max-height: 100vh;          
           overflow-x: hidden;
@@ -352,7 +352,7 @@ class WellNotify {
           padding:10px 0px 10px 0px;
         }
 
-        @keyframes notificacao-animacao-spin {
+        @keyframes wellnotify-animacao-spin {
           from {
             transform: rotate(0deg);
           }
@@ -373,13 +373,13 @@ class WellNotify {
           justify-content:end;      
         }
     
-        .notificacao-BarraAnimada{
+        .wellnotify-BarraAnimada{
           height: 100%;
           transition: all ease;
           background-color: var(--wellnotify-barra-wrapper-color);
         }
     
-        @keyframes notificacao-animacao-deslizar-para-esquerda{      
+        @keyframes wellnotify-animacao-deslizar-para-esquerda{      
           from {
             transform: translate3d(110%, 0, 0);
             opacity: 0;
@@ -390,7 +390,7 @@ class WellNotify {
           }
         }
     
-        @keyframes notificacao-animacao-deslizar-para-direita{      
+        @keyframes wellnotify-animacao-deslizar-para-direita{      
           from {
             transform: translate3d(-110%, 0, 0);
             opacity: 0; 
