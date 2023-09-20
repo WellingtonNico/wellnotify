@@ -96,7 +96,7 @@ class WellNotify {
       }
       const diferenca = agora - inicio;
       if (diferenca >= duracao && !hover) {
-        this.removerNotificacao(notificacao.id);
+        this.removerNotificacao(notificacao);
         return;
       } else if (!hover) {
         const porcentagem = (diferenca * 100) / duracao;
