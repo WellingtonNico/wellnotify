@@ -12,7 +12,7 @@ lib js baseada na lib [react-toastify](https://fkhadra.github.io/react-toastify/
 <!-- wellnotify -->
 <script src="/static/js/wellnotify.js"></script>
 ```
-* crie uma instancia da classe WellNotify ou use a que já vem pré instanciada: wellNotify. Ex:
+* crie uma instância da classe WellNotify ou use a que já vem pré instanciada: wellNotify. Ex:
 ```js
 const myWellNotify = new WellNotify({ posicao: "fundo-direito" })
 ```
@@ -40,7 +40,7 @@ são auto explicativos
 
 
 ## Opções
-as opções padrão podem ser definidas ao criar a instancia ou no terceiro argumento do método `notificar`:
+as opções padrão podem ser definidas ao criar a instância ou no terceiro argumento do método `notificar`:
 
 * `[opcoes.posicao='topo-direito']` - (deve ser definido ao instanciar a classe) valores possíveis e auto explicativos:  `topo-direito` | `topo-esquerdo` | `fundo-direito` | `fundo-esquerdo`;
 * `[opcoes.duracao=3000]` - duração da notificação em milisegundos;
