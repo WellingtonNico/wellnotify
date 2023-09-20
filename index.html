@@ -41,6 +41,9 @@
 
           <h4 class="text-center">WellNotify - Demo</h4>
 
+          <a class="my-4 text-center"
+             href="https://github.com/WellingtonNico/wellnotify">Acessar repositório</a>
+
           <button class="btn btn-success"
                   onclick="myWellNotify.notificar('auto fechamento sucesso!','success',{autoFechar:true})">
             notificar sucesso
@@ -75,21 +78,16 @@
                   class="btn btn-sm btn-secondary .BotaoAlterarTema">Alterar Tema</button>
 
  
-        </div>
-
-        <div class="row mt-5">
-          <div class="col col-6 text-center mb-3">
+          <!-- botões para alterar posicionamento -->
+          <div class="d-flex justify-content-between mt-4">
             <u onclick="alterarPosicao('topo-esquerdo')" role="button">Topo Esquerdo</u>
-          </div>
-          <div class="col col-6 text-center mb-3">
             <u onclick="alterarPosicao('topo-direito')" role="button">Topo Direito</u>
           </div>
-          <div class="col col-6 text-center mb-3">
+          <div class="d-flex justify-content-between ">
             <u onclick="alterarPosicao('fundo-esquerdo')" role="button">Fundo Esquerdo</u>
-          </div>
-          <div class="col col-6 text-center mb-3">
             <u onclick="alterarPosicao('fundo-direito')" role="button">Fundo Direito</u>
           </div>
+
         </div>
 
       </div>
