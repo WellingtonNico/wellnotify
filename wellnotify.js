@@ -59,9 +59,7 @@ class WellNotify {
   limpar = () => {
     const containerNotificacao = this.obterContainerNotificacoes();
     [...containerNotificacao.children].forEach((node) => {
-      if (node.id.startsWith("id_notificacao")) {
-        this.removerNotificacao(node.id);
-      }
+      this.removerNotificacao(node.id);      
     });
   };
 
