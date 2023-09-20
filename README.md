@@ -3,6 +3,9 @@
 lib js baseada na lib [react-toastify](https://fkhadra.github.io/react-toastify/introduction) para notificações no template html
 
 
+## Acesse a demo
+[acessar demonstração](https://wellingtonnico.github.io/wellnotify/)
+
 
 ## Como usar?
 
