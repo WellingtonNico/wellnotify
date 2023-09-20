@@ -100,3 +100,23 @@ várias configurações podem ser feitas por variáveis css, já constam algumas
     --wellnotify-icone-color:white !important;
 }
 ```
+
+
+## Plus
+
+### Uso no template django
+
+como eu sou um grande fã do framework web [Django](https://github.com/django/django), segue um exemplo pronto para mensagens do django
+
+```html
+{% if messages %}
+    <script>
+        document.addEventListener('DOMContentLoaded',()=>{
+            const myWellNotify = new WellNotify()
+            {% for message in messages %}
+                myWellNotify.notificar("{{ message|escapejs }}",'{{message.tags}}');               
+            {% endfor %}
+        })
+    </script>
+{% endif %}
+```
