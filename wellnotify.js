@@ -317,6 +317,10 @@ class WellNotify {
           width: var(--wellnotify-max-width);
           min-width: var(--wellnotify-max-width)
         }
+
+        .${this.cssClasses.containerPosicional}:empty {
+          padding:0px !important;
+        }
     
         .${this.cssClasses.containerWrapper} {      
           width: 100%;
