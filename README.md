@@ -1,6 +1,9 @@
 # WellNotify
 
-lib js baseada na lib [react-toastify](https://fkhadra.github.io/react-toastify/introduction) para notificações no template html
+lib js baseada na lib [react-toastify](https://fkhadra.github.io/react-toastify/introduction) para notificações no template html.
+
+## ATENÇÃO
+esta lib não depende de css externo como por exemplo o bootstrap, não precisa adicionar nada para o funcionamento
 
 
 ## Acesse a demo
