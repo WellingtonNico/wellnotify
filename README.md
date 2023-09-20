@@ -23,7 +23,7 @@ const notificacao = wellNotify.notificar('iiihull, o Wellington mandou bem!','su
 
 notificacao.addEventListener('click',()=>alert('Evento adicional'))
 ```
-* se for necessário limpar as notificações use
+* se for necessário limpar as notificações use:
 ```js
 myWellNotify.limpar()
 ```
