@@ -54,6 +54,11 @@
           <button class="btn btn-secondary"
                   onclick="wellNotify.notificar('notificação tipo padrão','default')">notificar padrão</button>
 
+          <button class="btn btn-dark"
+                  onclick="wellNotify.notificar('<span>clique <b>aqui</b> para limpar as notificações</span>','default',{aoClicar(){wellNotify.limpar()}})">
+            notificar limpar
+          </button>
+ 
           <button class="btn btn-light" onclick="wellNotify.limpar()">limpar notificações</button>
 
           <!-- botão para alterar tema -->
