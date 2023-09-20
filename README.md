@@ -79,6 +79,18 @@ várias configurações podem ser feitas por variáveis css, já constam algumas
 }
 ```
 
+#### Explicações das classes css
+```css
+.wellnotify_ContainerPosicional{...} /* container princpal que irá comportar as notificações */
+.wellnotify_ContainerWrapper{...} /* wrapper individual */
+.wellnotify_Container{...} /* container individual */
+.wellnotify_IconeWrapper{...} /* container que comporta o ícone da notificação */
+.wellnotify_Icone{...} /* ícone de cada notificação */
+.wellnotify_Mensagem{...} /* container do conteúdo da mensagem */
+.wellnotify_BotaoFecharWrapper{...} /* container que comporta o botão fechar */
+.wellnotify_BotaoFechar{...} /* ícone do botão fechar */
+```
+
 
 #### Exemplos de customização de estilo:
 ```css
