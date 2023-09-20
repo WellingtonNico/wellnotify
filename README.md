@@ -47,3 +47,57 @@ as opções padrão podem ser definidas ao criar a instância ou no terceiro arg
 * `[opcoes.autoFechar=true]` - se verdadeiro a notificação será fechada automaticamente após o tempo do argumento `duracao`;
 * `[opcoes.fecharAoClicar=true]` - se verdadeiro a notificação pode ser fechada ao clicar no corpo sem a necessidade de clicar no botão de fechar;
 * `[opcoes.aoClicar=undefined]` - (deve ser definido ao chamar o método `notificar`) caso for informado, um evento on click será adicionaro a notificação e será disparado ao clicar no corpo da mesma.
+
+
+## Estilos
+várias configurações podem ser feitas por variáveis css, já constam algumas configurações para tema escuro:
+```css
+.notificacao-ContainerPosicional {
+    --wellnotify-container-padding: 15px;
+    --wellnotify-max-width:350px;
+    --wellnotify-success-color: #09B30E;
+    --wellnotify-error-color: #E44334;
+    --wellnotify-info-color: #2C8DD6;
+    --wellnotify-warning-color: #EFBC10;
+    --wellnotify-default-color: #7942AC;
+    --wellnotify-barra-wrapper-color: #d4d3d2;
+    --wellnotify-text-color: gray;
+    --wellnotify-background-color: white;
+    --wellnotify-botao-fechar-color:black;
+    --wellnotify-border-color:var(--wellnotify-default-color);
+}
+
+[data-bs-theme='dark'] .notificacao-ContainerPosicional,    
+[data-theme='dark'] .notificacao-ContainerPosicional {
+    --wellnotify-text-color: white;
+    --wellnotify-background-color: black;
+    --wellnotify-botao-fechar-color:gray;
+    --wellnotify-barra-wrapper-color: gray;
+}
+```
+
+
+#### Exemplos de customização de estilo:
+* fundo da notificação de sucesso:
+```css
+.success {
+    /* muda a cor de fundo */
+    --wellnotify-background-color: green;
+    /* muda a cor do texto */
+    --wellnotify-text-color: white;
+    /* muda a cor das bordas(precisa ser !important) */
+    --wellnotify-border-color:red !important;
+    /* muda a cor do ícone se houver(precisa ser !important) */
+    --wellnotify-icone-color:white !important;
+}
+.error {
+    /* muda a cor de fundo */
+    --wellnotify-background-color: green;
+    /* muda a cor do texto */
+    --wellnotify-text-color: white;
+    /* muda a cor das bordas(precisa ser !important) */
+    --wellnotify-border-color:red !important;
+    /* muda a cor do ícone se houver(precisa ser !important) */
+    --wellnotify-icone-color:white !important;
+}
+```
