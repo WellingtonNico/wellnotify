@@ -6,10 +6,13 @@ lib js baseada na lib [react-toastify](https://fkhadra.github.io/react-toastify/
 
 ## Como usar?
 
-* faça o download do arquivo wellnotify.js;
-* inclua o script no seu html. Ex:
+* faça o download do arquivo wellnotify.js ou use cdn para incluir no seu documento html. Ex:
+
 ```html
-<!-- wellnotify -->
+<!-- wellnotify via cdn -->
+<script src="https://cdn.jsdelivr.net/gh/WellingtonNico/wellnotify/wellnotify.js"></script>
+
+<!-- wellnotify arquivo local -->
 <script src="/static/js/wellnotify.js"></script>
 ```
 * crie uma instância da classe WellNotify ou use a que já vem pré instanciada: wellNotify. Ex:
