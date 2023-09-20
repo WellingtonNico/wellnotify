@@ -8,7 +8,33 @@ class WellNotify {
    */
   constructor(props) {
     this.props = props;
+    this.adicionarEstilo();
   }
+
+  cssClasses = {
+    botaoFecharWrapper: "wellnotify_BotaoFecharWrapper",
+    botaoFechar: "wellnotify_BotaoFechar",
+    containerPosicional: "wellnotify_ContainerPosicional",
+    barraAnimada: "wellnotify_BarraAnimada",
+    barraProgressoWrapper: "wellnotify_BarraProgressoWrapper",
+    containerWrapper: "wellnotify_ContainerWrapper",
+    container: "wellnotify_Container",
+    iconeWrapper: "wellnotify_IconeWrapper",
+    icone: "wellnotify_Icone",
+    mensagem: "wellnotify_Mensagem",
+  };
+
+  adicionarEstilo = () => {
+    const idStyleTag = "id-wellnotify-style";
+    let styleTag = document.getElementById(idStyleTag);
+    if (styleTag) {
+      styleTag.remove();
+    }
+    styleTag = document.createElement("style");
+    styleTag.id = idStyleTag;
+    styleTag.innerHTML = this.obterRegrasCss();
+    document.head.appendChild(styleTag);
+  };
 
   /**
    * remove a notificação adicionando o efeito necessário
@@ -41,7 +67,7 @@ class WellNotify {
 
   obterIdContainerNotificacoes = () => {
     const posicao = this.obterPosicao();
-    return `id_container_notificacao_${posicao}`;
+    return `id_wellnotify_container_posicional_${posicao}`;
   };
 
   /**
@@ -51,7 +77,7 @@ class WellNotify {
    */
   atualizarBarraDeProgresso = (notificacao, duracao) => {
     const barraDeProgresso = notificacao.querySelector(
-      ".wellnotify-BarraAnimada"
+      `.${this.cssClasses.barraAnimada}`
     );
     let inicio = new Date().getTime();
     let hover = false;
@@ -97,9 +123,8 @@ class WellNotify {
 
     if (!document.contains(containerNotificacao)) {
       containerNotificacao = document.createElement("div");
-      containerNotificacao.classList.add("wellnotify-ContainerPosicional");
+      containerNotificacao.classList.add(this.cssClasses.containerPosicional);
       containerNotificacao.id = idContainerNotificacao;
-      containerNotificacao.innerHTML += this.obterRegrasCss();
       document.body.appendChild(containerNotificacao);
     }
     return containerNotificacao;
@@ -138,15 +163,15 @@ class WellNotify {
       throw new Error(`O tipo "${tipo}" não é suportado`);
     }
     const idNotificacao =
-      id !== undefined ? String(id) : `id_notificacao_${new Date().getTime()}`;
+      id !== undefined ? String(id) : `id_wellnotify_${new Date().getTime()}`;
     const novaNotificacao = document.createElement("div");
     novaNotificacao.id = idNotificacao;
-    novaNotificacao.classList.add("notificacao_ContainerWrapper");
+    novaNotificacao.classList.add(this.cssClasses.containerWrapper);
     novaNotificacao.classList.add(String(tipo ?? "").toLowerCase());
 
     const htmlBarraDeProgresso = `
-        <div class="notificacao_BarraProgressoWrapper">
-          <div class="wellnotify-BarraAnimada" style="width:0%;"></div>
+        <div class="${this.cssClasses.barraProgressoWrapper}">
+          <div class="${this.cssClasses.barraAnimada}" style="width:0%;"></div>
         </div>
       `;
 
@@ -154,9 +179,8 @@ class WellNotify {
       tipo !== "loading"
         ? `
       <!-- botão fechar -->
-      <div class="notificacao_BotaoFecharWrapper">
-        <span onclick="new WellNotify().removerNotificacao(${novaNotificacao.id})" 
-            class="notificacao_BotaoFechar"
+      <div class="${this.cssClasses.botaoFecharWrapper}">
+        <span class="${this.cssClasses.botaoFechar}"
             >${this.icones.close}
         </span>
       </div>    
@@ -164,17 +188,17 @@ class WellNotify {
         : "";
 
     novaNotificacao.innerHTML = `  
-      <div class="notificacao_Container">
+      <div class="${this.cssClasses.container}">
 
         <!-- ícone se houver -->
-        <div class="notificacao_IconeWrapper">
-          <span class="notificacao_Icone">
+        <div class="${this.cssClasses.iconeWrapper}">
+          <span class="${this.cssClasses.icone}">
             ${this.icones[tipo] ?? ""}            
           </span>
         </div>
 
         <!-- mensagem -->
-        <div class="notificacao_Mensagem">
+        <div class="${this.cssClasses.mensagem}">
           ${conteudo}
         </div>
 
@@ -216,6 +240,14 @@ class WellNotify {
         this.removerNotificacao(novaNotificacao)
       );
     }
+    const botaoFechar = novaNotificacao.querySelector(
+      `.${this.cssClasses.botaoFechar}`
+    );
+    if (botaoFechar) {
+      botaoFechar.addEventListener("click", () =>
+        this.removerNotificacao(novaNotificacao)
+      );
+    }
     if (opcoes?.aoClicar) {
       novaNotificacao.addEventListener("click", opcoes.aoClicar);
     }
@@ -233,16 +265,14 @@ class WellNotify {
   };
 
   obterRegrasCss = () => {
-    const idContainerNotificacao = this.obterIdContainerNotificacoes();
     const posicao = this.obterPosicao();
     const regraVertical = posicao.startsWith("topo") ? "top: 0;" : "bottom: 0;";
     const regraHorizontal = posicao.endsWith("esquerdo")
       ? "left: 0;"
       : "right: 0;";
     return `
-      <style>
     
-        .wellnotify-ContainerPosicional {
+        .${this.cssClasses.containerPosicional} {
           --wellnotify-container-padding: 15px;
           --wellnotify-max-width:350px;
           --wellnotify-success-color: #09B30E;
@@ -259,8 +289,8 @@ class WellNotify {
         }
     
         
-        [data-bs-theme='dark'] .wellnotify-ContainerPosicional,    
-        [data-theme='dark'] .wellnotify-ContainerPosicional {
+        [data-bs-theme='dark'] .${this.cssClasses.containerPosicional},    
+        [data-theme='dark'] .${this.cssClasses.containerPosicional} {
           --wellnotify-text-color: white;
           --wellnotify-background-color: black;
           --wellnotify-botao-fechar-color:gray;
@@ -268,13 +298,13 @@ class WellNotify {
         }
     
         @media (max-width:365px) {
-          .wellnotify-ContainerPosicional {
+          .${this.cssClasses.containerPosicional} {
             --wellnotify-max-width: 100% !important;
             --wellnotify-container-padding:0px;            
           } 
         }
     
-        .wellnotify-ContainerPosicional {
+        .${this.cssClasses.containerPosicional} {
           overflow-y:auto;
           max-height: 100vh;          
           overflow-x: hidden;
@@ -289,7 +319,7 @@ class WellNotify {
           min-width: var(--wellnotify-max-width)
         }
     
-        .notificacao_ContainerWrapper {      
+        .${this.cssClasses.containerWrapper} {      
           width: 100%;
           max-width: 100%;
           position:relative;      
@@ -302,7 +332,7 @@ class WellNotify {
           color: var(--wellnotify-text-color);
         }
     
-        .notificacao_IconeWrapper{
+        .${this.cssClasses.iconeWrapper}{
           min-width: 38px !important;         
           max-width: 38px !important;         
           display: flex;
@@ -310,46 +340,60 @@ class WellNotify {
           justify-content: center;
         }
     
-        .notificacao_ContainerWrapper .notificacao_Container{
+        .${this.cssClasses.containerWrapper} .${this.cssClasses.container}{
           border-left:3px solid var(--wellnotify-border-color);
           display: flex;
         }
     
-        .notificacao_ContainerWrapper.success {
+        .${this.cssClasses.containerWrapper}.success {
           --wellnotify-border-color:var(--wellnotify-success-color);
           --wellnotify-icone-color:var(--wellnotify-success-color);          
         }
     
-        .notificacao_ContainerWrapper.error {
+        .${this.cssClasses.containerWrapper}.error {
           --wellnotify-border-color:var(--wellnotify-error-color);
           --wellnotify-icone-color:var(--wellnotify-error-color);
         }
     
-        .notificacao_ContainerWrapper.warning {
+        .${this.cssClasses.containerWrapper}.warning {
           --wellnotify-border-color:var(--wellnotify-warning-color);
           --wellnotify-icone-color:var(--wellnotify-warning-color);
         }
     
-        .notificacao_ContainerWrapper.info {
+        .${this.cssClasses.containerWrapper}.info {
           --wellnotify-border-color:var(--wellnotify-info-color);
           --wellnotify-icone-color:var(--wellnotify-info-color);
         }
     
-        .notificacao_BotaoFecharWrapper{
+        .${this.cssClasses.botaoFecharWrapper}{
           min-width: 20px !important;
           max-width: 20px !important;
           padding-right:2px;
         }
     
-        .notificacao_BotaoFecharWrapper .notificacao_BotaoFechar{
+        .${this.cssClasses.botaoFecharWrapper} .${this.cssClasses.botaoFechar}{
           cursor:pointer;  
         }
     
-        .notificacao_Mensagem{
+        .${this.cssClasses.mensagem}{
           display:flex;
           align-items:center;
           flex-grow: 1;
           padding:10px 0px 10px 0px;
+        }
+    
+        .${this.cssClasses.barraProgressoWrapper}{
+          height: 3px;
+          background-color: var(--wellnotify-border-color);
+          max-height:3px;
+          display:flex;
+          justify-content:end;      
+        }
+    
+        .${this.cssClasses.barraAnimada}{
+          height: 100%;
+          transition: all ease;
+          background-color: var(--wellnotify-barra-wrapper-color);
         }
 
         @keyframes wellnotify-animacao-spin {
@@ -361,22 +405,8 @@ class WellNotify {
           }
         }
 
-        .notificacao_IconeLoading {
+        .wellnotify_IconeLoading {
 
-        }
-    
-        .notificacao_BarraProgressoWrapper{
-          height: 3px;
-          background-color: var(--wellnotify-border-color);
-          max-height:3px;
-          display:flex;
-          justify-content:end;      
-        }
-    
-        .wellnotify-BarraAnimada{
-          height: 100%;
-          transition: all ease;
-          background-color: var(--wellnotify-barra-wrapper-color);
         }
     
         @keyframes wellnotify-animacao-deslizar-para-esquerda{      
@@ -399,9 +429,7 @@ class WellNotify {
             transform: translate3d(0, 0, 0);
             opacity: 1;
           }
-        }
-    
-      </style>`;
+        }`;
   };
 
   icones = {
