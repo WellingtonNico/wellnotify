@@ -303,6 +303,7 @@ class WellNotify {
         }
     
         .${this.cssClasses.containerPosicional} {
+          z-index: 10000;
           overflow-y:auto;
           max-height: 100vh;          
           overflow-x: hidden;
