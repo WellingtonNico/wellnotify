@@ -19,7 +19,7 @@
  
     <script>
       // WellNotify precisa ser instanciado  
-      let myWellNotify = new WellNotify({ posicao: "fundo-direito" });
+      let myWellNotify = new WellNotify({ posicao: "topo-direito" });
 
       const alterarTema = ()=>{
         const temaAtual = document.documentElement.getAttribute('data-bs-theme')??'light'
@@ -27,10 +27,14 @@
         document.documentElement.setAttribute('data-bs-theme',novoTema)
       }
 
-      const alterarPosicao = (posicao) =>{
+      const alterarPosicao = (event,posicao) =>{
         myWellNotify.limpar()
         myWellNotify = new WellNotify({ posicao });
-        console.log('alterado')
+        [...document.querySelectorAll('[name="checkbox_posicao"]')].forEach(checkbox=>{
+          if (checkbox!=event.target){
+            checkbox.checked=false
+          }
+        })
       }
     
     </script>
@@ -41,28 +45,28 @@
 
           <h4 class="text-center">WellNotify - Demo</h4>
 
-          <a class="my-4 text-center"
+          <a class="mb-4 mt-2 text-center"
              href="https://github.com/WellingtonNico/wellnotify">Acessar repositório</a>
 
-          <button class="btn btn-success"
+          <button class="btn btn-sm btn-success"
                   onclick="myWellNotify.notificar('auto fechamento sucesso!','success',{autoFechar:true})">
             notificar sucesso
           </button>
 
-          <button class="btn btn-warning"
+          <button class="btn btn-sm btn-warning"
                   onclick="myWellNotify.notificar('warning duração de 7 segundos, duracao=7000','warning',{duracao:7000})">
             notificar warning
           </button>
 
-          <button class="btn btn-danger"
+          <button class="btn btn-sm btn-danger"
                   onclick="myWellNotify.notificar('erro sem fechamento automático, fecharAoClicar=false, autoFechar=false, precisar pressionar o botão para fechar','error',{autoFechar:false,fecharAoClicar:false})">
             notificar erro
           </button>
 
-          <button class="btn btn-primary"
+          <button class="btn  btn-sm btn-primary"
                   onclick="myWellNotify.notificar('info com configurações padrão','info')">notificar info</button>
 
-          <button class="btn btn-secondary"
+          <button class="btn btn-sm btn-secondary"
                   onclick="myWellNotify.notificar('notificação tipo padrão','default')">notificar padrão</button>
 
           <button class="btn btn-dark border border-1 border-light"
@@ -70,24 +74,59 @@
             notificar limpar
           </button>
  
-          <button class="btn btn-light border border-1 border-dark"
+          <button class="btn btn-light btn-sm border border-1 border-dark"
                   onclick="myWellNotify.limpar()">limpar notificações</button>
 
           <!-- botão para alterar tema -->
           <button onclick="alterarTema()"
                   class="btn btn-sm btn-secondary .BotaoAlterarTema">Alterar Tema</button>
 
- 
-          <!-- botões para alterar posicionamento -->
-          <div class="d-flex justify-content-between mt-4">
-            <u onclick="alterarPosicao('topo-esquerdo')" role="button">Topo Esquerdo</u>
-            <u onclick="alterarPosicao('topo-direito')" role="button">Topo Direito</u>
-          </div>
-          <div class="d-flex justify-content-between ">
-            <u onclick="alterarPosicao('fundo-esquerdo')" role="button">Fundo Esquerdo</u>
-            <u onclick="alterarPosicao('fundo-direito')" role="button">Fundo Direito</u>
-          </div>
+        </div>
 
+      </div>
+
+      <!-- checkboxes para alterar posicionamento -->
+      <div class="row justify-content-center mt-3">
+        <div class="col col-12 col-sm-6">
+          <div class="form-check form-switch d-flex justify-content-center gap-3">
+            <input class="form-check-input"
+                   type="checkbox"
+                   name="checkbox_posicao"
+                   onchange="alterarPosicao(event,'topo-esquerdo')">
+            <label class="form-check-label">Topo Esquerdo</label>
+          </div>
+        </div>
+
+        <div class="col col-12 col-sm-6">
+          <div class="form-check form-switch d-flex justify-content-center gap-3">
+            <input class="form-check-input"
+                   type="checkbox"
+                   name="checkbox_posicao"
+                   onchange="alterarPosicao(event,'topo-direito')"
+                   checked>
+            <label class="form-check-label">Topo Direito</label>
+          </div>
+        </div>
+
+        <div class="col col-12 col-sm-6">
+          <div class="form-check form-switch d-flex justify-content-center gap-3">
+            <input class="form-check-input"
+                   type="checkbox"
+                   name="checkbox_posicao"
+                   onchange="alterarPosicao(event,'fundo-esquerdo')">
+            <label class="form-check-label">Fundo Esquerdo</label>
+          </div>
+        </div>
+
+        <div class="col col-12 col-sm-6">
+
+          <div class="form-check form-switch d-flex justify-content-center gap-3">
+            <input class="form-check-input"
+                   type="checkbox"
+                   name="checkbox_posicao"
+                   onchange="alterarPosicao(event,'fundo-direito')">
+            <label class="form-check-label">Fundo Direito</label>
+          </div>
         </div>
 
       </div>
