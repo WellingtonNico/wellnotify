@@ -130,6 +130,7 @@ várias configurações podem ser feitas por variáveis css, já constam algumas
     --wellnotify-background-color: black;
     --wellnotify-botao-fechar-color:gray;
     --wellnotify-barra-wrapper-color: gray;
+    --wellnotify-default-color: white;
 }
 ```
 
