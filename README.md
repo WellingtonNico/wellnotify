@@ -54,21 +54,26 @@ para obter um efeito legal ao executar uma função, é possível indicar que el
 const carregarConteudoDaApi = async () => {
     // seu código asyncrono ou não aqui
     ... 
+    // caso seja feito um tratamento de erro dentro da função pode se lançar um erro hardcoded para que a notificação seja substituida por uma de erro
+    throw new Error('Erro forçado para funcionar a notificação')
 }
 
 const carregarConteudoDaApiWrapper = () => {
     myWellNotify.aguardar(
+        // função a ser executada e aguardada
         carregarConteudoDaApi,
         {
             loading:{
                 conteudo: 'Execução pendente...',
             },
+            // configurações em caso de sucesso
             success:{
                 conteudo: 'Contúdo carregado com sucesso!',            
                 aoClicar(){
                     alert('clique feito na notificação de sucesso da pendente')
                 }
             },
+            // configurações caso houver erro na execução
             error:{
                 conteudo: 'Não foi possível carregar o conteúdo da api!',            
                 duracao:10000,
