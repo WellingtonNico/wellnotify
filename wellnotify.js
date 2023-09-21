@@ -1,6 +1,9 @@
 /**
  *
  *      WellNotify
+ * 
+ *      GitHub: https://github.com/WellingtonNico/wellnotify
+ *      Demo: https://wellingtonnico.github.io/wellnotify/
  *
  *      v 1.0.3
  *
