@@ -180,13 +180,13 @@ como eu sou um grande fã do framework web [Django](https://github.com/django/dj
 
 ```html
 {% if messages %}
-    <script>
-        document.addEventListener('DOMContentLoaded',()=>{
-            const myWellNotify = new WellNotify()
-            {% for message in messages %}
-                myWellNotify.notificar("{{ message|escapejs }}",'{{message.tags}}');               
-            {% endfor %}
-        })
-    </script>
+  <script>
+    document.addEventListener('DOMContentLoaded',()=>{
+      const myWellNotify = new WellNotify()
+      {% for message in messages %}
+        myWellNotify.notificar("{{ message|escapejs }}",'{{message.tags}}');               
+      {% endfor %}
+    })
+  </script>
 {% endif %}
 ```
