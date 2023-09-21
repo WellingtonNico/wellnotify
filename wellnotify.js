@@ -169,7 +169,7 @@ class WellNotify {
 
     const htmlBarraDeProgresso = `
         <div class="${this.cssClasses.barraProgressoWrapper}">
-          <div class="${this.cssClasses.barraAnimada}" style="width:0%;"></div>
+          <div class="${this.cssClasses.barraAnimada}" style="width:100%;"></div>
         </div>
       `;
 
@@ -284,6 +284,9 @@ class WellNotify {
           --wellnotify-botao-fechar-color:black;
           --wellnotify-border-color:var(--wellnotify-default-color);
           --wellnotify-icone-color:var(--wellnotify-default-color);
+          --wellnotify-border-width:3px;
+          --wellnotify-border-left-width: var(--wellnotify-border-width);
+          --wellnotify-border-bottom-width: var(--wellnotify-border-width);
         }
     
         
@@ -344,7 +347,7 @@ class WellNotify {
         }
     
         .${this.cssClasses.containerWrapper} .${this.cssClasses.container}{
-          border-left:3px solid var(--wellnotify-border-color);
+          border-left:var(--wellnotify-border-left-width) solid var(--wellnotify-border-color);
           display: flex;
         }
     
@@ -386,17 +389,17 @@ class WellNotify {
         }
     
         .${this.cssClasses.barraProgressoWrapper}{
-          height: 3px;
-          background-color: var(--wellnotify-border-color);
-          max-height:3px;
+          height: var(--wellnotify-border-bottom-width);
+          background-color: var(--wellnotify-barra-wrapper-color);
+          max-height:var(--wellnotify-border-bottom-width);
           display:flex;
-          justify-content:end;      
+          justify-content:start;      
         }
-    
+        
         .${this.cssClasses.barraAnimada}{
           height: 100%;
-          transition: all ease;
-          background-color: var(--wellnotify-barra-wrapper-color);
+          transition: all ease;          
+          background-color: var(--wellnotify-border-color);
         }
 
         @keyframes wellnotify-animacao-spin {

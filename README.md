@@ -74,6 +74,10 @@ várias configurações podem ser feitas por variáveis css, já constam algumas
     --wellnotify-background-color: white;
     --wellnotify-botao-fechar-color:black;
     --wellnotify-border-color:var(--wellnotify-default-color);
+    --wellnotify-icone-color:var(--wellnotify-default-color);
+    --wellnotify-border-width:3px;
+    --wellnotify-border-left-width: var(--wellnotify-border-width);
+    --wellnotify-border-bottom-width: var(--wellnotify-border-width);
 }
 
 [data-bs-theme='dark'] .wellnotify-ContainerPosicional,    
