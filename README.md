@@ -45,7 +45,39 @@ são auto explicativos
 * `error`
 * `info`
 * `default`
+* `loading`
 
+
+## Função extra
+para obter um efeito legal ao executar uma função, é possível indicar que ela começou com a notificação tipo `loading` e a depender da execução da função exibir uma notificação de sucesso ou erro se houver um erro na execução da função. Isso pode ser feito automaticamente com o método `aguardar`. Ex:
+```js
+const carregarConteudoDaApi = async () => {
+    // seu código asyncrono ou não aqui
+    ... 
+}
+
+const carregarConteudoDaApiWrapper = () => {
+    myWellNotify.aguardar(
+        carregarConteudoDaApi,
+        {
+            loading:{
+                conteudo: 'Execução pendente...',
+            },
+            success:{
+                conteudo: 'Contúdo carregado com sucesso!',            
+                aoClicar(){
+                    alert('clique feito na notificação de sucesso da pendente')
+                }
+            },
+            error:{
+                conteudo: 'Não foi possível carregar o conteúdo da api!',            
+                duracao:10000,
+                aoClicar:()=>alert('clique feito na notificação de erro da pendente')
+            }
+        }
+    )
+}
+```
 
 
 ## Opções
@@ -68,7 +100,8 @@ várias configurações podem ser feitas por variáveis css, já constam algumas
     --wellnotify-error-color: #E44334;
     --wellnotify-info-color: #2C8DD6;
     --wellnotify-warning-color: #EFBC10;
-    --wellnotify-default-color: #7942AC;
+    --wellnotify-loading-color: #7942AC;
+    --wellnotify-default-color: white;
     --wellnotify-barra-wrapper-color: #d4d3d2;
     --wellnotify-text-color: gray;
     --wellnotify-background-color: white;

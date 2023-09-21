@@ -37,6 +37,47 @@
           }
         })
       }
+
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
+      let ultimaPromesaSucesso = false
+
+      const promesssaLoading = async () => {
+        await sleep(3000)
+        if(ultimaPromesaSucesso){
+          ultimaPromesaSucesso = false
+          throw new Error('erro teste')
+        }else{
+          ultimaPromesaSucesso = true
+        }
+      }
+
+      const notificarPromessa = () => {
+        myWellNotify.aguardar(
+          promesssaLoading,
+          {
+            loading:{
+              conteudo: 'Execução pendente, aguarde...',
+            },
+            success:{
+              conteudo: 'Executada com sucesso',
+              duracao:10000,
+              aoClicar(){
+                alert('clique feito na notificação de sucesso da pendente')
+              }
+            },
+            error:{
+              conteudo: 'Erro',
+              duracao:7000,
+              aoClicar(){
+                alert('clique feito na notificação de erro da pendente')
+              }
+            }
+          }
+        )
+      }
     
     </script>
 
@@ -71,12 +112,15 @@
                   onclick="myWellNotify.notificar('notificação tipo padrão','default')">notificar padrão</button>
 
           <button class="btn btn-sm btn-secondary"
+                  style="background-color: var(--bs-purple)"
                   onclick="myWellNotify.notificar('carregando...','loading')">notificar loading</button>
 
           <button class="btn btn-dark btn-sm border border-1 border-light"
                   onclick="myWellNotify.notificar('<span>clique <b>aqui</b> para limpar as notificações</span>','default',{aoClicar(){myWellNotify.limpar()}})">
             notificar limpar
           </button>
+
+          <button class="btn btn-outline-primary btn-sm" onclick="notificarPromessa()">promessa</button>
  
           <button class="btn btn-light btn-sm border border-1 border-dark"
                   onclick="myWellNotify.limpar()">limpar notificações</button>

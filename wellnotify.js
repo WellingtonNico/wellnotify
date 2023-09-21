@@ -2,7 +2,7 @@
  *
  *      WellNotify
  *
- *      v 1.0.1
+ *      v 1.0.2
  *
  *      ex:
  *      const myWellNotify = new WellNotify()
@@ -254,6 +254,7 @@ class WellNotify {
   };
 
   /**
+   * cria a notificação toast
    * @param {any} conteudo - conteúdo da notificação, pode ser html em formato string
    * @param {'success'|'error'|'info'|'warning'|'loading'|'default'} [tipo='default'] - tipo da notificação
    * @param {Opcoes} opcoes - opções
@@ -261,7 +262,7 @@ class WellNotify {
    */
   notificar = (conteudo, tipo, opcoes) => {
     const novaNotificacao = this.gerarNotificacao(conteudo, tipo, opcoes);
-    if (opcoes?.atualizarNotificacao === true && !opcoes?.id) {
+    if (opcoes?.atualizarNotificacao === true) {
       if (!opcoes?.id) {
         throw new Error(
           "Para atualizar uma notificação existente é necessário informar um id"
@@ -271,13 +272,14 @@ class WellNotify {
       if (!notificacaoAtual) {
         throw new Error("Notificação para atualizar não encontrada");
       }
+      novaNotificacao.style.animation = 'none'
       notificacaoAtual.replaceWith(novaNotificacao);
     } else {
       const containerNotificacao = this.obterContainerNotificacoes();
       containerNotificacao.appendChild(novaNotificacao);
     }
 
-    if (tipo != "loading") {
+    if (tipo !== "loading") {
       const autoFechar =
         opcoes?.autoFechar !== undefined
           ? opcoes.autoFechar
@@ -296,6 +298,62 @@ class WellNotify {
     return novaNotificacao;
   };
 
+  /**
+   * @typedef {Object} ConfigPromessa
+   * @property {any} conteudo - conteúdo para exibir na notificação
+   */
+
+  /**
+   * @typedef {Object} ConfigsDePromessa
+   * @property {ConfigPromessa & Opcoes} [c.loading] - configurações da notificação loading
+   * @property {ConfigPromessa & Opcoes} [c.error] - configurações da notificação error
+   * @property {ConfigPromessa & Opcoes} [c.success] - configurações da notificação success
+   */
+
+  /**
+   * helper para usar a funcionalidade da notificação loading, lança primeiro o loading e espera a promessa acabar para atualizar a notificação
+   * @param {Promisse} promessa - função para executar, o loading irá ser substituido por erro ou sucesso a depender da execução da promessa
+   * @param {ConfigsDePromessa} configuracoes - configurações das notificações de loading, erro e sucesso
+   * @returns {HTMLDivElement} - objeto da notificação do resultado seja qual for
+   */
+  aguardar = async (promessa, configuracoes) => {
+    let notificacao = this.notificar(
+      configuracoes.loading.conteudo,
+      "loading",
+      configuracoes.loading
+    );
+    try {
+      await promessa();
+      if ("success" in configuracoes) {
+        notificacao = this.notificar(
+          configuracoes.success.conteudo,
+          "success",
+          {
+            ...configuracoes.success,
+            id: notificacao.id,
+            atualizarNotificacao: true,
+          }
+        );
+      } else {
+        this.removerNotificacao(notificacao);
+        console.log("configurações de sucesso não informadas");
+      }
+    } catch (erro) {
+      if ("error" in configuracoes) {
+        this.notificar(configuracoes.error.conteudo, "error", {
+          ...configuracoes.error,
+          id: notificacao.id,
+          atualizarNotificacao: true,
+        });
+      } else {
+        this.removerNotificacao(notificacao);
+        console.log("configurações de error não informadas");
+      }
+      console.log("Erro na execução da promessa");
+    }
+    return notificacao;
+  };
+
   obterRegrasCss = () => {
     const posicao = this.obterPosicao();
     const regraVertical = posicao.startsWith("topo") ? "top: 0;" : "bottom: 0;";
@@ -311,7 +369,8 @@ class WellNotify {
           --wellnotify-error-color: #E44334;
           --wellnotify-info-color: #2C8DD6;
           --wellnotify-warning-color: #EFBC10;
-          --wellnotify-default-color: #7942AC;
+          --wellnotify-loading-color: #7942AC;
+          --wellnotify-default-color: white;
           --wellnotify-barra-wrapper-color: #d4d3d2;
           --wellnotify-text-color: gray;
           --wellnotify-background-color: white;
@@ -387,9 +446,9 @@ class WellNotify {
           max-width: 24px !important;  
           min-height: 24px !important;         
           max-height: 24px !important;  
-          border-top: 3px dashed var(--wellnotify-border-color);
-          border-left: 3px dashed var(--wellnotify-border-color);
-          border-right: 3px dashed var(--wellnotify-border-color);
+          border-top: 3px dashed var(--wellnotify-icone-color);
+          border-left: 3px dashed var(--wellnotify-icone-color);
+          border-right: 3px dashed var(--wellnotify-icone-color);
           border-bottom: 3px solid transparent;
           border-radius:50%;
           animation: wellnotify-animacao-spin 1s infinite;
@@ -400,6 +459,11 @@ class WellNotify {
           display: flex;
         }
     
+        .${this.cssClasses.containerWrapper}.loading {
+          --wellnotify-border-color:var(--wellnotify-loading-color);
+          --wellnotify-icone-color:var(--wellnotify-loading-color);          
+        }
+
         .${this.cssClasses.containerWrapper}.success {
           --wellnotify-border-color:var(--wellnotify-success-color);
           --wellnotify-icone-color:var(--wellnotify-success-color);          
