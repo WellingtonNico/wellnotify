@@ -1,15 +1,14 @@
 /**
- * 
+ *
  *      WellNotify
- * 
+ *
  *      v 1.0.1
- * 
+ *
  *      ex:
  *      const myWellNotify = new WellNotify()
  *      myWellNotify.notificar('Exemplo','default')
- * 
+ *
  */
-
 
 class WellNotify {
   /**
@@ -23,19 +22,6 @@ class WellNotify {
     this.props = props;
     this.adicionarEstilo();
   }
-
-  cssClasses = {
-    botaoFecharWrapper: "wellnotify_BotaoFecharWrapper",
-    botaoFechar: "wellnotify_BotaoFechar",
-    containerPosicional: "wellnotify_ContainerPosicional",
-    barraAnimada: "wellnotify_BarraAnimada",
-    barraProgressoWrapper: "wellnotify_BarraProgressoWrapper",
-    containerWrapper: "wellnotify_ContainerWrapper",
-    container: "wellnotify_Container",
-    iconeWrapper: "wellnotify_IconeWrapper",
-    icone: "wellnotify_Icone",
-    mensagem: "wellnotify_Mensagem",
-  };
 
   adicionarEstilo = () => {
     const idStyleTag = "id-wellnotify-style";
@@ -72,7 +58,7 @@ class WellNotify {
   limpar = () => {
     const containerNotificacao = this.obterContainerNotificacoes();
     [...containerNotificacao.children].forEach((node) => {
-      this.removerNotificacao(node.id);      
+      this.removerNotificacao(node.id);
     });
   };
 
@@ -112,7 +98,7 @@ class WellNotify {
         this.removerNotificacao(notificacao);
         return;
       } else if (!hover) {
-        const porcentagem = 100 - ((diferenca * 100) / duracao);
+        const porcentagem = 100 - (diferenca * 100) / duracao;
         barraDeProgresso.style.width = String(porcentagem) + "%";
       } else if (ultimoInicioHover === null) {
         ultimoInicioHover = agora;
@@ -163,7 +149,10 @@ class WellNotify {
   /** retorna novo elemento de notificação */
   gerarNotificacao = (conteudo, tipo, id = undefined) => {
     if (!conteudo) {
-      return;
+      throw new Error('Não é possível gerar uma notificação sem conteúdo')
+    }
+    if (!tipo) {
+      tipo = "default";
     }
     if (
       tipo &&
@@ -223,7 +212,7 @@ class WellNotify {
 
   /**
    * @param {any} conteudo - conteúdo da notificação, pode ser html em formato string
-   * @param {'success'|'error'|'info'|'warning'|'default'} tipo - tipo da notificação
+   * @param {'success'|'error'|'info'|'warning'|'default'} [tipo='default'] - tipo da notificação
    * @param {Object} opcoes - opções
    * @param {boolean} [opcoes.autoFechar=true] - opcional, se falso as notificação não fecham automaticamente
    * @param {Function} [opcoes.aoClicar=undefined] - opcional, função para ser disparada ao clicar na notificação
@@ -450,6 +439,19 @@ class WellNotify {
             opacity: 1;
           }
         }`;
+  };
+
+  cssClasses = {
+    botaoFecharWrapper: "wellnotify_BotaoFecharWrapper",
+    botaoFechar: "wellnotify_BotaoFechar",
+    containerPosicional: "wellnotify_ContainerPosicional",
+    barraAnimada: "wellnotify_BarraAnimada",
+    barraProgressoWrapper: "wellnotify_BarraProgressoWrapper",
+    containerWrapper: "wellnotify_ContainerWrapper",
+    container: "wellnotify_Container",
+    iconeWrapper: "wellnotify_IconeWrapper",
+    icone: "wellnotify_Icone",
+    mensagem: "wellnotify_Mensagem",
   };
 
   icones = {
