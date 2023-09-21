@@ -17,6 +17,7 @@ class WellNotify {
    * @property {Function} [opcoes.aoClicar=undefined] - opcional, função para ser disparada ao clicar na notificação
    * @property {boolean} [opcoes.fecharAoClicar=true] - opcional, se falso a notificação não fecha ao clicar em cima
    * @property {number} [opcoes.duracao=3000] - opcional, tempo em milisegundos para fechar a notificação
+   * @property {string} [opcoes.id=undefined] - id da notificação, se não informado um é gerado automaticamente
    */
 
   /**
@@ -25,6 +26,7 @@ class WellNotify {
    * @param {boolean} [props.fecharAoClicar=true] - fechar ao clicar por padrão
    * @param {boolean} [props.autoFechar=true] - se verdadeiro as notificações fecham sozinhas
    * @param {number} [props.duracao=3000] - tempo de duração padrão em milisegundos
+   * @param {string} [props.id=undefined] - id da notificação, se não informado um é gerado automaticamente
    */
   constructor(props) {
     this.props = props;
@@ -158,10 +160,10 @@ class WellNotify {
    * gera o elemento da notificação
    * @param {any} conteudo - conteúdo da notificação, pode ser html em formato string
    * @param {'success'|'error'|'info'|'warning'|'default'} [tipo='default'] - tipo da notificação
-   * @param {string} id - id da notificação, se for informado não será gerado um id automaticamente
+   * @param {Opcoes} opcoes - opções
    * @returns
    */
-  gerarNotificacao = (conteudo, tipo, id = undefined) => {
+  gerarNotificacao = (conteudo, tipo, opcoes) => {
     if (!conteudo) {
       throw new Error("Não é possível gerar uma notificação sem conteúdo");
     }
@@ -177,12 +179,29 @@ class WellNotify {
       throw new Error(`O tipo "${tipo}" não é suportado`);
     }
     const idNotificacao =
-      id !== undefined ? String(id) : `id_wellnotify_${new Date().getTime()}`;
+      opcoes?.id !== undefined
+        ? String(opcoes.id)
+        : `id_wellnotify_${new Date().getTime()}`;
     const novaNotificacao = document.createElement("div");
     novaNotificacao.id = idNotificacao;
     novaNotificacao.classList.add(this.cssClasses.containerWrapper);
     novaNotificacao.classList.add(String(tipo ?? "").toLowerCase());
+    const fecharAoClicar =
+      opcoes?.fecharAoClicar !== undefined
+        ? opcoes.fecharAoClicar
+        : this.props?.fecharAoClicar !== undefined
+        ? this.props.fecharAoClicar
+        : true;
+    if (fecharAoClicar) {
+      novaNotificacao.addEventListener("click", () =>
+        this.removerNotificacao(novaNotificacao)
+      );
+    }
 
+    if (opcoes?.aoClicar) {
+      novaNotificacao.addEventListener("click", opcoes.aoClicar);
+    }
+    novaNotificacao.style.animation = this.obterAnimacao();
     const htmlBarraDeProgresso = `
         <div class="${this.cssClasses.barraProgressoWrapper}">
           <div class="${this.cssClasses.barraAnimada}" style="width:100%;"></div>
@@ -221,6 +240,15 @@ class WellNotify {
 
       ${htmlBarraDeProgresso}
     `;
+
+    const botaoFechar = novaNotificacao.querySelector(
+      `.${this.cssClasses.botaoFechar}`
+    );
+    if (botaoFechar) {
+      botaoFechar.addEventListener("click", () =>
+        this.removerNotificacao(novaNotificacao)
+      );
+    }
     return novaNotificacao;
   };
 
@@ -232,37 +260,14 @@ class WellNotify {
    */
   notificar = (conteudo, tipo, opcoes) => {
     const containerNotificacao = this.obterContainerNotificacoes();
-    const novaNotificacao = this.gerarNotificacao(conteudo, tipo);
-    const fecharAoClicar =
-      opcoes?.fecharAoClicar !== undefined
-        ? opcoes.fecharAoClicar
-        : this.props?.fecharAoClicar !== undefined
-        ? this.props.fecharAoClicar
-        : true;
+    const novaNotificacao = this.gerarNotificacao(conteudo, tipo, opcoes);
+    containerNotificacao.appendChild(novaNotificacao);
     const autoFechar =
       opcoes?.autoFechar !== undefined
         ? opcoes.autoFechar
         : this.props?.autoFechar !== undefined
         ? this.props.autoFechar
         : true;
-    if (fecharAoClicar) {
-      novaNotificacao.addEventListener("click", () =>
-        this.removerNotificacao(novaNotificacao)
-      );
-    }
-    const botaoFechar = novaNotificacao.querySelector(
-      `.${this.cssClasses.botaoFechar}`
-    );
-    if (botaoFechar) {
-      botaoFechar.addEventListener("click", () =>
-        this.removerNotificacao(novaNotificacao)
-      );
-    }
-    if (opcoes?.aoClicar) {
-      novaNotificacao.addEventListener("click", opcoes.aoClicar);
-    }
-    novaNotificacao.style.animation = this.obterAnimacao();
-    containerNotificacao.appendChild(novaNotificacao);
     if (autoFechar) {
       setTimeout(() => {
         this.atualizarBarraDeProgresso(
