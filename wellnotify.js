@@ -209,7 +209,7 @@ class WellNotify {
   };
 
   /**
-   * @param {any} conteudo - conteúdo da notificação
+   * @param {any} conteudo - conteúdo da notificação, pode ser html em formato string
    * @param {'success'|'error'|'info'|'warning'|'default'} tipo - tipo da notificação
    * @param {Object} opcoes - opções
    * @param {boolean} [opcoes.autoFechar=true] - opcional, se falso as notificação não fecham automaticamente
