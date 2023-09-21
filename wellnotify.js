@@ -45,7 +45,7 @@ class WellNotify {
 
   /**
    * remove a notificação adicionando o efeito necessário
-   * @param {string|HTMLElement} notificacao
+   * @param {string|HTMLElement} notificacao - id da notificação ou o próprio elemento da notificação
    */
   removerNotificacao = (notificacao) => {
     let notificacaoElement = notificacao;
