@@ -1,7 +1,7 @@
 /**
  *
  *      WellNotify
- * 
+ *
  *      GitHub: https://github.com/WellingtonNico/wellnotify
  *      Demo: https://wellingtonnico.github.io/wellnotify/
  *
@@ -16,21 +16,41 @@
 class WellNotify {
   /**
    * @typedef {Object} Opcoes - opções
-   * @property {boolean} [opcoes.autoFechar=true] - opcional, se falso as notificação não fecham automaticamente
-   * @property {Function} [opcoes.aoClicar=undefined] - opcional, função para ser disparada ao clicar na notificação
-   * @property {boolean} [opcoes.fecharAoClicar=true] - opcional, se falso a notificação não fecha ao clicar em cima
-   * @property {number} [opcoes.duracao=3000] - opcional, tempo em milisegundos para fechar a notificação
-   * @property {string} [opcoes.id=undefined] - id da notificação, se não informado um é gerado automaticamente
-   * @property {boolean} [opcoes.atualizarNotificacao=false] - se verdadeiro retorna a notificação já existente
+   * @property {boolean} [autoFechar=true] - opcional, se falso as notificação não fecham automaticamente
+   * @property {Function} [aoClicar=undefined] - opcional, função para ser disparada ao clicar na notificação
+   * @property {boolean} [fecharAoClicar=true] - opcional, se falso a notificação não fecha ao clicar em cima
+   * @property {number} [duracao=3000] - opcional, tempo em milisegundos para fechar a notificação
+   * @property {string} [id=undefined] - id da notificação, se não informado um é gerado automaticamente
+   * @property {boolean} [atualizarNotificacao=false] - se verdadeiro atualiza uma notificação já existente
    */
 
   /**
-   * @param {Object} props - configurações iniciais
-   * @param {'topo-direito'|'topo-esquerdo'|'fundo-direito'|'fundo-esquerdo'} [props.posicao='topo-direito'] - posição da notificação
-   * @param {boolean} [props.fecharAoClicar=true] - fechar ao clicar por padrão
-   * @param {boolean} [props.autoFechar=true] - se verdadeiro as notificações fecham sozinhas
-   * @param {number} [props.duracao=3000] - tempo de duração padrão em milisegundos
-   * @param {string} [props.id=undefined] - id da notificação, se não informado um é gerado automaticamente
+   * @typedef {Object} Props - configurações iniciais
+   * @property {'topo-direito'|'topo-esquerdo'|'fundo-direito'|'fundo-esquerdo'} [posicao='topo-direito'] - posição da notificação
+   * @property {boolean} [fecharAoClicar=true] - fechar ao clicar por padrão
+   * @property {boolean} [autoFechar=true] - se verdadeiro as notificações fecham sozinhas
+   * @property {number} [duracao=3000] - tempo de duração padrão em milisegundos
+   * @property {string} [id=undefined] - id da notificação, se não informado um é gerado automaticamente
+   */
+
+  /**
+   * @typedef {'success'|'error'|'info'|'warning'|'loading'|'default'} TipoNotificacao
+   */
+
+  /**
+   * @typedef {Object} ConfigPromessa
+   * @property {any} conteudo - conteúdo para exibir na notificação
+   */
+
+  /**
+   * @typedef {Object} ConfigsDePromessa
+   * @property {ConfigPromessa & Opcoes} loading - configurações da notificação loading
+   * @property {ConfigPromessa & Opcoes} error - configurações da notificação error
+   * @property {ConfigPromessa & Opcoes} success - configurações da notificação success
+   */
+
+  /**
+   * @param {Props} props
    */
   constructor(props) {
     this.props = props;
@@ -163,7 +183,7 @@ class WellNotify {
   /**
    * gera o elemento da notificação
    * @param {any} conteudo - conteúdo da notificação, pode ser html em formato string
-   * @param {'success'|'error'|'info'|'warning'|'loading'|'default'} [tipo='default'] - tipo da notificação
+   * @param {TipoNotificacao} [tipo='default'] - tipo da notificação
    * @param {Opcoes} opcoes - opções
    * @returns
    */
@@ -259,7 +279,7 @@ class WellNotify {
   /**
    * cria a notificação toast
    * @param {any} conteudo - conteúdo da notificação, pode ser html em formato string
-   * @param {'success'|'error'|'info'|'warning'|'loading'|'default'} [tipo='default'] - tipo da notificação
+   * @param {TipoNotificacao} [tipo='default'] - tipo da notificação
    * @param {Opcoes} opcoes - opções
    * @returns {HTMLDivElement} - elemento da notificação criada
    */
@@ -300,18 +320,6 @@ class WellNotify {
     }
     return novaNotificacao;
   };
-
-  /**
-   * @typedef {Object} ConfigPromessa
-   * @property {any} conteudo - conteúdo para exibir na notificação
-   */
-
-  /**
-   * @typedef {Object} ConfigsDePromessa
-   * @property {ConfigPromessa & Opcoes} [c.loading] - configurações da notificação loading
-   * @property {ConfigPromessa & Opcoes} [c.error] - configurações da notificação error
-   * @property {ConfigPromessa & Opcoes} [c.success] - configurações da notificação success
-   */
 
   /**
    * helper para usar a funcionalidade da notificação loading, lança primeiro o loading e espera a promessa acabar para atualizar a notificação
