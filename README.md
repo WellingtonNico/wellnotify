@@ -92,17 +92,17 @@ const carregarConteudoDaApiWrapper = () => {
 ## Opções
 as opções padrão podem ser definidas ao criar a instância ou no terceiro argumento do método `notificar`:
 
-* `[opcoes.posicao:string='topo-direito']` - (deve ser definido ao instanciar a classe) valores possíveis e auto explicativos:  `topo-direito` | `topo-esquerdo` | `fundo-direito` | `fundo-esquerdo`;
-* `[opcoes.duracao:number=3000]` - duração da notificação em milisegundos;
-* `[opcoes.autoFechar:boolean=true]` - se verdadeiro a notificação será fechada automaticamente após o tempo do argumento `duracao`;
-* `[opcoes.fecharAoClicar:boolean=true]` - se verdadeiro a notificação pode ser fechada ao clicar no corpo sem a necessidade de clicar no botão de fechar;
-* `[opcoes.aoClicar:Function=undefined]` - (deve ser definido ao chamar o método `notificar`) caso for informado, um evento on click será adicionaro a notificação e será disparado ao clicar no corpo da mesma.
-* `[opcoes.id:string=undefined]` - se informado a notificação criada tera o id atribuido em vez de um id automático;
-* `[opcoes.atualizarNotificacao:boolean=]` - se informado em conjunto com o atributo `id` será feita uma substituição de uma notificação já existente e que esteja visível
+* `[posicao:string='topo-direito']` - (deve ser definido ao instanciar a classe) valores possíveis e auto explicativos:  `topo-direito` | `topo-esquerdo` | `fundo-direito` | `fundo-esquerdo`;
+* `[duracao:number=3000]` - duração da notificação em milisegundos;
+* `[autoFechar:boolean=true]` - se verdadeiro a notificação será fechada automaticamente após o tempo do argumento `duracao`;
+* `[fecharAoClicar:boolean=true]` - se verdadeiro a notificação pode ser fechada ao clicar no corpo sem a necessidade de clicar no botão de fechar;
+* `[aoClicar:Function=undefined]` - (deve ser definido ao chamar o método `notificar`) caso for informado, um evento on click será adicionaro a notificação e será disparado ao clicar no corpo da mesma.
+* `[id:string=undefined]` - se informado a notificação criada tera o id atribuido em vez de um id automático;
+* `[atualizarNotificacao:boolean=]` - se informado em conjunto com o atributo `id` será feita a substituição de uma notificação já existente e que esteja visível
 
 
 ## Estilos
-várias configurações podem ser feitas por variáveis css, já constam algumas configurações para tema escuro:
+várias configurações podem ser feitas por variáveis css. Já constam algumas configurações para tema escuro:
 ```css
 .wellnotify-ContainerPosicional {
     --wellnotify-container-padding: 15px;
