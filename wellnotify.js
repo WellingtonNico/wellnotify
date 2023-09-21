@@ -12,6 +12,14 @@
 
 class WellNotify {
   /**
+   * @typedef {Object} Opcoes - opções
+   * @property {boolean} [opcoes.autoFechar=true] - opcional, se falso as notificação não fecham automaticamente
+   * @property {Function} [opcoes.aoClicar=undefined] - opcional, função para ser disparada ao clicar na notificação
+   * @property {boolean} [opcoes.fecharAoClicar=true] - opcional, se falso a notificação não fecha ao clicar em cima
+   * @property {number} [opcoes.duracao=3000] - opcional, tempo em milisegundos para fechar a notificação
+   */
+
+  /**
    * @param {Object} props - configurações iniciais
    * @param {'topo-direito'|'topo-esquerdo'|'fundo-direito'|'fundo-esquerdo'} [props.posicao='topo-direito'] - posição da notificação
    * @param {boolean} [props.fecharAoClicar=true] - fechar ao clicar por padrão
@@ -146,10 +154,16 @@ class WellNotify {
     return animacao;
   };
 
-  /** retorna novo elemento de notificação */
+  /**
+   * gera o elemento da notificação
+   * @param {any} conteudo - conteúdo da notificação, pode ser html em formato string
+   * @param {'success'|'error'|'info'|'warning'|'default'} [tipo='default'] - tipo da notificação
+   * @param {string} id - id da notificação, se for informado não será gerado um id automaticamente
+   * @returns
+   */
   gerarNotificacao = (conteudo, tipo, id = undefined) => {
     if (!conteudo) {
-      throw new Error('Não é possível gerar uma notificação sem conteúdo')
+      throw new Error("Não é possível gerar uma notificação sem conteúdo");
     }
     if (!tipo) {
       tipo = "default";
@@ -213,11 +227,7 @@ class WellNotify {
   /**
    * @param {any} conteudo - conteúdo da notificação, pode ser html em formato string
    * @param {'success'|'error'|'info'|'warning'|'default'} [tipo='default'] - tipo da notificação
-   * @param {Object} opcoes - opções
-   * @param {boolean} [opcoes.autoFechar=true] - opcional, se falso as notificação não fecham automaticamente
-   * @param {Function} [opcoes.aoClicar=undefined] - opcional, função para ser disparada ao clicar na notificação
-   * @param {boolean} [opcoes.fecharAoClicar=true] - opcional, se falso a notificação não fecha ao clicar em cima
-   * @param {number} [opcoes.duracao=3000] - opcional, tempo em milisegundos para fechar a notificação
+   * @param {Opcoes} opcoes - opções
    * @returns {HTMLDivElement} - elemento da notificação criada
    */
   notificar = (conteudo, tipo, opcoes) => {
