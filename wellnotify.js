@@ -18,6 +18,7 @@ class WellNotify {
    * @property {boolean} [opcoes.fecharAoClicar=true] - opcional, se falso a notificação não fecha ao clicar em cima
    * @property {number} [opcoes.duracao=3000] - opcional, tempo em milisegundos para fechar a notificação
    * @property {string} [opcoes.id=undefined] - id da notificação, se não informado um é gerado automaticamente
+   * @property {boolean} [opcoes.atualizarNotificacao=false] - se verdadeiro retorna a notificação já existente
    */
 
   /**
@@ -159,7 +160,7 @@ class WellNotify {
   /**
    * gera o elemento da notificação
    * @param {any} conteudo - conteúdo da notificação, pode ser html em formato string
-   * @param {'success'|'error'|'info'|'warning'|'default'} [tipo='default'] - tipo da notificação
+   * @param {'success'|'error'|'info'|'warning'|'loading'|'default'} [tipo='default'] - tipo da notificação
    * @param {Opcoes} opcoes - opções
    * @returns
    */
@@ -192,7 +193,7 @@ class WellNotify {
         : this.props?.fecharAoClicar !== undefined
         ? this.props.fecharAoClicar
         : true;
-    if (fecharAoClicar) {
+    if (fecharAoClicar && tipo !== "loading") {
       novaNotificacao.addEventListener("click", () =>
         this.removerNotificacao(novaNotificacao)
       );
@@ -254,27 +255,43 @@ class WellNotify {
 
   /**
    * @param {any} conteudo - conteúdo da notificação, pode ser html em formato string
-   * @param {'success'|'error'|'info'|'warning'|'default'} [tipo='default'] - tipo da notificação
+   * @param {'success'|'error'|'info'|'warning'|'loading'|'default'} [tipo='default'] - tipo da notificação
    * @param {Opcoes} opcoes - opções
    * @returns {HTMLDivElement} - elemento da notificação criada
    */
   notificar = (conteudo, tipo, opcoes) => {
-    const containerNotificacao = this.obterContainerNotificacoes();
     const novaNotificacao = this.gerarNotificacao(conteudo, tipo, opcoes);
-    containerNotificacao.appendChild(novaNotificacao);
-    const autoFechar =
-      opcoes?.autoFechar !== undefined
-        ? opcoes.autoFechar
-        : this.props?.autoFechar !== undefined
-        ? this.props.autoFechar
-        : true;
-    if (autoFechar) {
-      setTimeout(() => {
-        this.atualizarBarraDeProgresso(
-          novaNotificacao,
-          opcoes?.duracao ?? this.props?.duracao ?? 3000
+    if (opcoes?.atualizarNotificacao === true && !opcoes?.id) {
+      if (!opcoes?.id) {
+        throw new Error(
+          "Para atualizar uma notificação existente é necessário informar um id"
         );
-      }, 1);
+      }
+      const notificacaoAtual = document.getElementById(opcoes.id);
+      if (!notificacaoAtual) {
+        throw new Error("Notificação para atualizar não encontrada");
+      }
+      notificacaoAtual.replaceWith(novaNotificacao);
+    } else {
+      const containerNotificacao = this.obterContainerNotificacoes();
+      containerNotificacao.appendChild(novaNotificacao);
+    }
+
+    if (tipo != "loading") {
+      const autoFechar =
+        opcoes?.autoFechar !== undefined
+          ? opcoes.autoFechar
+          : this.props?.autoFechar !== undefined
+          ? this.props.autoFechar
+          : true;
+      if (autoFechar) {
+        setTimeout(() => {
+          this.atualizarBarraDeProgresso(
+            novaNotificacao,
+            opcoes?.duracao ?? this.props?.duracao ?? 3000
+          );
+        }, 1);
+      }
     }
     return novaNotificacao;
   };
@@ -359,11 +376,25 @@ class WellNotify {
           min-width: 38px !important;         
           max-width: 38px !important;         
           display: flex;
+          align-items: center;
           padding: 7px;
           justify-content: center;
           border-radius:10px;
         }
     
+        .${this.cssClasses.iconeLoading}{
+          min-width: 24px !important;         
+          max-width: 24px !important;  
+          min-height: 24px !important;         
+          max-height: 24px !important;  
+          border-top: 3px dashed var(--wellnotify-border-color);
+          border-left: 3px dashed var(--wellnotify-border-color);
+          border-right: 3px dashed var(--wellnotify-border-color);
+          border-bottom: 3px solid transparent;
+          border-radius:50%;
+          animation: wellnotify-animacao-spin 1s infinite;
+        }
+
         .${this.cssClasses.containerWrapper} .${this.cssClasses.container}{
           border-left:var(--wellnotify-border-left-width) solid var(--wellnotify-border-color);
           display: flex;
@@ -428,10 +459,6 @@ class WellNotify {
             transform: rotate(360deg);
           }
         }
-
-        .wellnotify_IconeLoading {
-
-        }
     
         @keyframes wellnotify-animacao-deslizar-para-esquerda{      
           from {
@@ -467,6 +494,7 @@ class WellNotify {
     iconeWrapper: "wellnotify_IconeWrapper",
     icone: "wellnotify_Icone",
     mensagem: "wellnotify_Mensagem",
+    iconeLoading: "wellnotify_IconeLoading",
   };
 
   icones = {
@@ -478,6 +506,7 @@ class WellNotify {
       '<svg viewBox="0 0 24 24" width="100%" height="100%" fill="var(--wellnotify-icone-color)"><path d="M12 0a12 12 0 1012 12A12.013 12.013 0 0012 0zm.25 5a1.5 1.5 0 11-1.5 1.5 1.5 1.5 0 011.5-1.5zm2.25 13.5h-4a1 1 0 010-2h.75a.25.25 0 00.25-.25v-4.5a.25.25 0 00-.25-.25h-.75a1 1 0 010-2h1a2 2 0 012 2v4.75a.25.25 0 00.25.25h.75a1 1 0 110 2z"></path></svg>',
     warning:
       '<svg viewBox="0 0 24 24" width="100%" height="100%" fill="var(--wellnotify-icone-color)"><path d="M23.32 17.191L15.438 2.184C14.728.833 13.416 0 11.996 0c-1.42 0-2.733.833-3.443 2.184L.533 17.448a4.744 4.744 0 000 4.368C1.243 23.167 2.555 24 3.975 24h16.05C22.22 24 24 22.044 24 19.632c0-.904-.251-1.746-.68-2.44zm-9.622 1.46c0 1.033-.724 1.823-1.698 1.823s-1.698-.79-1.698-1.822v-.043c0-1.028.724-1.822 1.698-1.822s1.698.79 1.698 1.822v.043zm.039-12.285l-.84 8.06c-.057.581-.408.943-.897.943-.49 0-.84-.367-.896-.942l-.84-8.065c-.057-.624.25-1.095.779-1.095h1.91c.528.005.84.476.784 1.1z"></path></svg>',
+    loading: '<div class="wellnotify_IconeLoading"><span></span></div>',
     close:
       '<svg aria-hidden="true" viewBox="0 0 14 16"><path fill="var(--wellnotify-text-color)" d="M7.71 8.23l3.75 3.75-1.48 1.48-3.75-3.75-3.75 3.75L1 11.98l3.75-3.75L1 4.48 2.48 3l3.75 3.75L9.98 3l1.48 1.48-3.75 3.75z"></path></svg>',
   };
