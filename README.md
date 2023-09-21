@@ -21,9 +21,12 @@ esta lib não depende de css externo como por exemplo o bootstrap, não precisa 
 <!-- wellnotify arquivo local -->
 <script src="/static/js/wellnotify.js"></script>
 ```
-* crie uma instância da classe WellNotify ou use a que já vem pré instanciada: wellNotify. Ex:
+* crie uma instância da classe WellNotify ou use a que já vem pré instanciada: `wellNotify`. Ex:
 ```js
-const myWellNotify = new WellNotify({ posicao: "fundo-direito" })
+const myWellNotify = new WellNotify({ 
+    posicao: "fundo-direito", 
+    duracao:3000
+})
 ```
 * a partir da instância use o método notificar. Ex: 
 ```js
@@ -34,6 +37,7 @@ notificacao.addEventListener('click',()=>alert('Evento adicional'))
 ```
 * se for necessário limpar as notificações use:
 ```js
+// lembre de referir a uma instância criada, ou a padrão ou a que você criar
 myWellNotify.limpar()
 ```
 
@@ -88,11 +92,13 @@ const carregarConteudoDaApiWrapper = () => {
 ## Opções
 as opções padrão podem ser definidas ao criar a instância ou no terceiro argumento do método `notificar`:
 
-* `[opcoes.posicao='topo-direito']` - (deve ser definido ao instanciar a classe) valores possíveis e auto explicativos:  `topo-direito` | `topo-esquerdo` | `fundo-direito` | `fundo-esquerdo`;
-* `[opcoes.duracao=3000]` - duração da notificação em milisegundos;
-* `[opcoes.autoFechar=true]` - se verdadeiro a notificação será fechada automaticamente após o tempo do argumento `duracao`;
-* `[opcoes.fecharAoClicar=true]` - se verdadeiro a notificação pode ser fechada ao clicar no corpo sem a necessidade de clicar no botão de fechar;
-* `[opcoes.aoClicar=undefined]` - (deve ser definido ao chamar o método `notificar`) caso for informado, um evento on click será adicionaro a notificação e será disparado ao clicar no corpo da mesma.
+* `[opcoes.posicao:string='topo-direito']` - (deve ser definido ao instanciar a classe) valores possíveis e auto explicativos:  `topo-direito` | `topo-esquerdo` | `fundo-direito` | `fundo-esquerdo`;
+* `[opcoes.duracao:number=3000]` - duração da notificação em milisegundos;
+* `[opcoes.autoFechar:boolean=true]` - se verdadeiro a notificação será fechada automaticamente após o tempo do argumento `duracao`;
+* `[opcoes.fecharAoClicar:boolean=true]` - se verdadeiro a notificação pode ser fechada ao clicar no corpo sem a necessidade de clicar no botão de fechar;
+* `[opcoes.aoClicar:Function=undefined]` - (deve ser definido ao chamar o método `notificar`) caso for informado, um evento on click será adicionaro a notificação e será disparado ao clicar no corpo da mesma.
+* `[opcoes.id:string=undefined]` - se informado a notificação criada tera o id atribuido em vez de um id automático;
+* `[opcoes.atualizarNotificacao:boolean=]` - se informado em conjunto com o atributo `id` será feita uma substituição de uma notificação já existente e que esteja visível
 
 
 ## Estilos
