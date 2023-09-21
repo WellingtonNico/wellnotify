@@ -2,7 +2,7 @@
  *
  *      WellNotify
  *
- *      v 1.0.2
+ *      v 1.0.3
  *
  *      ex:
  *      const myWellNotify = new WellNotify()
@@ -272,7 +272,7 @@ class WellNotify {
       if (!notificacaoAtual) {
         throw new Error("Notificação para atualizar não encontrada");
       }
-      novaNotificacao.style.animation = 'none'
+      novaNotificacao.style.animation = "none";
       notificacaoAtual.replaceWith(novaNotificacao);
     } else {
       const containerNotificacao = this.obterContainerNotificacoes();
@@ -370,7 +370,7 @@ class WellNotify {
           --wellnotify-info-color: #2C8DD6;
           --wellnotify-warning-color: #EFBC10;
           --wellnotify-loading-color: #7942AC;
-          --wellnotify-default-color: white;
+          --wellnotify-default-color: gray;
           --wellnotify-barra-wrapper-color: #d4d3d2;
           --wellnotify-text-color: gray;
           --wellnotify-background-color: white;
@@ -389,6 +389,7 @@ class WellNotify {
           --wellnotify-background-color: black;
           --wellnotify-botao-fechar-color:gray;
           --wellnotify-barra-wrapper-color: gray;
+          --wellnotify-default-color: white;
         }
     
         @media (max-width:450px) {
@@ -571,6 +572,9 @@ class WellNotify {
     warning:
       '<svg viewBox="0 0 24 24" width="100%" height="100%" fill="var(--wellnotify-icone-color)"><path d="M23.32 17.191L15.438 2.184C14.728.833 13.416 0 11.996 0c-1.42 0-2.733.833-3.443 2.184L.533 17.448a4.744 4.744 0 000 4.368C1.243 23.167 2.555 24 3.975 24h16.05C22.22 24 24 22.044 24 19.632c0-.904-.251-1.746-.68-2.44zm-9.622 1.46c0 1.033-.724 1.823-1.698 1.823s-1.698-.79-1.698-1.822v-.043c0-1.028.724-1.822 1.698-1.822s1.698.79 1.698 1.822v.043zm.039-12.285l-.84 8.06c-.057.581-.408.943-.897.943-.49 0-.84-.367-.896-.942l-.84-8.065c-.057-.624.25-1.095.779-1.095h1.91c.528.005.84.476.784 1.1z"></path></svg>',
     loading: '<div class="wellnotify_IconeLoading"><span></span></div>',
+    default: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="var(--wellnotify-icone-color)" class="bi bi-bell-fill" viewBox="0 0 16 16">
+    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
+  </svg>`,
     close:
       '<svg aria-hidden="true" viewBox="0 0 14 16"><path fill="var(--wellnotify-text-color)" d="M7.71 8.23l3.75 3.75-1.48 1.48-3.75-3.75-3.75 3.75L1 11.98l3.75-3.75L1 4.48 2.48 3l3.75 3.75L9.98 3l1.48 1.48-3.75 3.75z"></path></svg>',
   };
