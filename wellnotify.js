@@ -1,3 +1,16 @@
+/**
+ * 
+ *      WellNotify
+ * 
+ *      v 1.0.1
+ * 
+ *      ex:
+ *      const myWellNotify = new WellNotify()
+ *      myWellNotify.notificar('Exemplo','default')
+ * 
+ */
+
+
 class WellNotify {
   /**
    * @param {Object} props - configurações iniciais
@@ -99,7 +112,7 @@ class WellNotify {
         this.removerNotificacao(notificacao);
         return;
       } else if (!hover) {
-        const porcentagem = (diferenca * 100) / duracao;
+        const porcentagem = 100 - ((diferenca * 100) / duracao);
         barraDeProgresso.style.width = String(porcentagem) + "%";
       } else if (ultimoInicioHover === null) {
         ultimoInicioHover = agora;
@@ -298,7 +311,7 @@ class WellNotify {
           --wellnotify-barra-wrapper-color: gray;
         }
     
-        @media (max-width:365px) {
+        @media (max-width:450px) {
           .${this.cssClasses.containerPosicional} {
             --wellnotify-max-width: 100% !important;
             --wellnotify-container-padding:0px;            
@@ -344,6 +357,7 @@ class WellNotify {
           display: flex;
           padding: 7px;
           justify-content: center;
+          border-radius:10px;
         }
     
         .${this.cssClasses.containerWrapper} .${this.cssClasses.container}{
