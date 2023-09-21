@@ -583,4 +583,4 @@ class WellNotify {
   };
 }
 
-const wellNotify = new WellNotify({ posicao: "fundo-direito" });
+const wellNotify = new WellNotify({ posicao: "topo-direito" });
