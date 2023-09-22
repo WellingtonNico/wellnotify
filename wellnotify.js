@@ -17,7 +17,7 @@ class WellNotify {
   /**
    * @typedef {Object} Opcoes - opções
    * @property {boolean} [autoFechar=true] - opcional, se falso as notificação não fecham automaticamente
-   * @property {Function} [aoClicar=undefined] - opcional, função para ser disparada ao clicar na notificação
+   * @property {function} [aoClicar=undefined] - opcional, função para ser disparada ao clicar na notificação
    * @property {boolean} [fecharAoClicar=true] - opcional, se falso a notificação não fecha ao clicar em cima
    * @property {number} [duracao=3000] - opcional, tempo em milisegundos para fechar a notificação
    * @property {string} [id=undefined] - id da notificação, se não informado um é gerado automaticamente
