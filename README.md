@@ -86,7 +86,8 @@ const carregarConteudoDaApiWrapper = () => {
                 duracao: 10000, // a notificação de erro irá durar 10 segundos
                 aoClicar:()=>alert('clique feito na notificação de erro da pendente')
             },
-            // jeito 2:  opcional - pode declarar uma função que irá receber o erro retornado pela função aguardada
+            // jeito 2:  opcional - pode declarar uma função que irá receber o 
+            //     erro retornado pela função aguardada e deve retornar o dicionário de opções
             error:(erro)=>(
                 {
                     conteudo: `Não foi possível carregar o conteúdo da api! Erro: ${erro.message}`,            
