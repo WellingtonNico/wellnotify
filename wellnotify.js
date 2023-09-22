@@ -5,7 +5,7 @@
  *      GitHub: https://github.com/WellingtonNico/wellnotify
  *      Demo: https://wellingtonnico.github.io/wellnotify/
  *
- *      v 1.0.6
+ *      v 1.0.7
  *
  *      ex:
  *      const myWellNotify = new WellNotify()
@@ -162,8 +162,13 @@ class WellNotify {
   };
 
   /** retorna a posição configurada ou padrão */
-  obterPosicao = () =>
-    this.props?.posicao !== undefined ? this.props.posicao : "topo-direito";
+  obterPosicao = () =>{
+    const posicao = this.props?.posicao !== undefined ? this.props.posicao : "topo-direito";
+    if(! ['topo-direito','topo-esquerdo','fundo-direito','fundo-esquerdo'].includes(posicao)){
+      throw new Error(`WellNofity: A posição ${posicao} não é suportada no momento`)
+    }
+    return posicao
+  }
 
   /** retorna a animação
    * @param {boolean} [reverse=false] - se verdadeiro adiciona animação reversa
@@ -189,7 +194,7 @@ class WellNotify {
    */
   gerarNotificacao = (conteudo, tipo, opcoes) => {
     if (!conteudo) {
-      throw new Error("Não é possível gerar uma notificação sem conteúdo");
+      throw new Error("WellNotify: Não é possível gerar uma notificação sem conteúdo");
     }
     if (!tipo) {
       tipo = "default";
@@ -200,7 +205,7 @@ class WellNotify {
         tipo
       )
     ) {
-      throw new Error(`O tipo "${tipo}" não é suportado`);
+      throw new Error(`WellNotify: O tipo "${tipo}" não é suportado`);
     }
     const idNotificacao =
       opcoes?.id !== undefined
@@ -288,12 +293,12 @@ class WellNotify {
     if (opcoes?.atualizarNotificacao === true) {
       if (!opcoes?.id) {
         throw new Error(
-          "Para atualizar uma notificação existente é necessário informar um id"
+          "WellNotify: Para atualizar uma notificação existente é necessário informar um id"
         );
       }
       const notificacaoAtual = document.getElementById(opcoes.id);
       if (!notificacaoAtual) {
-        throw new Error("Notificação para atualizar não encontrada");
+        throw new Error("WellNotify: Notificação para atualizar não encontrada");
       }
       novaNotificacao.style.animation = "none";
       notificacaoAtual.replaceWith(novaNotificacao);
@@ -333,42 +338,46 @@ class WellNotify {
       "loading",
       configuracoes.loading
     );
-    try {
-      const resultado = await promessa();
-      if ("success" in configuracoes) {
-        const opcoes =
-          typeof configuracoes.success === "function"
-            ? configuracoes.success(resultado)
-            : configuracoes.success;
-        notificacao = this.notificar(
-          opcoes.conteudo,
-          "success",
-          {
+    try{
+      try {
+        const resultado = await promessa();
+        if ("success" in configuracoes) {
+          const opcoes =
+            typeof configuracoes.success === "function"
+              ? configuracoes.success(resultado)
+              : configuracoes.success;
+          notificacao = this.notificar(
+            opcoes.conteudo,
+            "success",
+            {
+              ...opcoes,
+              id: notificacao.id,
+              atualizarNotificacao: true,
+            }
+          );
+        } else {
+          this.removerNotificacao(notificacao);
+          console.log("configurações de sucesso não informadas");
+        }
+      } catch (erro) {
+        if ("error" in configuracoes) {
+          const opcoes =
+            typeof configuracoes.error === "function"
+              ? configuracoes.error(erro)
+              : configuracoes.error;
+          this.notificar(opcoes.conteudo, "error", {
             ...opcoes,
             id: notificacao.id,
             atualizarNotificacao: true,
-          }
-        );
-      } else {
-        this.removerNotificacao(notificacao);
-        console.log("configurações de sucesso não informadas");
+          });
+        } else {
+          this.removerNotificacao(notificacao);
+          console.log("configurações de error não informadas");
+        }
+        console.log("Erro na execução da promessa", erro);
       }
-    } catch (erro) {
-      if ("error" in configuracoes) {
-        const opcoes =
-          typeof configuracoes.error === "function"
-            ? configuracoes.error(erro)
-            : configuracoes.error;
-        this.notificar(opcoes.conteudo, "error", {
-          ...opcoes,
-          id: notificacao.id,
-          atualizarNotificacao: true,
-        });
-      } else {
-        this.removerNotificacao(notificacao);
-        console.log("configurações de error não informadas");
-      }
-      console.log("Erro na execução da promessa", erro);
+    }catch(_){      
+      this.removerNotificacao(notificacao)      
     }
     return notificacao;
   };
