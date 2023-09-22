@@ -48,7 +48,7 @@
         await sleep(3000)
         if(ultimaPromesaSucesso){
           ultimaPromesaSucesso = false
-          throw new Error('erro teste')
+          throw new Error('erro retornado pela função')
         }else{
           ultimaPromesaSucesso = true
         }
@@ -68,13 +68,13 @@
                 alert('clique feito na notificação de sucesso da pendente')
               }
             },
-            error:{
-              conteudo: 'Erro',
+            error:(erro)=>({
+              conteudo: `Erro: ${erro.message}`,
               duracao:7000,
               aoClicar(){
                 alert('clique feito na notificação de erro da pendente')
               }
-            }
+            })
           }
         )
       }

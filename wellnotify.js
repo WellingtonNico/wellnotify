@@ -5,7 +5,7 @@
  *      GitHub: https://github.com/WellingtonNico/wellnotify
  *      Demo: https://wellingtonnico.github.io/wellnotify/
  *
- *      v 1.0.4
+ *      v 1.0.5
  *
  *      ex:
  *      const myWellNotify = new WellNotify()
@@ -45,7 +45,7 @@ class WellNotify {
   /**
    * @typedef {Object} ConfigsDePromessa
    * @property {ConfigPromessa & Opcoes} loading - configurações da notificação loading
-   * @property {ConfigPromessa & Opcoes} error - configurações da notificação error
+   * @property {ConfigPromessa & Opcoes | function(Error)} error - configurações da notificação error, pode ser um dicinário ou uma função que recebe o erro da função aguardada
    * @property {ConfigPromessa & Opcoes} success - configurações da notificação success
    */
 
@@ -351,8 +351,12 @@ class WellNotify {
       }
     } catch (erro) {
       if ("error" in configuracoes) {
-        this.notificar(configuracoes.error.conteudo, "error", {
-          ...configuracoes.error,
+        const opcoes =
+          typeof configuracoes.error === "function"
+            ? configuracoes.error(erro)
+            : configuracoes.error;
+        this.notificar(opcoes.conteudo, "error", {
+          ...opcoes,
           id: notificacao.id,
           atualizarNotificacao: true,
         });
@@ -360,7 +364,7 @@ class WellNotify {
         this.removerNotificacao(notificacao);
         console.log("configurações de error não informadas");
       }
-      console.log("Erro na execução da promessa",erro);
+      console.log("Erro na execução da promessa", erro);
     }
     return notificacao;
   };

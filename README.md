@@ -69,22 +69,31 @@ const carregarConteudoDaApiWrapper = () => {
         // função a ser executada e aguardada
         carregarConteudoDaApi,
         {
+            // obrigatório
             loading:{
                 conteudo: 'Execução pendente...',
             },
-            // configurações em caso de sucesso
+            // opcional - configurações em caso de sucesso
             success:{
                 conteudo: 'Contúdo carregado com sucesso!',            
                 aoClicar(){
                     alert('clique feito na notificação de sucesso da pendente')
                 }
             },
-            // configurações caso houver erro na execução
+            // jeito 1:  opcional - configurações caso houver erro na execução
             error:{
                 conteudo: 'Não foi possível carregar o conteúdo da api!',            
-                duracao:10000,
+                duracao: 10000, // a notificação de erro irá durar 10 segundos
                 aoClicar:()=>alert('clique feito na notificação de erro da pendente')
-            }
+            },
+            // jeito 2:  opcional - pode declarar uma função que irá receber o erro retornado pela função aguardada
+            error:(erro)=>(
+                {
+                    conteudo: `Não foi possível carregar o conteúdo da api! Erro: ${erro.message}`,            
+                    duracao: 10000, // a notificação de erro irá durar 10 segundos
+                    aoClicar:()=>alert('clique feito na notificação de erro da pendente')
+                }
+            )
         }
     )
 }
