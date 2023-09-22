@@ -360,7 +360,7 @@ class WellNotify {
         this.removerNotificacao(notificacao);
         console.log("configurações de error não informadas");
       }
-      console.log("Erro na execução da promessa");
+      console.log("Erro na execução da promessa",erro);
     }
     return notificacao;
   };
