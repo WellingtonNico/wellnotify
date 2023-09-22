@@ -5,7 +5,7 @@
  *      GitHub: https://github.com/WellingtonNico/wellnotify
  *      Demo: https://wellingtonnico.github.io/wellnotify/
  *
- *      v 1.0.3
+ *      v 1.0.4
  *
  *      ex:
  *      const myWellNotify = new WellNotify()
