@@ -5,7 +5,7 @@
  *      GitHub: https://github.com/WellingtonNico/wellnotify
  *      Demo: https://wellingtonnico.github.io/wellnotify/
  *
- *      v 1.0.5
+ *      v 1.0.6
  *
  *      ex:
  *      const myWellNotify = new WellNotify()
@@ -46,7 +46,7 @@ class WellNotify {
    * @typedef {Object} ConfigsDePromessa
    * @property {ConfigPromessa & Opcoes} loading - configurações da notificação loading
    * @property {ConfigPromessa & Opcoes | function(Error)} error - configurações da notificação error, pode ser um dicinário ou uma função que recebe o erro da função aguardada
-   * @property {ConfigPromessa & Opcoes} success - configurações da notificação success
+   * @property {ConfigPromessa & Opcoes | function(any)} success - configurações da notificação success, pode ser uma função receberá o retorno da função aguardada
    */
 
   /**
@@ -334,13 +334,17 @@ class WellNotify {
       configuracoes.loading
     );
     try {
-      await promessa();
+      const resultado = await promessa();
       if ("success" in configuracoes) {
+        const opcoes =
+          typeof configuracoes.success === "function"
+            ? configuracoes.success(resultado)
+            : configuracoes.success;
         notificacao = this.notificar(
-          configuracoes.success.conteudo,
+          opcoes.conteudo,
           "success",
           {
-            ...configuracoes.success,
+            ...opcoes,
             id: notificacao.id,
             atualizarNotificacao: true,
           }

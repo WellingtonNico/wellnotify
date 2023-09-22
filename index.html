@@ -51,6 +51,7 @@
           throw new Error('erro retornado pela função')
         }else{
           ultimaPromesaSucesso = true
+          return '33'
         }
       }
 
@@ -61,13 +62,13 @@
             loading:{
               conteudo: 'Execução pendente, aguarde...',
             },
-            success:{
-              conteudo: 'Executada com sucesso',
+            success:(valor)=>({
+              conteudo: `Executada com sucesso! A requisição retornou ${valor} resultados.`,
               duracao:10000,
               aoClicar(){
                 alert('clique feito na notificação de sucesso da pendente')
               }
-            },
+            }),
             error:(erro)=>({
               conteudo: `Erro: ${erro.message}`,
               duracao:7000,

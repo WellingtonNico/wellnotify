@@ -73,13 +73,23 @@ const carregarConteudoDaApiWrapper = () => {
             loading:{
                 conteudo: 'Execução pendente...',
             },
-            // opcional - configurações em caso de sucesso
+            // jeito 1:  opcional - configurações em caso de sucesso
             success:{
                 conteudo: 'Contúdo carregado com sucesso!',            
                 aoClicar(){
                     alert('clique feito na notificação de sucesso da pendente')
                 }
             },
+            // jeito 2:  opcional - pode declarar uma função que irá receber o 
+            //     valor retornado pela função aguardada e deve retornar o dicionário de opções
+            success:(data)=>(
+                {
+                    conteudo: `Requisição concluída, a api retornou ${data.results.length} resultados`,            
+                    aoClicar(){
+                        alert('clique feito na notificação de sucesso da pendente')
+                    }
+                }
+            ),
             // jeito 1:  opcional - configurações caso houver erro na execução
             error:{
                 conteudo: 'Não foi possível carregar o conteúdo da api!',            
