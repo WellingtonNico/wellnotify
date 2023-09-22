@@ -1,5 +1,7 @@
 # WellNotify
 
+pensada para quem não usa um framework de frontend e precisa de uma boa funcionalidade de notificações toast.
+
 lib js baseada na lib [react-toastify](https://fkhadra.github.io/react-toastify/introduction) para notificações no template html.
 
 ## ATENÇÃO
