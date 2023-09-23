@@ -5,7 +5,7 @@
  *      GitHub: https://github.com/WellingtonNico/wellnotify
  *      Demo: https://wellingtonnico.github.io/wellnotify/
  *
- *      v 1.0.7
+ *      v 1.0.8
  *
  *      ex:
  *      const myWellNotify = new WellNotify()
@@ -15,7 +15,7 @@
 
 class WellNotify {
   /**
-   * @typedef {Object} Opcoes - opções
+   * @typedef {Object} WellNotifyOpcoes - opções
    * @property {boolean} [autoFechar=true] - opcional, se falso as notificação não fecham automaticamente
    * @property {function} [aoClicar=undefined] - opcional, função para ser disparada ao clicar na notificação
    * @property {boolean} [fecharAoClicar=true] - opcional, se falso a notificação não fecha ao clicar em cima
@@ -34,7 +34,7 @@ class WellNotify {
    */
 
   /**
-   * @typedef {'success'|'error'|'info'|'warning'|'loading'|'default'} TipoNotificacao
+   * @typedef {'success'|'error'|'info'|'warning'|'loading'|'default'} WellNotifyTipo
    */
 
   /**
@@ -44,9 +44,9 @@ class WellNotify {
 
   /**
    * @typedef {Object} ConfigsDePromessa
-   * @property {ConfigPromessa & Opcoes} loading - configurações da notificação loading
-   * @property {ConfigPromessa & Opcoes | function(any):ConfigPromessa & Opcoes} success - configurações da notificação success, pode ser um dicionário ou uma função receberá o retorno da função aguardada
-   * @property {ConfigPromessa & Opcoes | function(Error):ConfigPromessa & Opcoes} error - configurações da notificação error, pode ser um dicionário ou uma função que recebe o erro da função aguardada
+   * @property {ConfigPromessa & WellNotifyOpcoes} loading - configurações da notificação loading
+   * @property {ConfigPromessa & WellNotifyOpcoes | function(any):ConfigPromessa & WellNotifyOpcoes} success - configurações da notificação success, pode ser um dicionário ou uma função receberá o retorno da função aguardada
+   * @property {ConfigPromessa & WellNotifyOpcoes | function(Error):ConfigPromessa & WellNotifyOpcoes} error - configurações da notificação error, pode ser um dicionário ou uma função que recebe o erro da função aguardada
    */
 
   /**
@@ -162,13 +162,23 @@ class WellNotify {
   };
 
   /** retorna a posição configurada ou padrão */
-  obterPosicao = () =>{
-    const posicao = this.props?.posicao !== undefined ? this.props.posicao : "topo-direito";
-    if(! ['topo-direito','topo-esquerdo','fundo-direito','fundo-esquerdo'].includes(posicao)){
-      throw new Error(`WellNofity: A posição ${posicao} não é suportada no momento`)
+  obterPosicao = () => {
+    const posicao =
+      this.props?.posicao !== undefined ? this.props.posicao : "topo-direito";
+    if (
+      ![
+        "topo-direito",
+        "topo-esquerdo",
+        "fundo-direito",
+        "fundo-esquerdo",
+      ].includes(posicao)
+    ) {
+      throw new Error(
+        `WellNofity: A posição ${posicao} não é suportada no momento`
+      );
     }
-    return posicao
-  }
+    return posicao;
+  };
 
   /** retorna a animação
    * @param {boolean} [reverse=false] - se verdadeiro adiciona animação reversa
@@ -188,13 +198,15 @@ class WellNotify {
   /**
    * gera o elemento da notificação
    * @param {any} conteudo - conteúdo da notificação, pode ser html em formato string
-   * @param {TipoNotificacao} [tipo='default'] - tipo da notificação
-   * @param {Opcoes} opcoes - opções
+   * @param {WellNotifyTipo} [tipo='default'] - tipo da notificação
+   * @param {WellNotifyOpcoes} opcoes - opções
    * @returns
    */
   gerarNotificacao = (conteudo, tipo, opcoes) => {
     if (!conteudo) {
-      throw new Error("WellNotify: Não é possível gerar uma notificação sem conteúdo");
+      throw new Error(
+        "WellNotify: Não é possível gerar uma notificação sem conteúdo"
+      );
     }
     if (!tipo) {
       tipo = "default";
@@ -284,8 +296,8 @@ class WellNotify {
   /**
    * cria a notificação toast
    * @param {any} conteudo - conteúdo da notificação, pode ser html em formato string
-   * @param {TipoNotificacao} [tipo='default'] - tipo da notificação
-   * @param {Opcoes} opcoes - opções
+   * @param {WellNotifyTipo} [tipo='default'] - tipo da notificação
+   * @param {WellNotifyOpcoes} opcoes - opções
    * @returns {HTMLDivElement} - elemento da notificação criada
    */
   notificar = (conteudo, tipo, opcoes) => {
@@ -298,7 +310,9 @@ class WellNotify {
       }
       const notificacaoAtual = document.getElementById(opcoes.id);
       if (!notificacaoAtual) {
-        throw new Error("WellNotify: Notificação para atualizar não encontrada");
+        throw new Error(
+          "WellNotify: Notificação para atualizar não encontrada"
+        );
       }
       novaNotificacao.style.animation = "none";
       notificacaoAtual.replaceWith(novaNotificacao);
@@ -328,33 +342,34 @@ class WellNotify {
 
   /**
    * helper para usar a funcionalidade da notificação loading, lança primeiro o loading e espera a promessa acabar para atualizar a notificação
-   * @param {Promisse} promessa - função para executar, o loading irá ser substituido por erro ou sucesso a depender da execução da promessa
+   * @param {function} funcao - função sync ou async para executar, o loading irá ser substituido por erro ou sucesso a depender da execução da promessa
    * @param {ConfigsDePromessa} configuracoes - configurações das notificações de loading, erro e sucesso
    * @returns {HTMLDivElement} - objeto da notificação do resultado seja qual for
    */
-  aguardar = async (promessa, configuracoes) => {
+  aguardar = async (funcao, configuracoes) => {
+    if (typeof funcao !== "function") {
+      throw new Error(
+        "WellNotify: o primeiro argumento da função aguardar deve ser uma função, podendo ser async."
+      );
+    }
     let notificacao = this.notificar(
       configuracoes.loading.conteudo,
       "loading",
       configuracoes.loading
     );
-    try{
+    try {
       try {
-        const resultado = await promessa();
+        const resultado = await funcao();
         if ("success" in configuracoes) {
           const opcoes =
             typeof configuracoes.success === "function"
               ? configuracoes.success(resultado)
               : configuracoes.success;
-          notificacao = this.notificar(
-            opcoes.conteudo,
-            "success",
-            {
-              ...opcoes,
-              id: notificacao.id,
-              atualizarNotificacao: true,
-            }
-          );
+          notificacao = this.notificar(opcoes.conteudo, "success", {
+            ...opcoes,
+            id: notificacao.id,
+            atualizarNotificacao: true,
+          });
         } else {
           this.removerNotificacao(notificacao);
           console.log("configurações de sucesso não informadas");
@@ -376,8 +391,8 @@ class WellNotify {
         }
         console.log("Erro na execução da promessa", erro);
       }
-    }catch(_){      
-      this.removerNotificacao(notificacao)      
+    } catch (_) {
+      this.removerNotificacao(notificacao);
     }
     return notificacao;
   };
@@ -544,7 +559,7 @@ class WellNotify {
           background-color: var(--wellnotify-border-color);
         }
 
-        @keyframes wellnotify-animacao-spin {
+        @keyframes ${this.animacoes.loadingSpin} {
           from {
             transform: rotate(0deg);
           }
@@ -553,7 +568,7 @@ class WellNotify {
           }
         }
     
-        @keyframes wellnotify-animacao-deslizar-para-esquerda{      
+        @keyframes ${this.animacoes.deslizarParaEsquerda}{      
           from {
             transform: translate3d(110%, 0, 0);
             opacity: 0;
@@ -564,7 +579,7 @@ class WellNotify {
           }
         }
     
-        @keyframes wellnotify-animacao-deslizar-para-direita{      
+        @keyframes ${this.animacoes.deslizarParaDireita}{      
           from {
             transform: translate3d(-110%, 0, 0);
             opacity: 0; 
@@ -605,6 +620,12 @@ class WellNotify {
   </svg>`,
     close:
       '<svg aria-hidden="true" viewBox="0 0 14 16"><path fill="var(--wellnotify-text-color)" d="M7.71 8.23l3.75 3.75-1.48 1.48-3.75-3.75-3.75 3.75L1 11.98l3.75-3.75L1 4.48 2.48 3l3.75 3.75L9.98 3l1.48 1.48-3.75 3.75z"></path></svg>',
+  };
+
+  animacoes = {
+    deslizarParaEsquerda: "wellnotify-animacao-deslizar-para-esquerda",
+    deslizarParaDireita: "wellnotify-animacao-deslizar-para-direita",
+    loadingSpin: "wellnotify-animacao-spin",
   };
 }
 
