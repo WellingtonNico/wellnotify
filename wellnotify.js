@@ -45,8 +45,8 @@ class WellNotify {
   /**
    * @typedef {Object} ConfigsDePromessa
    * @property {ConfigPromessa & Opcoes} loading - configurações da notificação loading
-   * @property {ConfigPromessa & Opcoes | function(Error)} error - configurações da notificação error, pode ser um dicinário ou uma função que recebe o erro da função aguardada
-   * @property {ConfigPromessa & Opcoes | function(any)} success - configurações da notificação success, pode ser uma função receberá o retorno da função aguardada
+   * @property {ConfigPromessa & Opcoes | function(any):ConfigPromessa & Opcoes} success - configurações da notificação success, pode ser um dicionário ou uma função receberá o retorno da função aguardada
+   * @property {ConfigPromessa & Opcoes | function(Error):ConfigPromessa & Opcoes} error - configurações da notificação error, pode ser um dicionário ou uma função que recebe o erro da função aguardada
    */
 
   /**
