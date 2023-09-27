@@ -1,188 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<!-- wellnotify -->
+	<script src="wellnotify.js"></script>
+	
+	<!-- csss bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+				rel="stylesheet"
+				integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+				crossorigin="anonymous">
+	
+	<title>WellNotify - Demo</title>
 
-    <!-- wellnotify -->
-    <script src="wellnotify.js"></script>
+</head>
+<body style="height: 100vh">
 
-    <!-- csss bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-          crossorigin="anonymous">
+<script>
+	// WellNotify precisa ser instanciado
+	let myWellNotify = new WellNotify({posicao: "topo-direito"});
+	
+	const alterarTema = () => {
+		const temaAtual = document.documentElement.getAttribute('data-bs-theme') ?? 'light'
+		const novoTema = temaAtual === 'light' ? 'dark' : 'light'
+		document.documentElement.setAttribute('data-bs-theme', novoTema)
+	}
+	
+	const alterarPosicao = (event, posicao) => {
+		myWellNotify.limpar()
+		myWellNotify = new WellNotify({posicao});
+		[...document.querySelectorAll('[name="checkbox_posicao"]')].forEach(checkbox => {
+			if (checkbox != event.target) {
+				checkbox.checked = false
+			}
+		})
+	}
+	
+	function sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+	
+	let ultimaPromesaSucesso = false
+	
+	const promesssaLoading = async () => {
+		await sleep(3000)
+		if (ultimaPromesaSucesso) {
+			ultimaPromesaSucesso = false
+			throw new Error('erro retornado pela função')
+		} else {
+			ultimaPromesaSucesso = true
+			return '33'
+		}
+	}
+	
+	const notificarPromessa = () => {
+		myWellNotify.aguardar(
+				promesssaLoading,
+				{
+					loading: {
+						conteudo: 'Execução pendente, aguarde...',
+					},
+					success: (valor) => ({
+						conteudo: `Executada com sucesso! A requisição retornou ${valor} resultados.`,
+						duracao: 10000,
+						aoClicar() {
+							alert('clique feito na notificação de sucesso da pendente')
+						}
+					}),
+					error: (erro) => ({
+						conteudo: `Erro: ${erro.message}`,
+						duracao: 7000,
+						aoClicar() {
+							alert('clique feito na notificação de erro da pendente')
+						}
+					})
+				}
+		)
+	}
 
-    <title>WellNotify - Demo</title>
+</script>
 
-  </head>
-  <body style="height: 100vh">
- 
-    <script>
-      // WellNotify precisa ser instanciado  
-      let myWellNotify = new WellNotify({ posicao: "topo-direito" });
+<div class="container mt-5">
+	<div class="row justify-content-center">
+		<div class="col col-6 col-md-3 d-flex flex-column gap-3">
+			
+			<h4 class="text-center">WellNotify - Demo</h4>
+			
+			<small class="text-secondary text-center">Lib para notificações toast, leia a documentação e seja feliz!</small>
+			
+			<a class="mb-4 mt-2 text-center"
+				 href="https://github.com/WellingtonNico/wellnotify">Acessar Repositório/Documentação</a>
+			
+			<button class="btn btn-sm btn-success"
+							onclick="myWellNotify.notificar('auto fechamento sucesso!','success',{autoFechar:true})">
+				notificar sucesso
+			</button>
+			
+			<button class="btn btn-sm btn-warning"
+							onclick="myWellNotify.notificar('warning duração de 7 segundos, duracao=7000','warning',{duracao:7000})">
+				notificar alerta
+			</button>
+			
+			<button class="btn btn-sm btn-danger"
+							onclick="myWellNotify.notificar('erro sem fechamento automático, fecharAoClicar=false, autoFechar=false, precisa pressionar o botão para fechar','error',{autoFechar:false,fecharAoClicar:false})">
+				notificar erro
+			</button>
+			
+			<button class="btn  btn-sm btn-primary"
+							onclick="myWellNotify.notificar('info com configurações padrão','info')">notificar info
+			</button>
+			
+			<button class="btn btn-sm btn-secondary"
+							onclick="myWellNotify.notificar('notificação tipo padrão','default')">notificar padrão
+			</button>
+			
+			<button class="btn btn-sm btn-secondary"
+							style="background-color: var(--bs-purple)"
+							onclick="myWellNotify.notificar('carregando...','loading')">notificar carregando
+			</button>
+			
+			<button class="btn btn-dark btn-sm border border-1 border-light"
+							onclick="myWellNotify.notificar('<span>clique <b>aqui</b> para limpar as notificações</span>','default',{aoClicar(){myWellNotify.limpar()}})">
+				notificar aoClicar
+			</button>
+			
+			<button class="btn btn-outline-primary btn-sm" onclick="notificarPromessa()">guardar função</button>
+			
+			<button class="btn btn-light btn-sm border border-1 border-dark"
+							onclick="myWellNotify.limpar()">limpar notificações
+			</button>
+			
+			<!-- botão para alterar tema -->
+			<button onclick="alterarTema()"
+							class="btn btn-sm btn-secondary .BotaoAlterarTema">Alterar Tema
+			</button>
+		
+		</div>
+	
+	</div>
+	
+	<!-- checkboxes para alterar posicionamento -->
+	<div class="row justify-content-center mt-3">
+		<div class="col col-12 col-sm-6">
+			<div class="form-check form-switch d-flex justify-content-center gap-3">
+				<input class="form-check-input"
+							 type="checkbox"
+							 name="checkbox_posicao"
+							 onchange="alterarPosicao(event,'topo-esquerdo')">
+				<label class="form-check-label">Topo Esquerdo</label>
+			</div>
+		</div>
+		
+		<div class="col col-12 col-sm-6">
+			<div class="form-check form-switch d-flex justify-content-center gap-3">
+				<input class="form-check-input"
+							 type="checkbox"
+							 name="checkbox_posicao"
+							 onchange="alterarPosicao(event,'topo-direito')"
+							 checked>
+				<label class="form-check-label">Topo Direito</label>
+			</div>
+		</div>
+		
+		<div class="col col-12 col-sm-6">
+			<div class="form-check form-switch d-flex justify-content-center gap-3">
+				<input class="form-check-input"
+							 type="checkbox"
+							 name="checkbox_posicao"
+							 onchange="alterarPosicao(event,'fundo-esquerdo')">
+				<label class="form-check-label">Fundo Esquerdo</label>
+			</div>
+		</div>
+		
+		<div class="col col-12 col-sm-6">
+			
+			<div class="form-check form-switch d-flex justify-content-center gap-3">
+				<input class="form-check-input"
+							 type="checkbox"
+							 name="checkbox_posicao"
+							 onchange="alterarPosicao(event,'fundo-direito')">
+				<label class="form-check-label">Fundo Direito</label>
+			</div>
+		</div>
+	
+	</div>
 
-      const alterarTema = ()=>{
-        const temaAtual = document.documentElement.getAttribute('data-bs-theme')??'light'
-        const novoTema = temaAtual==='light'?'dark':'light'
-        document.documentElement.setAttribute('data-bs-theme',novoTema)
-      }
+</div>
 
-      const alterarPosicao = (event,posicao) =>{
-        myWellNotify.limpar()
-        myWellNotify = new WellNotify({ posicao });
-        [...document.querySelectorAll('[name="checkbox_posicao"]')].forEach(checkbox=>{
-          if (checkbox!=event.target){
-            checkbox.checked=false
-          }
-        })
-      }
-
-      function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-      }
-
-      let ultimaPromesaSucesso = false
-
-      const promesssaLoading = async () => {
-        await sleep(3000)
-        if(ultimaPromesaSucesso){
-          ultimaPromesaSucesso = false
-          throw new Error('erro retornado pela função')
-        }else{
-          ultimaPromesaSucesso = true
-          return '33'
-        }
-      }
-
-      const notificarPromessa = () => {
-        myWellNotify.aguardar(
-          promesssaLoading,
-          {
-            loading:{
-              conteudo: 'Execução pendente, aguarde...',
-            },
-            success:(valor)=>({
-              conteudo: `Executada com sucesso! A requisição retornou ${valor} resultados.`,
-              duracao:10000,
-              aoClicar(){
-                alert('clique feito na notificação de sucesso da pendente')
-              }
-            }),
-            error:(erro)=>({
-              conteudo: `Erro: ${erro.message}`,
-              duracao:7000,
-              aoClicar(){
-                alert('clique feito na notificação de erro da pendente')
-              }
-            })
-          }
-        )
-      }
-    
-    </script>
-
-    <div class="container mt-5">
-      <div class="row justify-content-center">
-        <div class="col col-6 col-md-3 d-flex flex-column gap-3">
-
-          <h4 class="text-center">WellNotify - Demo</h4>
-
-          <a class="mb-4 mt-2 text-center"
-             href="https://github.com/WellingtonNico/wellnotify">Acessar Repositório/Documentação</a>
-
-          <button class="btn btn-sm btn-success"
-                  onclick="myWellNotify.notificar('auto fechamento sucesso!','success',{autoFechar:true})">
-            notificar sucesso
-          </button>
-
-          <button class="btn btn-sm btn-warning"
-                  onclick="myWellNotify.notificar('warning duração de 7 segundos, duracao=7000','warning',{duracao:7000})">
-            notificar alerta
-          </button>
-
-          <button class="btn btn-sm btn-danger"
-                  onclick="myWellNotify.notificar('erro sem fechamento automático, fecharAoClicar=false, autoFechar=false, precisa pressionar o botão para fechar','error',{autoFechar:false,fecharAoClicar:false})">
-            notificar erro
-          </button>
-
-          <button class="btn  btn-sm btn-primary"
-                  onclick="myWellNotify.notificar('info com configurações padrão','info')">notificar info</button>
-
-          <button class="btn btn-sm btn-secondary"
-                  onclick="myWellNotify.notificar('notificação tipo padrão','default')">notificar padrão</button>
-
-          <button class="btn btn-sm btn-secondary"
-                  style="background-color: var(--bs-purple)"
-                  onclick="myWellNotify.notificar('carregando...','loading')">notificar carregando</button>
-
-          <button class="btn btn-dark btn-sm border border-1 border-light"
-                  onclick="myWellNotify.notificar('<span>clique <b>aqui</b> para limpar as notificações</span>','default',{aoClicar(){myWellNotify.limpar()}})">
-            notificar aoClicar
-          </button>
-
-          <button class="btn btn-outline-primary btn-sm" onclick="notificarPromessa()">notificar promessa</button>
- 
-          <button class="btn btn-light btn-sm border border-1 border-dark"
-                  onclick="myWellNotify.limpar()">limpar notificações</button>
-
-          <!-- botão para alterar tema -->
-          <button onclick="alterarTema()"
-                  class="btn btn-sm btn-secondary .BotaoAlterarTema">Alterar Tema</button>
-
-        </div>
-
-      </div>
-
-      <!-- checkboxes para alterar posicionamento -->
-      <div class="row justify-content-center mt-3">
-        <div class="col col-12 col-sm-6">
-          <div class="form-check form-switch d-flex justify-content-center gap-3">
-            <input class="form-check-input"
-                   type="checkbox"
-                   name="checkbox_posicao"
-                   onchange="alterarPosicao(event,'topo-esquerdo')">
-            <label class="form-check-label">Topo Esquerdo</label>
-          </div>
-        </div>
-
-        <div class="col col-12 col-sm-6">
-          <div class="form-check form-switch d-flex justify-content-center gap-3">
-            <input class="form-check-input"
-                   type="checkbox"
-                   name="checkbox_posicao"
-                   onchange="alterarPosicao(event,'topo-direito')"
-                   checked>
-            <label class="form-check-label">Topo Direito</label>
-          </div>
-        </div>
-
-        <div class="col col-12 col-sm-6">
-          <div class="form-check form-switch d-flex justify-content-center gap-3">
-            <input class="form-check-input"
-                   type="checkbox"
-                   name="checkbox_posicao"
-                   onchange="alterarPosicao(event,'fundo-esquerdo')">
-            <label class="form-check-label">Fundo Esquerdo</label>
-          </div>
-        </div>
-
-        <div class="col col-12 col-sm-6">
-
-          <div class="form-check form-switch d-flex justify-content-center gap-3">
-            <input class="form-check-input"
-                   type="checkbox"
-                   name="checkbox_posicao"
-                   onchange="alterarPosicao(event,'fundo-direito')">
-            <label class="form-check-label">Fundo Direito</label>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- js bootstrap-->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
-  </body>
+<!-- js bootstrap-->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
+</body>
 </html>
