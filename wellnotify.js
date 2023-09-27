@@ -375,15 +375,15 @@ class WellNotify {
   aguardarDownload(url, nomeDoArquivo, opcoes) {
     this.aguardar(async () => await this.baixarArquivo(url, nomeDoArquivo), {
       loading: {
-        conteudo: opcoes.msg_loading ?? 'Fazendo download, aguarde...'
+        conteudo: opcoes?.msg_loading ?? 'Fazendo download, aguarde...'
       },
       success: {
-        conteudo: opcoes.msg_success ?? 'Download concluído com sucesso!',
-        duracao: opcoes.duracao
+        conteudo: opcoes?.msg_success ?? 'Download concluído com sucesso!',
+        duracao: opcoes?.duracao
       },
       error: {
-        conteudo: opcoes.msg_error ?? 'Não foi possível concluir o download!',
-        duracao: opcoes.duracao
+        conteudo: opcoes?.msg_error ?? 'Não foi possível concluir o download!',
+        duracao: opcoes?.duracao
       },
     })
   }
