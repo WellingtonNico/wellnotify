@@ -55,7 +55,7 @@ são auto explicativos
 
 
 ## Funções extras:
-* `WellNofity.aguardar`
+### `WellNofity.aguardar`
 
 para obter um efeito legal ao executar uma função, é possível indicar que ela começou com a notificação tipo `loading` e a depender da execução da função exibir uma notificação de sucesso ou erro se houver um erro na execução da função. Isso pode ser feito automaticamente com o método `WellNotify.aguardar`. Ex:
 ```js
@@ -112,10 +112,10 @@ const carregarConteudoDaApiWrapper = () => {
 }
 ```
 
-* `WellNofity.aguardarDownload`
+### `WellNofity.aguardarDownload`
 
 para você não ter que escrever seu código de download com a função `WellNotify.aguardar`, aqui vai uma função 
-prontinha(já possui textos em portugês)e não se preocupe se o usuário clicar duas vezes, 
+prontinha(já possui textos em português)e não se preocupe se o usuário clicar duas vezes, 
 a função só vai rodar uma segunda vez após a primeira acabar.
 
 exemplo direto no html:
