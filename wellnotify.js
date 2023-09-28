@@ -5,7 +5,7 @@
  *      GitHub: https://github.com/WellingtonNico/wellnotify
  *      Demo: https://wellingtonnico.github.io/wellnotify/
  *
- *      v 1.1.0
+ *      v 1.1.1
  *
  *      ex:
  *      const myWellNotify = new WellNotify()
@@ -380,7 +380,7 @@ class WellNotify {
     this.urlsDeDownloadCorrentes.push(url)
     this.aguardar(async () => {
       try{
-        await this.baixarArquivo(url, opcoes.nomeDoArquivo)
+        await this.baixarArquivo(url, opcoes?.nomeDoArquivo)
       }catch (e){
         throw e
       }finally {
