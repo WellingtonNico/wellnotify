@@ -61,7 +61,6 @@ para obter um efeito legal ao executar uma função, é possível indicar que el
 ```js
 const carregarConteudoDaApi = async () => {
     // seu código asyncrono ou não aqui
-    ... 
     // caso seja feito um tratamento de erro dentro da função pode se lançar um erro hardcoded para que a notificação seja substituida por uma de erro
     throw new Error('Erro forçado para funcionar a notificação')
 }
@@ -100,13 +99,11 @@ const carregarConteudoDaApiWrapper = () => {
             },
             // jeito 2:  opcional - pode declarar uma função que irá receber o 
             //     erro retornado pela função aguardada e deve retornar o dicionário de opções
-            error(erro)(
-                {
-                    conteudo: `Não foi possível carregar o conteúdo da api! Erro: ${erro.message}`,            
-                    duracao: 10000, // a notificação de erro irá durar 10 segundos
-                    aoClicar:()=>alert('clique feito na notificação de erro da pendente')
-                }
-            )
+            error(erro){
+                conteudo: `Não foi possível carregar o conteúdo da api! Erro: ${erro.message}`,            
+                duracao: 10000, // a notificação de erro irá durar 10 segundos
+                aoClicar:()=>alert('clique feito na notificação de erro da pendente')
+            }
         }
     )
 }
@@ -188,14 +185,14 @@ várias configurações podem ser feitas por variáveis css. Já constam algumas
 
 #### Explicações das classes css
 ```css
-.wellnotify_ContainerPosicional{...} /* container princpal que irá comportar as notificações */
-.wellnotify_ContainerWrapper{...} /* wrapper individual */
-.wellnotify_Container{...} /* container individual */
-.wellnotify_IconeWrapper{...} /* container que comporta o ícone da notificação */
-.wellnotify_Icone{...} /* ícone de cada notificação */
-.wellnotify_Mensagem{...} /* container do conteúdo da mensagem */
-.wellnotify_BotaoFecharWrapper{...} /* container que comporta o botão fechar */
-.wellnotify_BotaoFechar{...} /* ícone do botão fechar */
+.wellnotify_ContainerPosicional{} /* container princpal que irá comportar as notificações */
+.wellnotify_ContainerWrapper{} /* wrapper individual */
+.wellnotify_Container{} /* container individual */
+.wellnotify_IconeWrapper{} /* container que comporta o ícone da notificação */
+.wellnotify_Icone{} /* ícone de cada notificação */
+.wellnotify_Mensagem{} /* container do conteúdo da mensagem */
+.wellnotify_BotaoFecharWrapper{} /* container que comporta o botão fechar */
+.wellnotify_BotaoFechar{} /* ícone do botão fechar */
 ```
 
 
