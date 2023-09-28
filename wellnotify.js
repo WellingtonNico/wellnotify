@@ -5,7 +5,7 @@
  *      GitHub: https://github.com/WellingtonNico/wellnotify
  *      Demo: https://wellingtonnico.github.io/wellnotify/
  *
- *      v 1.0.9
+ *      v 1.1.0
  *
  *      ex:
  *      const myWellNotify = new WellNotify()
@@ -59,6 +59,7 @@ class WellNotify {
   
   const
   idStyleTag = 'id_wellnotify_style'
+  urlsDeDownloadCorrentes = []
   
   adicionarEstilo = () => {
     let styleTag = document.getElementById(this.idStyleTag);
@@ -365,15 +366,27 @@ class WellNotify {
   
   /**
    *  @param {string} url - url de download do arquivo
-   *  @param {string} nomeDoArquivo=undefined - nome do arquivo
    *  @param {Object} opcoes
+   *  @param {string} opcoes.nomeDoArquivo - nome do arquivo opcional
    *  @param {number} opcoes.duracao - duração em milisegundos para notificações de erro ou sucesso, se não informada será usada a padrão
    *  @param {string} opcoes.msg_loading='Fazendo download, aguarde...' - mensagem enquando o arquivo estiver baixando
    *  @param {string} opcoes.msg_error='Não foi possível concluir o download!' - mensagem se houver erro no download
    *  @param {string} opcoes.msg_success='Download concluído com sucesso!' - mensagem enquando o arquivo estiver baixando
    */
-  aguardarDownload(url, nomeDoArquivo, opcoes) {
-    this.aguardar(async () => await this.baixarArquivo(url, nomeDoArquivo), {
+  aguardarDownload(url, opcoes) {
+    if(this.urlsDeDownloadCorrentes.includes(url)){
+      return
+    }
+    this.urlsDeDownloadCorrentes.push(url)
+    this.aguardar(async () => {
+      try{
+        await this.baixarArquivo(url, opcoes.nomeDoArquivo)
+      }catch (e){
+        throw e
+      }finally {
+        this.urlsDeDownloadCorrentes = this.urlsDeDownloadCorrentes.filter(u=>u!==url)
+      }
+    }, {
       loading: {
         conteudo: opcoes?.msg_loading ?? 'Fazendo download, aguarde...'
       },
