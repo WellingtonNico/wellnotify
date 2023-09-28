@@ -54,8 +54,10 @@ são auto explicativos
 * `loading`
 
 
-## Função extra
-para obter um efeito legal ao executar uma função, é possível indicar que ela começou com a notificação tipo `loading` e a depender da execução da função exibir uma notificação de sucesso ou erro se houver um erro na execução da função. Isso pode ser feito automaticamente com o método `aguardar`. Ex:
+## Funções extras:
+* `WellNofity.aguardar`
+
+para obter um efeito legal ao executar uma função, é possível indicar que ela começou com a notificação tipo `loading` e a depender da execução da função exibir uma notificação de sucesso ou erro se houver um erro na execução da função. Isso pode ser feito automaticamente com o método `WellNotify.aguardar`. Ex:
 ```js
 const carregarConteudoDaApi = async () => {
     // seu código asyncrono ou não aqui
@@ -110,20 +112,48 @@ const carregarConteudoDaApiWrapper = () => {
 }
 ```
 
+* `WellNofity.aguardarDownload`
 
-## Opções
-as opções padrão podem ser definidas ao criar a instância ou no terceiro argumento do método `notificar`:
+para você não ter que escrever seu código de download com a função `WellNotify.aguardar`, aqui vai uma função 
+prontinha(já possui textos em portugês)e não se preocupe se o usuário clicar duas vezes, 
+a função só vai rodar uma segunda vez após a primeira acabar.
+
+exemplo direto no html:
+```html
+
+<span onclick="myWellNotify.aguardarDownload('<substitua pela sua url de download>')" >
+  Exportar para excel
+</span>
+
+```
+exemplo no seu código javascript
+```js
+myWellNotify.aguardarDownload(
+  '<sua url>',
+  {
+      nomeDoArquivo:'excel.xlsx',
+      msg_loading:'Fazendo download da planilha...',
+      msg_error:'Não foi possível fazer o download da planilha!',
+      msg_success:'Download da planilha concluído com sucesso!'
+  }
+)
+```
+
+
+
+## Opções:
+as opções padrão podem ser definidas ao criar a instância ou no terceiro argumento do método `WellNotify.notificar`:
 
 * `[posicao:string='topo-direito']` - (deve ser definido ao instanciar a classe) valores possíveis e auto explicativos:  `topo-direito` | `topo-esquerdo` | `fundo-direito` | `fundo-esquerdo`;
 * `[duracao:number=3000]` - duração da notificação em milisegundos;
 * `[autoFechar:boolean=true]` - se verdadeiro a notificação será fechada automaticamente após o tempo do argumento `duracao`;
 * `[fecharAoClicar:boolean=true]` - se verdadeiro a notificação pode ser fechada ao clicar no corpo sem a necessidade de clicar no botão de fechar;
-* `[aoClicar:function=undefined]` - (deve ser definido ao chamar o método `notificar`) caso for informado, um evento on click será adicionaro a notificação e será disparado ao clicar no corpo da mesma.
+* `[aoClicar:function=undefined]` - (deve ser definido ao chamar o método `WellNotify.notificar`) caso for informado, um evento on click será adicionaro a notificação e será disparado ao clicar no corpo da mesma.
 * `[id:string=undefined]` - se informado a notificação criada tera o id atribuido em vez de um id automático;
 * `[atualizarNotificacao:boolean=false]` - se informado em conjunto com o atributo `id` será feita a substituição de uma notificação já existente e que esteja visível
 
 
-## Estilos
+## Estilos:
 várias configurações podem ser feitas por variáveis css. Já constam algumas configurações para tema escuro:
 ```css
 .wellnotify-ContainerPosicional {
@@ -194,7 +224,7 @@ várias configurações podem ser feitas por variáveis css. Já constam algumas
 ```
 
 
-## Plus
+## Plus:
 
 ### Uso no template django
 
