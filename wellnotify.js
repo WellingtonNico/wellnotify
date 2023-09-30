@@ -5,7 +5,7 @@
  *      GitHub: https://github.com/WellingtonNico/wellnotify
  *      Demo: https://wellingtonnico.github.io/wellnotify/
  *
- *      v 1.1.2
+ *      v 1.1.3
  *
  *      ex:
  *      const myWellNotify = new WellNotify()
@@ -17,7 +17,7 @@ class WellNotify {
   /**
    * @typedef {Object} WellNotifyOpcoes - opções
    * @property {boolean} [autoFechar=true] - opcional, se falso as notificação não fecham automaticamente
-   * @property {function} [aoClicar=undefined] - opcional, função para ser disparada ao clicar na notificação
+   * @property {function(HTMLDivElement)} [aoClicar=undefined] - opcional, função para ser disparada ao clicar na notificação, recebe o próprio objeto da notificação como argumento
    * @property {boolean} [fecharAoClicar=true] - opcional, se falso a notificação não fecha ao clicar em cima
    * @property {number} [duracao=3000] - opcional, tempo em milisegundos para fechar a notificação
    * @property {string} [id=undefined] - id da notificação, se não informado um é gerado automaticamente
@@ -70,7 +70,8 @@ class WellNotify {
   };
   
   /**
-   * remove a notificação adicionando o efeito necessário
+   * remove a notificação adicionando o efeito necessário, você não precisa usar este método para remover uma notificação
+   * use o método remove do próprio elemento de notificação gerado que ele irá chamar este método
    * @param {string|HTMLElement} notificacao - id da notificação ou o próprio elemento da notificação
    */
   removerNotificacao = (notificacao) => {
@@ -80,7 +81,7 @@ class WellNotify {
     }
     notificacaoElement.style.animation = "none";
     setTimeout(() => (notificacaoElement.style.animation = this.obterAnimacao(true)), 20);
-    setTimeout(() => notificacaoElement.remove(), 300);
+    setTimeout(() => notificacaoElement.parentNode.removeChild(notificacaoElement), 300);
   };
   
   /**
@@ -124,7 +125,7 @@ class WellNotify {
       }
       const diferenca = agora - inicio;
       if (diferenca >= duracao && !hover) {
-        this.removerNotificacao(notificacao);
+        notificacao.remove()
         return;
       } else if (!hover) {
         const porcentagem = 100 - (diferenca * 100) / duracao;
@@ -201,12 +202,16 @@ class WellNotify {
     novaNotificacao.classList.add(this.cssClasses.containerWrapper);
     novaNotificacao.classList.add(String(tipo ?? "").toLowerCase());
     const fecharAoClicar = opcoes?.fecharAoClicar !== undefined ? opcoes.fecharAoClicar : this.props?.fecharAoClicar !== undefined ? this.props.fecharAoClicar : true;
+    
+    const funcaoRemover = () => this.removerNotificacao(novaNotificacao)
+    novaNotificacao.remove = funcaoRemover
+    
     if (fecharAoClicar && tipo !== "loading") {
-      novaNotificacao.addEventListener("click", () => this.removerNotificacao(novaNotificacao));
+      novaNotificacao.addEventListener("click", funcaoRemover);
     }
     
     if (opcoes?.aoClicar) {
-      novaNotificacao.addEventListener("click", opcoes.aoClicar);
+      novaNotificacao.addEventListener("click",()=> opcoes.aoClicar(novaNotificacao));
     }
     novaNotificacao.style.animation = this.obterAnimacao();
     const htmlBarraDeProgresso = `
