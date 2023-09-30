@@ -122,27 +122,26 @@
 
 			<!-- default -->
 			<button class="btn btn-sm btn-secondary"
-			        onclick="myWellNotify.notificar('notificação tipo padrão','default')">
+			        onclick="myWellNotify.default('notificação tipo padrão')">
 				default
 			</button>
 
 			<!-- success-->
 			<button class="btn btn-sm btn-success"
-			        onclick="myWellNotify.notificar('auto fechamento sucesso!','success',{autoFechar:true})">
+			        onclick="myWellNotify.success('auto fechamento sucesso!',{autoFechar:true})">
 				success
 			</button>
 
 			<!-- warning-->
 			<button class="btn btn-sm btn-warning"
-			        onclick="myWellNotify.notificar('warning duração de 7 segundos, duracao=7000','warning',{duracao:7000})">
+			        onclick="myWellNotify.warning('warning duração de 7 segundos, duracao=7000',{duracao:7000})">
 				warning
 			</button>
 
 			<!--	error -->
 			<button class="btn btn-sm btn-danger"
-			        onclick="myWellNotify.notificar(
+			        onclick="myWellNotify.error(
                 'erro sem fechamento automático, fecharAoClicar=false, autoFechar=false, precisa pressionar o botão para fechar',
-                'error',
                 {autoFechar:false,fecharAoClicar:false}
               )">
 				error
@@ -150,14 +149,14 @@
 
 			<!-- info -->
 			<button class="btn  btn-sm btn-primary"
-			        onclick="myWellNotify.notificar('info com configurações padrão','info')">
+			        onclick="myWellNotify.info('info com configurações padrão')">
 				info
 			</button>
 
 			<!-- loading -->
 			<button class="btn btn-sm btn-secondary"
 			        style="background-color: var(--bs-purple)"
-			        onclick="myWellNotify.notificar('carregando...','loading')">
+			        onclick="myWellNotify.loading('carregando...')">
 				loading
 			</button>
 

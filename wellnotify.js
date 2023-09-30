@@ -5,7 +5,7 @@
  *      GitHub: https://github.com/WellingtonNico/wellnotify
  *      Demo: https://wellingtonnico.github.io/wellnotify/
  *
- *      v 1.1.4
+ *      v 1.1.5
  *
  *      ex:
  *      const myWellNotify = new WellNotify()
@@ -16,12 +16,12 @@
 class WellNotify {
   /**
    * @typedef {Object} WellNotifyOpcoes - opções
-   * @property {boolean} [autoFechar=true] - opcional, se falso as notificação não fecham automaticamente
-   * @property {function(HTMLDivElement)} [aoClicar=undefined] - opcional, função para ser disparada ao clicar na notificação, recebe o próprio objeto da notificação como argumento
-   * @property {boolean} [fecharAoClicar=true] - opcional, se falso a notificação não fecha ao clicar em cima
-   * @property {number} [duracao=3000] - opcional, tempo em milisegundos para fechar a notificação
-   * @property {string} [id=undefined] - id da notificação, se não informado um é gerado automaticamente
-   * @property {boolean} [atualizarNotificacao=false] - se verdadeiro atualiza uma notificação já existente
+   * @property {boolean} autoFechar=true - opcional, se falso as notificação não fecham automaticamente
+   * @property {function(HTMLDivElement)} aoClicar=undefined - opcional, função para ser disparada ao clicar na notificação, recebe o próprio objeto da notificação como argumento
+   * @property {boolean} fecharAoClicar=true - opcional, se falso a notificação não fecha ao clicar em cima
+   * @property {number} duracao=3000 - opcional, tempo em milisegundos para fechar a notificação
+   * @property {string} id=undefined - id da notificação, se não informado um é gerado automaticamente
+   * @property {boolean} atualizarNotificacao=false - se verdadeiro atualiza uma notificação já existente
    */
   
   /**
@@ -259,7 +259,7 @@ class WellNotify {
    * cria a notificação toast
    * @param {any} conteudo - conteúdo da notificação, pode ser html em formato string
    * @param {WellNotifyTipo} [tipo='default'] - tipo da notificação
-   * @param {WellNotifyOpcoes} opcoes - opções
+   * @param {WellNotifyOpcoes?} opcoes - opções
    * @returns {HTMLDivElement} - elemento da notificação criada
    */
   notificar = (conteudo, tipo, opcoes) => {
@@ -584,7 +584,7 @@ class WellNotify {
   /**
    * atalho para notificação de sucesso
    * @param conteudo
-   * @param {WellNotifyOpcoes} opcoes
+   * @param {WellNotifyOpcoes?} opcoes
    * @return {HTMLDivElement} - elemento da notificação criada
    */
   success(conteudo,opcoes){
@@ -594,7 +594,7 @@ class WellNotify {
   /**
    * atalho para notificação de alerta
    * @param conteudo
-   * @param {WellNotifyOpcoes} opcoes
+   * @param {WellNotifyOpcoes?} opcoes
    * @return {HTMLDivElement} - elemento da notificação criada
    */
   warning(conteudo,opcoes){
@@ -604,7 +604,7 @@ class WellNotify {
   /**
    * atalho para notificação de erro
    * @param conteudo
-   * @param {WellNotifyOpcoes} opcoes
+   * @param {WellNotifyOpcoes?} opcoes
    * @return {HTMLDivElement} - elemento da notificação criada
    */
   error(conteudo,opcoes){
@@ -614,7 +614,7 @@ class WellNotify {
   /**
    * atalho para notificação de informação
    * @param conteudo
-   * @param {WellNotifyOpcoes} opcoes
+   * @param {WellNotifyOpcoes?} opcoes
    * @return {HTMLDivElement} - elemento da notificação criada
    */
   info(conteudo,opcoes){
@@ -624,7 +624,7 @@ class WellNotify {
   /**
    * atalho para notificação padrão
    * @param conteudo
-   * @param {WellNotifyOpcoes} opcoes
+   * @param {WellNotifyOpcoes?} opcoes
    * @return {HTMLDivElement} - elemento da notificação criada
    */
   default(conteudo,opcoes){
@@ -634,7 +634,7 @@ class WellNotify {
   /**
    * atalho para notificação loading
    * @param conteudo
-   * @param {WellNotifyOpcoes} opcoes
+   * @param {WellNotifyOpcoes?} opcoes
    * @return {HTMLDivElement} - elemento da notificação criada
    */
   loading(conteudo,opcoes){
