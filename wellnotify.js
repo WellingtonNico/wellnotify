@@ -5,7 +5,7 @@
  *      GitHub: https://github.com/WellingtonNico/wellnotify
  *      Demo: https://wellingtonnico.github.io/wellnotify/
  *
- *      v 1.1.1
+ *      v 1.1.2
  *
  *      ex:
  *      const myWellNotify = new WellNotify()
@@ -497,7 +497,7 @@ class WellNotify {
           border-right: 3px dashed var(--wellnotify-icone-color);
           border-bottom: 3px solid transparent;
           border-radius:50%;
-          animation: wellnotify-animacao-spin 1s infinite;
+          animation: ${this.animacoes.loadingSpin} 1s linear infinite ;
         }
 
         .${this.cssClasses.containerWrapper} .${this.cssClasses.container}{
