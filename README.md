@@ -69,8 +69,12 @@ para obter um efeito legal ao executar uma função, é possível indicar que el
 ```js
 const carregarConteudoDaApi = async () => {
   // seu código asyncrono ou não aqui
-  // caso seja feito um tratamento de erro dentro da função pode se lançar um erro hardcoded para que a notificação seja substituida por uma de erro
-  throw new Error('Erro forçado para funcionar a notificação')
+  // caso seja feito um tratamento de erro dentro da função pode se lançar um 
+  // erro hardcoded para que a notificação seja substituida por uma de erro
+  const response = await axios.get('<sua url>')
+  return response.data
+  // supondo então que haveria um erro na requisição o mesmo pode ser usado nas configurações
+  // neste caso seria um erro do Axios
 }
 
 const carregarConteudoDaApiWrapper = () => {
@@ -108,7 +112,11 @@ const carregarConteudoDaApiWrapper = () => {
       // jeito 2:  opcional - pode declarar uma função que irá receber o 
       //     erro retornado pela função aguardada e deve retornar o dicionário de opções
       error(erro){
-        conteudo: `Não foi possível carregar o conteúdo da api! Erro: ${erro.message}`,            
+        let conteudo = 'Não foi possível carregar o conteúdo da api!'
+        if(erro.response?.data?.detail){
+          msg += ` Detalhes: ${erro.response.data.detail}`
+        }
+        conteudo,            
         duracao: 10000, // a notificação de erro irá durar 10 segundos
         aoClicar:()=>alert('clique feito na notificação de erro da pendente')
       }
