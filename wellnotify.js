@@ -5,7 +5,7 @@
  *      GitHub: https://github.com/WellingtonNico/wellnotify
  *      Demo: https://wellingtonnico.github.io/wellnotify/
  *
- *      v 1.1.3
+ *      v 1.1.4
  *
  *      ex:
  *      const myWellNotify = new WellNotify()
@@ -332,7 +332,6 @@ class WellNotify {
     return notificacao;
   };
   
-  
   /**
    * função facilitadora para download de arquivos
    * @param {string} url - url de download do arquivo
@@ -365,7 +364,6 @@ class WellNotify {
     window.URL.revokeObjectURL(a.href);
     document.body.removeChild(a);
   }
-  
   
   /**
    *  @param {string} url - url de download do arquivo
@@ -580,6 +578,70 @@ class WellNotify {
         }
       </style>`;
   };
+  
+  // início dos atalhos
+  
+  /**
+   * atalho para notificação de sucesso
+   * @param conteudo
+   * @param {WellNotifyOpcoes} opcoes
+   * @return {HTMLDivElement} - elemento da notificação criada
+   */
+  success(conteudo,opcoes){
+    return this.notificar(conteudo,'success',opcoes)
+  }
+  
+  /**
+   * atalho para notificação de alerta
+   * @param conteudo
+   * @param {WellNotifyOpcoes} opcoes
+   * @return {HTMLDivElement} - elemento da notificação criada
+   */
+  warning(conteudo,opcoes){
+    return this.notificar(conteudo,'warning',opcoes)
+  }
+  
+  /**
+   * atalho para notificação de erro
+   * @param conteudo
+   * @param {WellNotifyOpcoes} opcoes
+   * @return {HTMLDivElement} - elemento da notificação criada
+   */
+  error(conteudo,opcoes){
+    return this.notificar(conteudo,'error',opcoes)
+  }
+  
+  /**
+   * atalho para notificação de informação
+   * @param conteudo
+   * @param {WellNotifyOpcoes} opcoes
+   * @return {HTMLDivElement} - elemento da notificação criada
+   */
+  info(conteudo,opcoes){
+    return this.notificar(conteudo,'info',opcoes)
+  }
+  
+  /**
+   * atalho para notificação padrão
+   * @param conteudo
+   * @param {WellNotifyOpcoes} opcoes
+   * @return {HTMLDivElement} - elemento da notificação criada
+   */
+  default(conteudo,opcoes){
+    return this.notificar(conteudo,'default',opcoes)
+  }
+  
+  /**
+   * atalho para notificação loading
+   * @param conteudo
+   * @param {WellNotifyOpcoes} opcoes
+   * @return {HTMLDivElement} - elemento da notificação criada
+   */
+  loading(conteudo,opcoes){
+    return this.notificar(conteudo,'loading',opcoes)
+  }
+  
+  // fim dos atalhos
   
   cssClasses = {
     botaoFecharWrapper: "wellnotify_BotaoFecharWrapper",
