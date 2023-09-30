@@ -58,7 +58,7 @@ class WellNotify {
   }
   
   const
-  idStyleTag = 'id_wellnotify_style
+  idStyleTag = 'id_wellnotify_style'
   urlsDeDownloadCorrentes = []
   
   adicionarEstilo = () => {
