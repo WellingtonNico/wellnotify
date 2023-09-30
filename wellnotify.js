@@ -182,7 +182,7 @@ class WellNotify {
    * @param {any} conteudo - conteúdo da notificação, pode ser html em formato string
    * @param {WellNotifyTipo} [tipo='default'] - tipo da notificação
    * @param {WellNotifyOpcoes} opcoes - opções
-   * @returns
+   * @returns {HTMLDivElement} - elemento da notificaão gerada
    */
   gerarNotificacao = (conteudo, tipo, opcoes) => {
     if (!conteudo) {
