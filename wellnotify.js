@@ -89,9 +89,7 @@ class WellNotify {
    */
   limpar = () => {
     const containerNotificacao = this.obterContainerNotificacoes();
-    [...containerNotificacao.children].forEach((node) => {
-      this.removerNotificacao(node.id);
-    });
+    [...containerNotificacao.children].forEach((node) =>  node.remove());
   };
   
   obterIdContainerNotificacoes = () => {
@@ -211,7 +209,7 @@ class WellNotify {
     }
     
     if (opcoes?.aoClicar) {
-      novaNotificacao.addEventListener("click",()=> opcoes.aoClicar(novaNotificacao));
+      novaNotificacao.addEventListener("click", () => opcoes.aoClicar(novaNotificacao));
     }
     novaNotificacao.style.animation = this.obterAnimacao();
     const htmlBarraDeProgresso = `
@@ -379,17 +377,17 @@ class WellNotify {
    *  @param {string} opcoes.msg_success='Download concluído com sucesso!' - mensagem enquando o arquivo estiver baixando
    */
   aguardarDownload(url, opcoes) {
-    if(this.urlsDeDownloadCorrentes.includes(url)){
+    if (this.urlsDeDownloadCorrentes.includes(url)) {
       return
     }
     this.urlsDeDownloadCorrentes.push(url)
     this.aguardar(async () => {
-      try{
+      try {
         await this.baixarArquivo(url, opcoes?.nomeDoArquivo)
-      }catch (e){
+      } catch (e) {
         throw e
-      }finally {
-        this.urlsDeDownloadCorrentes = this.urlsDeDownloadCorrentes.filter(u=>u!==url)
+      } finally {
+        this.urlsDeDownloadCorrentes = this.urlsDeDownloadCorrentes.filter(u => u !== url)
       }
     }, {
       loading: {
