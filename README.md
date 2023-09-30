@@ -37,6 +37,14 @@ const notificacao = wellNotify.notificar('iiihull, o Wellington mandou bem!','su
 
 notificacao.addEventListener('click',()=>alert('Evento adicional'))
 ```
+* ou use o atalho respectivo para cada tipo de notificação. Ex:
+```js
+// atalho para notificação do tipo success
+wellNotify.success('Ihul, um atalho fácil!')
+
+// atalho para notificação tipo info
+wellNotify.info('Ihul, outro atalho fácil!')
+```
 * se for necessário limpar as notificações use:
 ```js
 // lembre de referir a uma instância criada, ou a padrão ou a que você criar
@@ -45,13 +53,13 @@ myWellNotify.limpar()
 
 
 ## Tipos de notificação:
-são auto explicativos
-* `success`
-* `warning`
-* `error`
-* `info`
-* `default`
-* `loading`
+tipos de notificações e seus respectivos atalhos, dispensam explicação 
+* `success` - `WellNotify.success`
+* `warning` - `WellNotify.warning`
+* `error` - `WellNotify.error`
+* `info` - `WellNotify.info`
+* `default` - `WellNotify.default`
+* `loading` - `WellNotify.loading`
 
 
 ## Funções extras:
