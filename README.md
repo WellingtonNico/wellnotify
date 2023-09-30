@@ -60,52 +60,52 @@ são auto explicativos
 para obter um efeito legal ao executar uma função, é possível indicar que ela começou com a notificação tipo `loading` e a depender da execução da função exibir uma notificação de sucesso ou erro se houver um erro na execução da função. Isso pode ser feito automaticamente com o método `WellNotify.aguardar`. Ex:
 ```js
 const carregarConteudoDaApi = async () => {
-    // seu código asyncrono ou não aqui
-    // caso seja feito um tratamento de erro dentro da função pode se lançar um erro hardcoded para que a notificação seja substituida por uma de erro
-    throw new Error('Erro forçado para funcionar a notificação')
+  // seu código asyncrono ou não aqui
+  // caso seja feito um tratamento de erro dentro da função pode se lançar um erro hardcoded para que a notificação seja substituida por uma de erro
+  throw new Error('Erro forçado para funcionar a notificação')
 }
 
 const carregarConteudoDaApiWrapper = () => {
-    myWellNotify.aguardar(
-        // função a ser executada e aguardada
-        carregarConteudoDaApi,
-        {
-            // obrigatório
-            loading:{
-                conteudo: 'Execução pendente...',
-            },
-            // jeito 1:  opcional - configurações em caso de sucesso
-            success:{
-                conteudo: 'Contúdo carregado com sucesso!',            
-                aoClicar(){
-                    alert('clique feito na notificação de sucesso da pendente')
-                }
-            },
-            // jeito 2:  opcional - pode declarar uma função que irá receber o 
-            //     valor retornado pela função aguardada e deve retornar o dicionário de opções
-            success:(data)=>(
-                {
-                    conteudo: `Requisição concluída, a api retornou ${data.results.length} resultados`,            
-                    aoClicar(){
-                        alert('clique feito na notificação de sucesso da pendente')
-                    }
-                }
-            ),
-            // jeito 1:  opcional - configurações caso houver erro na execução
-            error:{
-                conteudo: 'Não foi possível carregar o conteúdo da api!',            
-                duracao: 10000, // a notificação de erro irá durar 10 segundos
-                aoClicar:()=>alert('clique feito na notificação de erro da pendente')
-            },
-            // jeito 2:  opcional - pode declarar uma função que irá receber o 
-            //     erro retornado pela função aguardada e deve retornar o dicionário de opções
-            error(erro){
-                conteudo: `Não foi possível carregar o conteúdo da api! Erro: ${erro.message}`,            
-                duracao: 10000, // a notificação de erro irá durar 10 segundos
-                aoClicar:()=>alert('clique feito na notificação de erro da pendente')
-            }
+  myWellNotify.aguardar(
+    // função a ser executada e aguardada
+    carregarConteudoDaApi,
+    {
+      // obrigatório
+      loading:{
+        conteudo: 'Execução pendente...',
+      },
+      // jeito 1:  opcional - configurações em caso de sucesso
+      success:{
+        conteudo: 'Contúdo carregado com sucesso!',            
+        aoClicar(){
+          alert('clique feito na notificação de sucesso da pendente')
         }
-    )
+      },
+      // jeito 2:  opcional - pode declarar uma função que irá receber o 
+      //     valor retornado pela função aguardada e deve retornar o dicionário de opções
+      success:(data)=>(
+        {
+          conteudo: `Requisição concluída, a api retornou ${data.results.length} resultados`,            
+          aoClicar(){
+            alert('clique feito na notificação de sucesso da pendente')
+          }
+        }
+      ),
+      // jeito 1:  opcional - configurações caso houver erro na execução
+      error:{
+        conteudo: 'Não foi possível carregar o conteúdo da api!',            
+        duracao: 10000, // a notificação de erro irá durar 10 segundos
+        aoClicar:()=>alert('clique feito na notificação de erro da pendente')
+      },
+      // jeito 2:  opcional - pode declarar uma função que irá receber o 
+      //     erro retornado pela função aguardada e deve retornar o dicionário de opções
+      error(erro){
+        conteudo: `Não foi possível carregar o conteúdo da api! Erro: ${erro.message}`,            
+        duracao: 10000, // a notificação de erro irá durar 10 segundos
+        aoClicar:()=>alert('clique feito na notificação de erro da pendente')
+      }
+    }
+  )
 }
 ```
 
@@ -128,10 +128,10 @@ exemplo no seu código javascript
 myWellNotify.aguardarDownload(
   '<sua url>',
   {
-      nomeDoArquivo:'excel.xlsx',
-      msg_loading:'Fazendo download da planilha...',
-      msg_error:'Não foi possível fazer o download da planilha!',
-      msg_success:'Download da planilha concluído com sucesso!'
+    nomeDoArquivo:'excel.xlsx',
+    msg_loading:'Fazendo download da planilha...',
+    msg_error:'Não foi possível fazer o download da planilha!',
+    msg_success:'Download da planilha concluído com sucesso!'
   }
 )
 ```
@@ -154,32 +154,32 @@ as opções padrão podem ser definidas ao criar a instância ou no terceiro arg
 várias configurações podem ser feitas por variáveis css. Já constam algumas configurações para tema escuro:
 ```css
 .wellnotify-ContainerPosicional {
-    --wellnotify-container-padding: 15px;
-    --wellnotify-max-width:350px;
-    --wellnotify-success-color: #09B30E;
-    --wellnotify-error-color: #E44334;
-    --wellnotify-info-color: #2C8DD6;
-    --wellnotify-warning-color: #EFBC10;
-    --wellnotify-loading-color: #7942AC;
-    --wellnotify-default-color: white;
-    --wellnotify-barra-wrapper-color: #d4d3d2;
-    --wellnotify-text-color: gray;
-    --wellnotify-background-color: white;
-    --wellnotify-botao-fechar-color:black;
-    --wellnotify-border-color:var(--wellnotify-default-color);
-    --wellnotify-icone-color:var(--wellnotify-default-color);
-    --wellnotify-border-width:3px;
-    --wellnotify-border-left-width: var(--wellnotify-border-width);
-    --wellnotify-border-bottom-width: var(--wellnotify-border-width);
+  --wellnotify-container-padding: 15px;
+  --wellnotify-max-width:350px;
+  --wellnotify-success-color: #09B30E;
+  --wellnotify-error-color: #E44334;
+  --wellnotify-info-color: #2C8DD6;
+  --wellnotify-warning-color: #EFBC10;
+  --wellnotify-loading-color: #7942AC;
+  --wellnotify-default-color: white;
+  --wellnotify-barra-wrapper-color: #d4d3d2;
+  --wellnotify-text-color: gray;
+  --wellnotify-background-color: white;
+  --wellnotify-botao-fechar-color:black;
+  --wellnotify-border-color:var(--wellnotify-default-color);
+  --wellnotify-icone-color:var(--wellnotify-default-color);
+  --wellnotify-border-width:3px;
+  --wellnotify-border-left-width: var(--wellnotify-border-width);
+  --wellnotify-border-bottom-width: var(--wellnotify-border-width);
 }
 
 [data-bs-theme='dark'] .wellnotify-ContainerPosicional,    
 [data-theme='dark'] .wellnotify-ContainerPosicional {
-    --wellnotify-text-color: white;
-    --wellnotify-background-color: black;
-    --wellnotify-botao-fechar-color:gray;
-    --wellnotify-barra-wrapper-color: gray;
-    --wellnotify-default-color: white;
+  --wellnotify-text-color: white;
+  --wellnotify-background-color: black;
+  --wellnotify-botao-fechar-color:gray;
+  --wellnotify-barra-wrapper-color: gray;
+  --wellnotify-default-color: white;
 }
 ```
 
@@ -199,24 +199,24 @@ várias configurações podem ser feitas por variáveis css. Já constam algumas
 #### Exemplos de customização de estilo:
 ```css
 .success {
-    /* muda a cor de fundo */
-    --wellnotify-background-color: green;
-    /* muda a cor do texto */
-    --wellnotify-text-color: white;
-    /* muda a cor das bordas(precisa ser !important) */
-    --wellnotify-border-color:red !important;
-    /* muda a cor do ícone se houver(precisa ser !important) */
-    --wellnotify-icone-color:white !important;
+  /* muda a cor de fundo */
+  --wellnotify-background-color: green;
+  /* muda a cor do texto */
+  --wellnotify-text-color: white;
+  /* muda a cor das bordas(precisa ser !important) */
+  --wellnotify-border-color:red !important;
+  /* muda a cor do ícone se houver(precisa ser !important) */
+  --wellnotify-icone-color:white !important;
 }
 .error {
-    /* muda a cor de fundo */
-    --wellnotify-background-color: green;
-    /* muda a cor do texto */
-    --wellnotify-text-color: white;
-    /* muda a cor das bordas(precisa ser !important) */
-    --wellnotify-border-color:red !important;
-    /* muda a cor do ícone se houver(precisa ser !important) */
-    --wellnotify-icone-color:white !important;
+  /* muda a cor de fundo */
+  --wellnotify-background-color: green;
+  /* muda a cor do texto */
+  --wellnotify-text-color: white;
+  /* muda a cor das bordas(precisa ser !important) */
+  --wellnotify-border-color:red !important;
+  /* muda a cor do ícone se houver(precisa ser !important) */
+  --wellnotify-icone-color:white !important;
 }
 ```
 
