@@ -66,7 +66,7 @@ class WellNotify {
     if (styleTag) {
       styleTag.remove();
     }
-    document.head.innerHTML += this.obterRegrasCss()
+    document.head.innerHTML += this.obterStyleTag()
   };
   
   /**
@@ -401,7 +401,7 @@ class WellNotify {
     })
   }
   
-  obterRegrasCss = () => {
+  obterStyleTag = () => {
     const posicao = this.obterPosicao();
     const regraVertical = posicao.startsWith("topo") ? "top: 0;" : "bottom: 0;";
     const regraHorizontal = posicao.endsWith("esquerdo") ? "left: 0;" : "right: 0;";
@@ -562,34 +562,18 @@ class WellNotify {
         }
 
         @keyframes ${this.animacoes.loadingSpin} {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
         }
     
         @keyframes ${this.animacoes.deslizarParaEsquerda}{      
-          from {
-            transform: translate3d(110%, 0, 0);
-            opacity: 0;
-          }
-          to {
-            transform: translate3d(0, 0, 0);
-            opacity:1;
-          }
+          0% { transform: translate3d(110%, 0, 0); }
+          100% { transform: translate3d(0, 0, 0); }
         }
     
         @keyframes ${this.animacoes.deslizarParaDireita}{      
-          from {
-            transform: translate3d(-110%, 0, 0);
-            opacity: 0; 
-          }
-          to {
-            transform: translate3d(0, 0, 0);
-            opacity: 1;
-          }
+          0% { transform: translate3d(-110%, 0, 0); }
+          100% { transform: translate3d(0, 0, 0); }
         }
       </style>`;
   };
