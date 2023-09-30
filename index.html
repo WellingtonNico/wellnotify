@@ -19,7 +19,7 @@
 <body style="height: 100vh">
 
 <script>
-  // WellNotify precisa ser instanciado
+  // WellNotify precisa ser instanciado para demonstração
   let myWellNotify = new WellNotify({posicao: "topo-direito"});
 
   const alterarTema = () => {
@@ -28,7 +28,7 @@
     document.documentElement.setAttribute('data-bs-theme', novoTema)
   }
 
-  const alterarPosicao = (event, posicao) => {
+  const alterarPosicao = (posicao) => {
     myWellNotify.limpar()
     myWellNotify = new WellNotify({posicao});
   }
@@ -39,7 +39,7 @@
 
   let ultimaPromesaSucesso = false
 
-  const promesssaLoading = async () => {
+  const funcaoParaAguardar = async () => {
     await sleep(3000)
     if (ultimaPromesaSucesso) {
       ultimaPromesaSucesso = false
@@ -52,7 +52,7 @@
 
   const examploFuncaoAguardar = () => {
     myWellNotify.aguardar(
-      promesssaLoading,
+      funcaoParaAguardar,
       {
         loading: {
           conteudo: 'Execução pendente, aguarde...',
@@ -177,7 +177,7 @@
 					       type="radio"
 					       name="checkbox_posicao"
 					       id="id_input_radio_topo_esquerdo"
-					       onchange="alterarPosicao(event,'topo-esquerdo')">
+					       onchange="alterarPosicao('topo-esquerdo')">
 					<label for="id_input_radio_topo_esquerdo" class="form-check-label">Topo Esquerdo</label>
 				</div>
 			</div>
@@ -188,7 +188,7 @@
 					       type="radio"
 					       name="checkbox_posicao"
 					       id="id_input_radio_topo_direito"
-					       onchange="alterarPosicao(event,'topo-direito')"
+					       onchange="alterarPosicao('topo-direito')"
 					       checked>
 					<label for="id_input_radio_topo_direito" class="form-check-label">Topo Direito</label>
 				</div>
@@ -200,7 +200,7 @@
 					       type="radio"
 					       name="checkbox_posicao"
 					       id="id_input_radio_fundo_esquerdo"
-					       onchange="alterarPosicao(event,'fundo-esquerdo')">
+					       onchange="alterarPosicao('fundo-esquerdo')">
 					<label for="id_input_radio_fundo_esquerdo" class="form-check-label">Fundo Esquerdo</label>
 				</div>
 			</div>
@@ -211,7 +211,7 @@
 					       type="radio"
 					       name="checkbox_posicao"
 					       id="id_input_radio_fundo_direito"
-					       onchange="alterarPosicao(event,'fundo-direito')">
+					       onchange="alterarPosicao('fundo-direito')">
 					<label for="id_input_radio_fundo_direito" class="form-check-label">Fundo Direito</label>
 				</div>
 			</div>
