@@ -169,7 +169,7 @@ class WellNotify {
    */
   obterAnimacao = (reverse) => {
     const posicao = this.obterPosicao();
-    let animacao = posicao.endsWith("direito") ? "wellnotify-animacao-deslizar-para-esquerda" : "wellnotify-animacao-deslizar-para-direita";
+    let animacao = posicao.endsWith("direito") ? this.animacoes.deslizarParaEsquerda : this.animacoes.deslizarParaDireita;
     animacao += " .3s forwards";
     if (reverse === true) {
       animacao += " reverse";
