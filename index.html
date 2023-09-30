@@ -3,77 +3,77 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
+
 	<!-- wellnotify -->
 	<script src="wellnotify.js"></script>
-	
+
 	<!-- csss bootstrap -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-				rel="stylesheet"
-				integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-				crossorigin="anonymous">
-	
+	      rel="stylesheet"
+	      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+	      crossorigin="anonymous">
+
 	<title>WellNotify - Demo</title>
 
 </head>
 <body style="height: 100vh">
 
 <script>
-	// WellNotify precisa ser instanciado
-	let myWellNotify = new WellNotify({posicao: "topo-direito"});
-	
-	const alterarTema = () => {
-		const temaAtual = document.documentElement.getAttribute('data-bs-theme') ?? 'light'
-		const novoTema = temaAtual === 'light' ? 'dark' : 'light'
-		document.documentElement.setAttribute('data-bs-theme', novoTema)
-	}
-	
-	const alterarPosicao = (event, posicao) => {
-		myWellNotify.limpar()
-		myWellNotify = new WellNotify({posicao});
-	}
-	
-	function sleep(ms) {
-		return new Promise(resolve => setTimeout(resolve, ms));
-	}
-	
-	let ultimaPromesaSucesso = false
-	
-	const promesssaLoading = async () => {
-		await sleep(3000)
-		if (ultimaPromesaSucesso) {
-			ultimaPromesaSucesso = false
-			throw new Error('erro retornado pela função')
-		} else {
-			ultimaPromesaSucesso = true
-			return '33'
-		}
-	}
-	
-	const examploFuncaoAguardar = () => {
-		myWellNotify.aguardar(
-				promesssaLoading,
-				{
-					loading: {
-						conteudo: 'Execução pendente, aguarde...',
-					},
-					success: (valor) => ({
-						conteudo: `Executada com sucesso! A requisição retornou ${valor} resultados.`,
-						duracao: 10000,
-						aoClicar() {
-							alert('clique feito na notificação de sucesso da pendente')
-						}
-					}),
-					error: (erro) => ({
-						conteudo: `Erro: ${erro.message}`,
-						duracao: 7000,
-						aoClicar() {
-							alert('clique feito na notificação de erro da pendente')
-						}
-					})
-				}
-		)
-	}
+  // WellNotify precisa ser instanciado
+  let myWellNotify = new WellNotify({posicao: "topo-direito"});
+
+  const alterarTema = () => {
+    const temaAtual = document.documentElement.getAttribute('data-bs-theme') ?? 'light'
+    const novoTema = temaAtual === 'light' ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-bs-theme', novoTema)
+  }
+
+  const alterarPosicao = (event, posicao) => {
+    myWellNotify.limpar()
+    myWellNotify = new WellNotify({posicao});
+  }
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  let ultimaPromesaSucesso = false
+
+  const promesssaLoading = async () => {
+    await sleep(3000)
+    if (ultimaPromesaSucesso) {
+      ultimaPromesaSucesso = false
+      throw new Error('erro retornado pela função')
+    } else {
+      ultimaPromesaSucesso = true
+      return '33'
+    }
+  }
+
+  const examploFuncaoAguardar = () => {
+    myWellNotify.aguardar(
+      promesssaLoading,
+      {
+        loading: {
+          conteudo: 'Execução pendente, aguarde...',
+        },
+        success: (valor) => ({
+          conteudo: `Executada com sucesso! A requisição retornou ${valor} resultados.`,
+          duracao: 10000,
+          aoClicar() {
+            alert('clique feito na notificação de sucesso da pendente')
+          }
+        }),
+        error: (erro) => ({
+          conteudo: `Erro: ${erro.message}`,
+          duracao: 7000,
+          aoClicar() {
+            alert('clique feito na notificação de erro da pendente')
+          }
+        })
+      }
+    )
+  }
 
 </script>
 
@@ -83,7 +83,7 @@
 		<small class="text-secondary text-center">
 			Lib para notificações toast para quem não usa um framework de frontend tipo React
 		</small>
-		
+
 		<div>
 			<small>
 				<a class="mb-4 mt-2 text-center" href="https://github.com/WellingtonNico/wellnotify">
@@ -92,10 +92,10 @@
 			</small>
 		</div>
 	</div>
-	
+
 	<br>
 	<br>
-	
+
 	<div>
 		<hr class="mb-3 mt-0">
 		<h6 class="text-center">Sobre:</h6>
@@ -110,60 +110,64 @@
 			</small>
 		</div>
 	</div>
-	
+
 	<br>
 	<br>
-	
+
 	<!-- início dos botões para tipos de notificação-->
 	<div>
 		<hr class="mb-3 mt-0">
 		<h6 class="text-center">Tipos de Notificações:</h6>
 		<div class="d-flex flex-wrap gap-2 justify-content-center mt-3">
-			
+
 			<!-- default -->
 			<button class="btn btn-sm btn-secondary"
-							onclick="myWellNotify.notificar('notificação tipo padrão','default')">
+			        onclick="myWellNotify.notificar('notificação tipo padrão','default')">
 				default
 			</button>
-			
+
 			<!-- success-->
 			<button class="btn btn-sm btn-success"
-							onclick="myWellNotify.notificar('auto fechamento sucesso!','success',{autoFechar:true})">
+			        onclick="myWellNotify.notificar('auto fechamento sucesso!','success',{autoFechar:true})">
 				success
 			</button>
-			
+
 			<!-- warning-->
 			<button class="btn btn-sm btn-warning"
-							onclick="myWellNotify.notificar('warning duração de 7 segundos, duracao=7000','warning',{duracao:7000})">
+			        onclick="myWellNotify.notificar('warning duração de 7 segundos, duracao=7000','warning',{duracao:7000})">
 				warning
 			</button>
-			
+
 			<!--	error -->
 			<button class="btn btn-sm btn-danger"
-							onclick="myWellNotify.notificar('erro sem fechamento automático, fecharAoClicar=false, autoFechar=false, precisa pressionar o botão para fechar','error',{autoFechar:false,fecharAoClicar:false})">
+			        onclick="myWellNotify.notificar(
+                'erro sem fechamento automático, fecharAoClicar=false, autoFechar=false, precisa pressionar o botão para fechar',
+                'error',
+                {autoFechar:false,fecharAoClicar:false}
+              )">
 				error
 			</button>
-			
+
 			<!-- info -->
 			<button class="btn  btn-sm btn-primary"
-							onclick="myWellNotify.notificar('info com configurações padrão','info')">
+			        onclick="myWellNotify.notificar('info com configurações padrão','info')">
 				info
 			</button>
-			
+
 			<!-- loading -->
 			<button class="btn btn-sm btn-secondary"
-							style="background-color: var(--bs-purple)"
-							onclick="myWellNotify.notificar('carregando...','loading')">
+			        style="background-color: var(--bs-purple)"
+			        onclick="myWellNotify.notificar('carregando...','loading')">
 				loading
 			</button>
-		
+
 		</div>
 	</div>
-	
+
 	<br>
 	<br>
-	
-	
+
+
 	<div>
 		<hr class="mb-3 mt-0">
 		<h6 class="text-center">Posicionamentos:</h6>
@@ -171,97 +175,104 @@
 			<div class="col col-12 col-sm-6">
 				<div class="form-check form-switch d-flex justify-content-center gap-3">
 					<input class="form-check-input"
-								 type="radio"
-								 name="checkbox_posicao"
-								 onchange="alterarPosicao(event,'topo-esquerdo')">
+					       type="radio"
+					       name="checkbox_posicao"
+					       onchange="alterarPosicao(event,'topo-esquerdo')">
 					<label class="form-check-label">Topo Esquerdo</label>
 				</div>
 			</div>
-			
+
 			<div class="col col-12 col-sm-6">
 				<div class="form-check form-switch d-flex justify-content-center gap-3">
 					<input class="form-check-input"
-								 type="radio"
-								 name="checkbox_posicao"
-								 onchange="alterarPosicao(event,'topo-direito')"
-								 checked>
+					       type="radio"
+					       name="checkbox_posicao"
+					       onchange="alterarPosicao(event,'topo-direito')"
+					       checked>
 					<label class="form-check-label">Topo Direito</label>
 				</div>
 			</div>
-			
+
 			<div class="col col-12 col-sm-6">
 				<div class="form-check form-switch d-flex justify-content-center gap-3">
 					<input class="form-check-input"
-								 type="radio"
-								 name="checkbox_posicao"
-								 onchange="alterarPosicao(event,'fundo-esquerdo')">
+					       type="radio"
+					       name="checkbox_posicao"
+					       onchange="alterarPosicao(event,'fundo-esquerdo')">
 					<label class="form-check-label">Fundo Esquerdo</label>
 				</div>
 			</div>
-			
+
 			<div class="col col-12 col-sm-6">
 				<div class="form-check form-switch d-flex justify-content-center gap-3">
 					<input class="form-check-input"
-								 type="radio"
-								 name="checkbox_posicao"
-								 onchange="alterarPosicao(event,'fundo-direito')">
+					       type="radio"
+					       name="checkbox_posicao"
+					       onchange="alterarPosicao(event,'fundo-direito')">
 					<label class="form-check-label">Fundo Direito</label>
 				</div>
 			</div>
-		
+
 		</div>
-	
+
 	</div>
-	
+
 	<br>
 	<br>
-	
+
 	<!-- início funções extras -->
 	<div>
 		<hr class="mb-3 mt-0">
 		<h6 class="text-center">Funções Extras/Exemplos:</h6>
 		<div class="d-flex flex-wrap gap-2 justify-content-center mt-3">
-			
+
 			<!-- evento ao clicar-->
 			<button class="btn btn-dark btn-sm border border-1 border-light"
-							data-bs-toggle="tooltip"
-							title="pode adicionar um evento customizado quando o usuário clicar na função, pode customizar usando html"
-							onclick="myWellNotify.notificar(`<span>clique <b class='text-primary'>aqui</b> para limpar as notificações</span>`,'default',{aoClicar(){myWellNotify.limpar()}})">
+			        data-bs-toggle="tooltip"
+			        title="pode adicionar um evento customizado quando o usuário clicar na função, pode customizar usando html"
+			        onclick="myWellNotify.notificar(
+                `<span>clique <b class='text-primary'>aqui</b> para limpar as notificações</span>`,
+                'default',
+                {aoClicar(){myWellNotify.limpar()}}
+              )">
 				evento ao clicar
 			</button>
-			
+
 			<!-- função aguardar -->
 			<button class="btn btn-sm" style="color:var(--bs-purple);border-color: var(--bs-purple)"
-							data-bs-toggle="tooltip"
-							title="aguarda a execução de uma função qualquer, atualizando a notificação a depender do resultado da função aguardada"
-							onclick="examploFuncaoAguardar()">
+			        data-bs-toggle="tooltip"
+			        title="aguarda a execução de uma função qualquer, atualizando a notificação a depender do resultado da função aguardada"
+			        onclick="examploFuncaoAguardar()">
 				WellNotify.aguardar
 			</button>
-			
+
 			<!-- aguardar download-->
 			<button
 					data-bs-toggle="tooltip"
 					title="função empacotada para facilitar downloads com feedback, basta informar a url de download"
 					class="btn btn-sm" style="color:var(--bs-purple);border-color: var(--bs-purple)"
-					onclick="myWellNotify.aguardarDownload('https://wellingtonnico.github.io/wellnotify/wellnotify.js',{nomeDoArquivo:'wellnotify.js'})">
+					onclick="myWellNotify.aguardarDownload(
+             'https://wellingtonnico.github.io/wellnotify/wellnotify.js',
+             {nomeDoArquivo:'wellnotify.js'}
+          )">
 				WellNotify.aguardarDownload
 			</button>
-			
+
 			<!-- limpar -->
 			<button class="btn btn-light btn-sm border border-1 border-dark"
-							data-bs-toggle="tooltip"
-							title="limpa as notificações visíveis"
-							onclick="myWellNotify.limpar()">
+			        data-bs-toggle="tooltip"
+			        title="limpa as notificações visíveis"
+			        onclick="myWellNotify.limpar()">
 				WellNotify.limpar
 			</button>
-		
+
 		</div>
 		<!-- fim funções extras -->
-		
+
 		<br>
 		<br>
-		
-		
+
+
 		<div class="text-center">
 			<hr class="mb-3 mt-0">
 			<h6>Temas:</h6>
@@ -269,27 +280,27 @@
 			<div class="d-flex justify-content-center">
 				<!-- botão para alterar tema -->
 				<button onclick="alterarTema()"
-								class="btn btn-sm btn-secondary .BotaoAlterarTema">Alterar Tema
+				        class="btn btn-sm btn-secondary .BotaoAlterarTema">Alterar Tema
 				</button>
 			</div>
 		</div>
 	</div>
-	
-	
+
+
 	<!-- checkboxes para alterar posicionamento -->
 
 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-				integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-				crossorigin="anonymous"></script>
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
 
 <script>
-	document.addEventListener('DOMContentLoaded', () => {
-		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-	})
+  document.addEventListener('DOMContentLoaded', () => {
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+  })
 </script>
 </body>
 </html>
