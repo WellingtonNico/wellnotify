@@ -97,7 +97,7 @@ class WellNotifyHTMX {
   }
 
   beforeRequest(event, wellNotifyInstance) {
-    const target = event.detail.elt;
+    const target = event.detail.requestConfig.elt;
     const msgBeforeRequest = target.getAttribute(
       this.htmxWellNotifyAtributos.beforeRequest
     );
@@ -111,7 +111,7 @@ class WellNotifyHTMX {
   }
 
   afterRequest(event, wellNotifyInstance) {
-    const target = event.detail.elt;
+    const target = event.detail.requestConfig.elt;
     const msgAfterRequestSuccess = target.getAttribute(
       this.htmxWellNotifyAtributos.afterRequestSuccess
     );
@@ -121,12 +121,12 @@ class WellNotifyHTMX {
     const idNotificacao = target.getAttribute(
       this.htmxWellNotifyAtributos.notificacaoId
     );
-    if (event.detail.success && msgAfterRequestSuccess) {
+    if (event.detail.successful && msgAfterRequestSuccess) {
       wellNotifyInstance.success(msgAfterRequestSuccess, {
         id: idNotificacao,
         atualizarNotificacao: Boolean(idNotificacao),
       });
-    } else if (!event.detail.success && msgAfterRequestFail) {
+    } else if (!event.detail.successful && msgAfterRequestFail) {
       wellNotifyInstance.error(msgAfterRequestFail, {
         id: idNotificacao,
         atualizarNotificacao: Boolean(idNotificacao),
@@ -147,7 +147,7 @@ class WellNotifyHTMX {
     if (msgFormValid) {
       wellNotifyInstance.success(msgFormValid, {
         id: idNotificacao,
-        atualizarNotificacao: idNotificacao !== undefined,
+        atualizarNotificacao: Boolean(idNotificacao !== undefined),
       });
     }
   }
