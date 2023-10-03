@@ -121,6 +121,10 @@ class WellNotifyHTMX {
     const idNotificacao = target.getAttribute(
       this.htmxWellNotifyAtributos.notificacaoId
     );
+
+    const possuiMensagensForm =
+      this.htmxWellNotifyAtributos.formValid in target.attributes ||
+      this.htmxWellNotifyAtributos.formInvalid in target.attributes;
     if (event.detail.successful && msgAfterRequestSuccess) {
       wellNotifyInstance.success(msgAfterRequestSuccess, {
         id: idNotificacao,
@@ -131,7 +135,7 @@ class WellNotifyHTMX {
         id: idNotificacao,
         atualizarNotificacao: Boolean(idNotificacao),
       });
-    } else if (idNotificacao) {
+    } else if (idNotificacao && !possuiMensagensForm) {
       wellNotifyInstance.removerNotificacao(idNotificacao);
     }
   }
