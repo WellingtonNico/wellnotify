@@ -1,3 +1,30 @@
+/**
+ *
+ *      WellNotifyHTMX
+ *
+ *      lib pronta para ouvir eventos do htmx
+ *
+ *      a lib vem pronta para notificar formulários com ou sem erros
+ *      ouvindo eventos htmx:formValid e htmx:formInvalid
+ *      basta adicionar alguns atributos ao seu formulário com htmx:
+ *      "hx-wellnotify-form-valid" - opcional
+ *      "hx-wellnotify-form-invalid" - opcional
+ *
+ *      atributos para formulários ou outros elementos:
+ *      "hx-wellnotify-notificacao-id" - opcional
+ *      "hx-wellnotify-before-request" - opcional, exibe notificação do tipo loading
+ *      "hx-wellnotify-after-request-success" - opcional
+ *      "hx-wellnotify-after-request-error" - opcional
+ *
+ *      também já está pronta para ouver eventos vindos dos headers da response(HX-Trigger)
+ *      "htmx:WellNotifySuccess" - autoexplicativo
+ *      "htmx:WellNotifyError" - autoexplicativo
+ *      "htmx:WellNotifyInfo" - autoexplicativo
+ *      "htmx:WellNotifyWarning" - autoexplicativo
+ *      "htmx:WellNotifyNotificar" - autoexplicativo
+ *
+ */
+
 class WellNotifyHTMX {
   eventos = {
     WellNotifySuccess: "htmx:WellNotifySuccess",
@@ -151,7 +178,7 @@ class WellNotifyHTMX {
     if (msgFormValid) {
       wellNotifyInstance.success(msgFormValid, {
         id: idNotificacao,
-        atualizarNotificacao: Boolean(idNotificacao !== undefined),
+        atualizarNotificacao: Boolean(idNotificacao),
       });
     }
   }
