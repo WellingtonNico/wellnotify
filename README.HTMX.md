@@ -24,7 +24,7 @@ com isso você pode usar alguns atributos extras nos seus elementos com htmx. Ex
 ```html
 <form hx-post="<sua url>"
       hx-swap="outerHTML"
-      hx-wellnotify-before-request="Aguarde enquando validamos o formulário..."
+      hx-wellnotify-loading-request="Aguarde enquando validamos o formulário..."
       hx-wellnotify-after-request-error="Não foi possível completar a requisição"
       hx-wellnotify-form-invalid="Não foi possível salvar o formulário"
       hx-wellnotify-form-valid="Formulário salvo com sucesso!"
@@ -37,7 +37,7 @@ com isso você pode usar alguns atributos extras nos seus elementos com htmx. Ex
 ```
 
 ## Explicando atributos HTMX extras:
-* `hx-wellnotify-before-request`: disparada antes da requisição começar, esta notificação será substituida pela próxima disparada;
+* `hx-wellnotify-loading-request`: disparada antes da requisição começar, esta notificação será substituida pela próxima disparada;
 * `hx-wellnotify-after-request-error`: disparada se o código de retorno for maior ou igual a 400;
 * `hx-wellnotify-after-request-success`: disparada se houver sucesso na requisição, não recomendado uso com `hx-wellnotify-form-valid`;
 * `hx-wellnotify-form-valid`: diparada ao receber o evento `htmx:formValid`, vindo pelo header `HX-Trigger` na response;

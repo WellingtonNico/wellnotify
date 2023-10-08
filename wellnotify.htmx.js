@@ -11,7 +11,7 @@
  *      "hx-wellnotify-form-invalid" - opcional
  *
  *      atributos para formulários ou outros elementos:
- *      "hx-wellnotify-before-request" - opcional, exibe notificação do tipo loading
+ *      "hx-wellnotify-loading-request" - opcional, exibe notificação do tipo loading
  *      "hx-wellnotify-after-request-success" - opcional
  *      "hx-wellnotify-after-request-error" - opcional
  *
