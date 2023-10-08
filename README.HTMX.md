@@ -67,7 +67,7 @@ todos autoexplicativos:
 * `htmx:WellNotifyError`
 * `htmx:WellNotifyInfo`
 * `htmx:WellNotifyWarning`
-* `htmx:WellNotifyNotificar`
+* `htmx:WellNotifyDefault`
 
 #### Como usar?
 
@@ -83,7 +83,8 @@ class MyFormView(UpdateView):
             'htmx:WellNotifySuccess':[
                 'notificação de sucesso 1',
                 'notificação de sucesso 2',
-            ]
+            ],
+            'htmx:formValid':True
         })
         return response    
         

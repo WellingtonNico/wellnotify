@@ -11,7 +11,6 @@
  *      "hx-wellnotify-form-invalid" - opcional
  *
  *      atributos para formulários ou outros elementos:
- *      "hx-wellnotify-notificacao-id" - opcional
  *      "hx-wellnotify-before-request" - opcional, exibe notificação do tipo loading
  *      "hx-wellnotify-after-request-success" - opcional
  *      "hx-wellnotify-after-request-error" - opcional
@@ -21,7 +20,7 @@
  *      "htmx:WellNotifyError" - autoexplicativo
  *      "htmx:WellNotifyInfo" - autoexplicativo
  *      "htmx:WellNotifyWarning" - autoexplicativo
- *      "htmx:WellNotifyNotificar" - autoexplicativo
+ *      "htmx:WellNotifyDefault" - autoexplicativo
  *
  */
 
@@ -31,7 +30,7 @@ class WellNotifyHTMX {
     WellNotifyError: "htmx:WellNotifyError",
     WellNotifyInfo: "htmx:WellNotifyInfo",
     WellNotifyWarning: "htmx:WellNotifyWarning",
-    WellNotifyNotificar: "htmx:WellNotifyNotificar",
+    WellNotifyDefault: "htmx:WellNotifyDefault",
   };
 
   htmxEventos = {
@@ -43,7 +42,7 @@ class WellNotifyHTMX {
 
   htmxWellNotifyAtributos = {
     notificacaoId: "hx-wellnotify-notificacao-id",
-    beforeRequest: "hx-wellnotify-before-request",
+    loadingRequest: "hx-wellnotify-loading-request",
     afterRequestSuccess: "hx-wellnotify-after-request-success",
     afterRequestError: "hx-wellnotify-after-request-error",
     formValid: "hx-wellnotify-form-valid",
@@ -55,10 +54,14 @@ class WellNotifyHTMX {
    */
   constructor(wellNotifyInstance) {
     // permite as notificações pelos headers do htmx
-    document.addEventListener(this.eventos.WellNotifyNotificar, (e) =>
-      this.wellNotifyNotificar(e, wellNotifyInstance)
-    );
 
+    document.addEventListener(this.eventos.WellNotifyDefault, (event) => {
+      this.dispararNotificacoes(
+        event.detail.value,
+        "default",
+        wellNotifyInstance
+      );
+    });
     document.addEventListener(this.eventos.WellNotifySuccess, (event) => {
       this.dispararNotificacoes(
         event.detail.value,
@@ -115,18 +118,10 @@ class WellNotifyHTMX {
     }
   }
 
-  wellNotifyNotificar(event, wellNotifyInstance) {
-    wellNotifyInstance.notificar(
-      event.detail.conteudo,
-      event.detail.tipo,
-      event.detail.opcoes
-    );
-  }
-
   beforeRequest(event, wellNotifyInstance) {
     const target = event.detail.requestConfig.elt;
     const msgBeforeRequest = target.getAttribute(
-      this.htmxWellNotifyAtributos.beforeRequest
+      this.htmxWellNotifyAtributos.loadingRequest
     );
     if (msgBeforeRequest) {
       const notificacao = wellNotifyInstance.loading(msgBeforeRequest);
