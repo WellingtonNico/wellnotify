@@ -147,12 +147,20 @@ class WellNotifyHTMX {
     const possuiMensagensForm =
       this.htmxWellNotifyAtributos.formValid in target.attributes ||
       this.htmxWellNotifyAtributos.formInvalid in target.attributes;
-    if (event.detail.successful && msgAfterRequestSuccess) {
+    if (
+      event.detail.successful &&
+      !event.detail.isError &&
+      msgAfterRequestSuccess
+    ) {
       wellNotifyInstance.success(msgAfterRequestSuccess, {
         id: idNotificacao,
         atualizarNotificacao: Boolean(idNotificacao),
       });
-    } else if (!event.detail.successful && msgAfterRequestFail) {
+    } else if (
+      !event.detail.successful &&
+      event.detail.isError &&
+      msgAfterRequestFail
+    ) {
       wellNotifyInstance.error(msgAfterRequestFail, {
         id: idNotificacao,
         atualizarNotificacao: Boolean(idNotificacao),
