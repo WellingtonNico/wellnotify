@@ -158,7 +158,7 @@ class WellNotifyHTMX {
       });
     } else if (
       !event.detail.successful &&
-      event.detail.isError &&
+      (event.detail.isError || event.detail.failed) &&
       msgAfterRequestFail
     ) {
       wellNotifyInstance.error(msgAfterRequestFail, {
