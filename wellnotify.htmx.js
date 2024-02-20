@@ -38,6 +38,7 @@ class WellNotifyHTMX {
     afterRequest: "htmx:afterRequest",
     formValid: "htmx:formValid",
     formInvalid: "htmx:formInvalid",
+    newTab: "htmx:newTab",
   };
 
   htmxWellNotifyAtributos = {
@@ -83,8 +84,8 @@ class WellNotifyHTMX {
         wellNotifyInstance
       );
     });
-    document.addEventListener(this.eventos.WellNotifyInfo, (event) => {
-      this.dispararNotificacoes(event.detail.value, "info", wellNotifyInstance);
+    document.addEventListener(this.eventos.WellNotifyInfo, (e) => {
+      this.dispararNotificacoes(e.detail.value, "info", wellNotifyInstance);
     });
     // permite as notificações pelos headers do htmx
 
@@ -100,6 +101,9 @@ class WellNotifyHTMX {
     document.addEventListener(this.htmxEventos.formInvalid, (e) =>
       this.formInvalid(e, wellNotifyInstance)
     );
+    document.addEventListener(this.eventos.newTab, (e) => {
+      window.open(e.detail.value, "_blank");
+    });
   }
 
   /**
