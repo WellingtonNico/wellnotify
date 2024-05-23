@@ -5,7 +5,7 @@
  *      GitHub: https://github.com/WellingtonNico/wellnotify
  *      Demo: https://wellingtonnico.github.io/wellnotify/
  *
- *      v 1.1.5
+ *      v 1.1.6
  *
  *      ex:
  *      const myWellNotify = new WellNotify()
@@ -411,11 +411,13 @@ class WellNotify {
    */
   async baixarArquivo(url, nomeDoArquivo) {
     function getFilenameFromHeaders(headers) {
-      const contentDisposition = headers.get("content-disposition");
-      if (contentDisposition) {
-        const matches = /filename="([^"]+)"/.exec(contentDisposition);
-        if (matches && matches.length > 1) {
-          return matches[1];
+      const infos = (headers.get("content-disposition") || "").split(";");
+      for (const info of infos) {
+        if (info.trim().startsWith("filename")) {
+          const filename = info.split("=")[1];
+          if (filename) {
+            return filename;
+          }
         }
       }
       return null;
