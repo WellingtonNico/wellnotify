@@ -44,9 +44,9 @@ class WellNotify {
 
   /**
    * @typedef {Object} ConfigsAguardar
-   * @property {ConfigAguardar & WellNotifyOpcoes | string} loading - configurações da notificação loading
-   * @property {ConfigAguardar & WellNotifyOpcoes | function(any):ConfigAguardar & WellNotifyOpcoes | string} success - configurações da notificação success, pode ser um dicionário ou uma função receberá o retorno da função aguardada
-   * @property {ConfigAguardar & WellNotifyOpcoes | function(Error):ConfigAguardar & WellNotifyOpcoes | string} error - configurações da notificação error, pode ser um dicionário ou uma função que recebe o erro da função aguardada
+   * @property {(ConfigAguardar & WellNotifyOpcoes) | string } loading - configurações da notificação loading
+   * @property {(ConfigAguardar & WellNotifyOpcoes) | function(any):((ConfigAguardar & WellNotifyOpcoes) | string) | string} success - configurações da notificação success, pode ser um dicionário ou uma função receberá o retorno da função aguardada
+   * @property {(ConfigAguardar & WellNotifyOpcoes) | function(Error):((ConfigAguardar & WellNotifyOpcoes) | string) | string} error - configurações da notificação error, pode ser um dicionário ou uma função que recebe o erro da função aguardada
    */
 
   /**
@@ -797,3 +797,4 @@ class WellNotify {
 }
 
 const wellNotify = new WellNotify({ posicao: "topo-direito" });
+
