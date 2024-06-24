@@ -5,7 +5,7 @@
  *      GitHub: https://github.com/WellingtonNico/wellnotify
  *      Demo: https://wellingtonnico.github.io/wellnotify/
  *
- *      v 1.1.7
+ *      v 1.1.8
  *
  *      ex:
  *      const myWellNotify = new WellNotify()
@@ -44,9 +44,9 @@ class WellNotify {
 
   /**
    * @typedef {Object} ConfigsAguardar
-   * @property {ConfigAguardar & WellNotifyOpcoes} loading - configurações da notificação loading
-   * @property {ConfigAguardar & WellNotifyOpcoes | function(any):ConfigAguardar & WellNotifyOpcoes} success - configurações da notificação success, pode ser um dicionário ou uma função receberá o retorno da função aguardada
-   * @property {ConfigAguardar & WellNotifyOpcoes | function(Error):ConfigAguardar & WellNotifyOpcoes} error - configurações da notificação error, pode ser um dicionário ou uma função que recebe o erro da função aguardada
+   * @property {ConfigAguardar & WellNotifyOpcoes | string} loading - configurações da notificação loading
+   * @property {ConfigAguardar & WellNotifyOpcoes | function(any):ConfigAguardar & WellNotifyOpcoes | string} success - configurações da notificação success, pode ser um dicionário ou uma função receberá o retorno da função aguardada
+   * @property {ConfigAguardar & WellNotifyOpcoes | function(Error):ConfigAguardar & WellNotifyOpcoes | string} error - configurações da notificação error, pode ser um dicionário ou uma função que recebe o erro da função aguardada
    */
 
   /**
@@ -199,7 +199,7 @@ class WellNotify {
 
   /**
    * gera o elemento da notificação
-   * @param {any} conteudo - conteúdo da notificação, pode ser html em formato string
+   * @param {string} conteudo - conteúdo da notificação, pode ser html em formato string
    * @param {WellNotifyTipo} [tipo='default'] - tipo da notificação
    * @param {WellNotifyOpcoes} opcoes - opções
    * @returns {HTMLDivElement} - elemento da notificaão gerada
@@ -301,7 +301,7 @@ class WellNotify {
 
   /**
    * cria a notificação toast
-   * @param {any} conteudo - conteúdo da notificação, pode ser html em formato string
+   * @param {string} conteudo - conteúdo da notificação, pode ser html em formato string
    * @param {WellNotifyTipo} [tipo='default'] - tipo da notificação
    * @param {WellNotifyOpcoes?} opcoes - opções
    * @returns {HTMLDivElement} - elemento da notificação criada
@@ -358,39 +358,72 @@ class WellNotify {
         "WellNotify: o primeiro argumento da função aguardar deve ser uma função, podendo ser async."
       );
     }
-    let notificacao = this.notificar(
-      configuracoes.loading.conteudo,
-      "loading",
-      configuracoes.loading
-    );
+    let notificacao;
+    if (typeof configuracoes.loading === "string") {
+      notificacao = this.notificar(configuracoes.loading, "loading");
+    } else {
+      notificacao = this.notificar(
+        configuracoes.loading.conteudo,
+        "loading",
+        configuracoes.loading
+      );
+    }
     try {
       try {
-        const resultado = await funcao();
+        const resultado_da_funcao = await funcao();
         if ("success" in configuracoes) {
-          const opcoes =
-            typeof configuracoes.success === "function"
-              ? configuracoes.success(resultado)
-              : configuracoes.success;
-          notificacao = this.notificar(opcoes.conteudo, "success", {
-            ...opcoes,
-            id: notificacao.id,
-            atualizarNotificacao: true,
-          });
+          if (typeof configuracoes.success === "string") {
+            notificacao = this.notificar(configuracoes.success, "success", {
+              id: notificacao.id,
+              atualizarNotificacao: true,
+            });
+          } else {
+            const resultado =
+              typeof configuracoes.success === "function"
+                ? configuracoes.success(resultado_da_funcao)
+                : configuracoes.success;
+            if (typeof resultado === "string") {
+              notificacao = this.notificar(resultado, "success", {
+                id: notificacao.id,
+                atualizarNotificacao: true,
+              });
+            } else {
+              notificacao = this.notificar(resultado.conteudo, "success", {
+                ...resultado,
+                id: notificacao.id,
+                atualizarNotificacao: true,
+              });
+            }
+          }
         } else {
           this.removerNotificacao(notificacao);
           console.log("WellNotify: configurações de sucesso não informadas");
         }
       } catch (erro) {
         if ("error" in configuracoes) {
-          const opcoes =
-            typeof configuracoes.error === "function"
-              ? configuracoes.error(erro)
-              : configuracoes.error;
-          this.notificar(opcoes.conteudo, "error", {
-            ...opcoes,
-            id: notificacao.id,
-            atualizarNotificacao: true,
-          });
+          if (typeof configuracoes.error === "string") {
+            this.notificar(configuracoes.error, "error", {
+              id: notificacao.id,
+              atualizarNotificacao: true,
+            });
+          } else {
+            const resultado =
+              typeof configuracoes.error === "function"
+                ? configuracoes.error(erro)
+                : configuracoes.error;
+            if (typeof resultado === "string") {
+              this.notificar(resultado, "error", {
+                id: notificacao.id,
+                atualizarNotificacao: true,
+              });
+            } else {
+              this.notificar(resultado.conteudo, "error", {
+                ...resultado,
+                id: notificacao.id,
+                atualizarNotificacao: true,
+              });
+            }
+          }
         } else {
           this.removerNotificacao(notificacao);
           console.log("WellNotify: configurações de error não informadas");
@@ -444,12 +477,12 @@ class WellNotify {
 
   /**
    *  @param {string} url - url de download do arquivo
-   *  @param {Object} opcoes
-   *  @param {string} opcoes.nomeDoArquivo - nome do arquivo opcional
-   *  @param {number} opcoes.duracao - duração em milisegundos para notificações de erro ou sucesso, se não informada será usada a padrão
-   *  @param {string} opcoes.msg_loading='Fazendo download, aguarde...' - mensagem enquando o arquivo estiver baixando
-   *  @param {string} opcoes.msg_error='Não foi possível concluir o download!' - mensagem se houver erro no download
-   *  @param {string} opcoes.msg_success='Download concluído com sucesso!' - mensagem enquando o arquivo estiver baixando
+   *  @param {Object} resultado
+   *  @param {string} resultado.nomeDoArquivo - nome do arquivo opcional
+   *  @param {number} resultado.duracao - duração em milisegundos para notificações de erro ou sucesso, se não informada será usada a padrão
+   *  @param {string} resultado.msg_loading='Fazendo download, aguarde...' - mensagem enquando o arquivo estiver baixando
+   *  @param {string} resultado.msg_error='Não foi possível concluir o download!' - mensagem se houver erro no download
+   *  @param {string} resultado.msg_success='Download concluído com sucesso!' - mensagem enquando o arquivo estiver baixando
    */
   aguardarDownload(url, opcoes) {
     if (this.urlsDeDownloadCorrentes.includes(url)) {

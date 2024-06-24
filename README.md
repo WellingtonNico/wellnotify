@@ -83,9 +83,12 @@ const carregarConteudoDaApiWrapper = () => {
     carregarConteudoDaApi,
     {
       // obrigatório
+      /// jeito 1
       loading:{
         conteudo: 'Execução pendente...',
       },
+      /// jeito 2
+      loading: 'Execução pendente...',
       // jeito 1:  opcional - configurações em caso de sucesso
       success:{
         conteudo: 'Contúdo carregado com sucesso!',            
@@ -116,9 +119,11 @@ const carregarConteudoDaApiWrapper = () => {
         if(erro.response?.data?.detail){
           msg += ` Detalhes: ${erro.response.data.detail}`
         }
-        conteudo,            
-        duracao: 10000, // a notificação de erro irá durar 10 segundos
-        aoClicar:()=>alert('clique feito na notificação de erro da pendente')
+        return {
+          conteudo,            
+          duracao: 10000, // a notificação de erro irá durar 10 segundos
+          aoClicar:()=>alert('clique feito na notificação de erro da pendente')
+        }
       }
     }
   )
