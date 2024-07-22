@@ -5,7 +5,7 @@
  *      GitHub: https://github.com/WellingtonNico/wellnotify
  *      Demo: https://wellingtonnico.github.io/wellnotify/
  *
- *      v 1.1.8
+ *      v 1.1.9
  *
  *      ex:
  *      const myWellNotify = new WellNotify()
@@ -477,12 +477,12 @@ class WellNotify {
 
   /**
    *  @param {string} url - url de download do arquivo
-   *  @param {Object} resultado
-   *  @param {string} resultado.nomeDoArquivo - nome do arquivo opcional
-   *  @param {number} resultado.duracao - duração em milisegundos para notificações de erro ou sucesso, se não informada será usada a padrão
-   *  @param {string} resultado.msg_loading='Fazendo download, aguarde...' - mensagem enquando o arquivo estiver baixando
-   *  @param {string} resultado.msg_error='Não foi possível concluir o download!' - mensagem se houver erro no download
-   *  @param {string} resultado.msg_success='Download concluído com sucesso!' - mensagem enquando o arquivo estiver baixando
+   *  @param {Object} opcoes
+   *  @param {string} opcoes.nomeDoArquivo - nome do arquivo opcional
+   *  @param {number} opcoes.duracao - duração em milisegundos para notificações de erro ou sucesso, se não informada será usada a padrão
+   *  @param {string} opcoes.msg_loading='Fazendo download, aguarde...' - mensagem enquando o arquivo estiver baixando
+   *  @param {string} opcoes.msg_error='Não foi possível concluir o download!' - mensagem se houver erro no download
+   *  @param {string} opcoes.msg_success='Download concluído com sucesso!' - mensagem enquando o arquivo estiver baixando
    */
   aguardarDownload(url, opcoes) {
     if (this.urlsDeDownloadCorrentes.includes(url)) {
@@ -797,4 +797,3 @@ class WellNotify {
 }
 
 const wellNotify = new WellNotify({ posicao: "topo-direito" });
-
