@@ -5,7 +5,7 @@
  *      GitHub: https://github.com/WellingtonNico/wellnotify
  *      Demo: https://wellingtonnico.github.io/wellnotify/
  *
- *      v 1.1.9
+ *      v 1.1.10
  *
  *      ex:
  *      const myWellNotify = new WellNotify()
@@ -58,7 +58,7 @@ class WellNotify {
   }
 
   const;
-  idStyleTag = "id_wellnotify_style";
+  idStyleTag = 'id_wellnotify_style';
   urlsDeDownloadCorrentes = [];
 
   adicionarEstilo = () => {
@@ -76,10 +76,10 @@ class WellNotify {
    */
   removerNotificacao = (notificacao) => {
     let notificacaoElement = notificacao;
-    if (typeof notificacao === "string") {
+    if (typeof notificacao === 'string') {
       notificacaoElement = document.getElementById(notificacao);
     }
-    notificacaoElement.style.animation = "none";
+    notificacaoElement.style.animation = 'none';
     setTimeout(
       () => (notificacaoElement.style.animation = this.obterAnimacao(true)),
       20
@@ -114,8 +114,8 @@ class WellNotify {
     );
     let inicio = new Date().getTime();
     let hover = false;
-    notificacao.addEventListener("mouseenter", () => (hover = true));
-    notificacao.addEventListener("mouseleave", () => (hover = false));
+    notificacao.addEventListener('mouseenter', () => (hover = true));
+    notificacao.addEventListener('mouseleave', () => (hover = false));
     let ultimoInicioHover = null;
 
     const _atualizar = () => {
@@ -135,7 +135,7 @@ class WellNotify {
         return;
       } else if (!hover) {
         const porcentagem = 100 - (diferenca * 100) / duracao;
-        barraDeProgresso.style.width = String(porcentagem) + "%";
+        barraDeProgresso.style.width = String(porcentagem) + '%';
       } else if (ultimoInicioHover === null) {
         ultimoInicioHover = agora;
       }
@@ -155,7 +155,7 @@ class WellNotify {
     let containerNotificacao = document.getElementById(idContainerNotificacao);
 
     if (!document.contains(containerNotificacao)) {
-      containerNotificacao = document.createElement("div");
+      containerNotificacao = document.createElement('div');
       containerNotificacao.classList.add(this.cssClasses.containerPosicional);
       containerNotificacao.id = idContainerNotificacao;
       document.body.appendChild(containerNotificacao);
@@ -166,13 +166,13 @@ class WellNotify {
   /** retorna a posição configurada ou padrão */
   obterPosicao = () => {
     const posicao =
-      this.props?.posicao !== undefined ? this.props.posicao : "topo-direito";
+      this.props?.posicao !== undefined ? this.props.posicao : 'topo-direito';
     if (
       ![
-        "topo-direito",
-        "topo-esquerdo",
-        "fundo-direito",
-        "fundo-esquerdo",
+        'topo-direito',
+        'topo-esquerdo',
+        'fundo-direito',
+        'fundo-esquerdo',
       ].includes(posicao)
     ) {
       throw new Error(
@@ -187,12 +187,12 @@ class WellNotify {
    */
   obterAnimacao = (reverse) => {
     const posicao = this.obterPosicao();
-    let animacao = posicao.endsWith("direito")
+    let animacao = posicao.endsWith('direito')
       ? this.animacoes.deslizarParaEsquerda
       : this.animacoes.deslizarParaDireita;
-    animacao += " .3s forwards";
+    animacao += ' .3s forwards';
     if (reverse === true) {
-      animacao += " reverse";
+      animacao += ' reverse';
     }
     return animacao;
   };
@@ -207,15 +207,15 @@ class WellNotify {
   gerarNotificacao = (conteudo, tipo, opcoes) => {
     if (!conteudo) {
       throw new Error(
-        "WellNotify: Não é possível gerar uma notificação sem conteúdo"
+        'WellNotify: Não é possível gerar uma notificação sem conteúdo'
       );
     }
     if (!tipo) {
-      tipo = "default";
+      tipo = 'default';
     }
     if (
       tipo &&
-      !["success", "info", "error", "warning", "default", "loading"].includes(
+      !['success', 'info', 'error', 'warning', 'default', 'loading'].includes(
         tipo
       )
     ) {
@@ -225,10 +225,10 @@ class WellNotify {
       opcoes?.id !== undefined
         ? String(opcoes.id)
         : `id_wellnotify_${new Date().getTime()}`;
-    const novaNotificacao = document.createElement("div");
+    const novaNotificacao = document.createElement('div');
     novaNotificacao.id = idNotificacao;
     novaNotificacao.classList.add(this.cssClasses.containerWrapper);
-    novaNotificacao.classList.add(String(tipo ?? "").toLowerCase());
+    novaNotificacao.classList.add(String(tipo ?? '').toLowerCase());
     const fecharAoClicar =
       opcoes?.fecharAoClicar !== undefined
         ? opcoes.fecharAoClicar
@@ -239,12 +239,12 @@ class WellNotify {
     const funcaoRemover = () => this.removerNotificacao(novaNotificacao);
     novaNotificacao.remove = funcaoRemover;
 
-    if (fecharAoClicar && tipo !== "loading") {
-      novaNotificacao.addEventListener("click", funcaoRemover);
+    if (fecharAoClicar && tipo !== 'loading') {
+      novaNotificacao.addEventListener('click', funcaoRemover);
     }
 
     if (opcoes?.aoClicar) {
-      novaNotificacao.addEventListener("click", () =>
+      novaNotificacao.addEventListener('click', () =>
         opcoes.aoClicar(novaNotificacao)
       );
     }
@@ -256,7 +256,7 @@ class WellNotify {
       `;
 
     const htmlBotaoFechar =
-      tipo !== "loading"
+      tipo !== 'loading'
         ? `
       <!-- botão fechar -->
       <div class="${this.cssClasses.botaoFecharWrapper}">
@@ -265,7 +265,7 @@ class WellNotify {
         </span>
       </div>    
     `
-        : "";
+        : '';
 
     novaNotificacao.innerHTML = `  
       <div class="${this.cssClasses.container}">
@@ -273,7 +273,7 @@ class WellNotify {
         <!-- ícone se houver -->
         <div class="${this.cssClasses.iconeWrapper}">
           <span class="${this.cssClasses.icone}">
-            ${this.icones[tipo] ?? ""}            
+            ${this.icones[tipo] ?? ''}            
           </span>
         </div>
 
@@ -292,7 +292,7 @@ class WellNotify {
       `.${this.cssClasses.botaoFechar}`
     );
     if (botaoFechar) {
-      botaoFechar.addEventListener("click", () =>
+      botaoFechar.addEventListener('click', () =>
         this.removerNotificacao(novaNotificacao)
       );
     }
@@ -311,23 +311,23 @@ class WellNotify {
     if (opcoes?.atualizarNotificacao === true) {
       if (!opcoes?.id) {
         throw new Error(
-          "WellNotify: Para atualizar uma notificação existente é necessário informar um id"
+          'WellNotify: Para atualizar uma notificação existente é necessário informar um id'
         );
       }
       const notificacaoAtual = document.getElementById(opcoes.id);
       if (!notificacaoAtual) {
         throw new Error(
-          "WellNotify: Notificação para atualizar não encontrada"
+          'WellNotify: Notificação para atualizar não encontrada'
         );
       }
-      novaNotificacao.style.animation = "none";
+      novaNotificacao.style.animation = 'none';
       notificacaoAtual.replaceWith(novaNotificacao);
     } else {
       const containerNotificacao = this.obterContainerNotificacoes();
       containerNotificacao.appendChild(novaNotificacao);
     }
 
-    if (tipo !== "loading") {
+    if (tipo !== 'loading') {
       const autoFechar =
         opcoes?.autoFechar !== undefined
           ? opcoes.autoFechar
@@ -353,42 +353,42 @@ class WellNotify {
    * @returns {HTMLDivElement} - objeto da notificação do resultado seja qual for
    */
   aguardar = async (funcao, configuracoes) => {
-    if (typeof funcao !== "function") {
+    if (typeof funcao !== 'function') {
       throw new Error(
-        "WellNotify: o primeiro argumento da função aguardar deve ser uma função, podendo ser async."
+        'WellNotify: o primeiro argumento da função aguardar deve ser uma função, podendo ser async.'
       );
     }
     let notificacao;
-    if (typeof configuracoes.loading === "string") {
-      notificacao = this.notificar(configuracoes.loading, "loading");
+    if (typeof configuracoes.loading === 'string') {
+      notificacao = this.notificar(configuracoes.loading, 'loading');
     } else {
       notificacao = this.notificar(
         configuracoes.loading.conteudo,
-        "loading",
+        'loading',
         configuracoes.loading
       );
     }
     try {
       try {
         const resultado_da_funcao = await funcao();
-        if ("success" in configuracoes) {
-          if (typeof configuracoes.success === "string") {
-            notificacao = this.notificar(configuracoes.success, "success", {
+        if ('success' in configuracoes) {
+          if (typeof configuracoes.success === 'string') {
+            notificacao = this.notificar(configuracoes.success, 'success', {
               id: notificacao.id,
               atualizarNotificacao: true,
             });
           } else {
             const resultado =
-              typeof configuracoes.success === "function"
+              typeof configuracoes.success === 'function'
                 ? configuracoes.success(resultado_da_funcao)
                 : configuracoes.success;
-            if (typeof resultado === "string") {
-              notificacao = this.notificar(resultado, "success", {
+            if (typeof resultado === 'string') {
+              notificacao = this.notificar(resultado, 'success', {
                 id: notificacao.id,
                 atualizarNotificacao: true,
               });
             } else {
-              notificacao = this.notificar(resultado.conteudo, "success", {
+              notificacao = this.notificar(resultado.conteudo, 'success', {
                 ...resultado,
                 id: notificacao.id,
                 atualizarNotificacao: true,
@@ -397,27 +397,27 @@ class WellNotify {
           }
         } else {
           this.removerNotificacao(notificacao);
-          console.log("WellNotify: configurações de sucesso não informadas");
+          console.log('WellNotify: configurações de sucesso não informadas');
         }
       } catch (erro) {
-        if ("error" in configuracoes) {
-          if (typeof configuracoes.error === "string") {
-            this.notificar(configuracoes.error, "error", {
+        if ('error' in configuracoes) {
+          if (typeof configuracoes.error === 'string') {
+            this.notificar(configuracoes.error, 'error', {
               id: notificacao.id,
               atualizarNotificacao: true,
             });
           } else {
             const resultado =
-              typeof configuracoes.error === "function"
+              typeof configuracoes.error === 'function'
                 ? configuracoes.error(erro)
                 : configuracoes.error;
-            if (typeof resultado === "string") {
-              this.notificar(resultado, "error", {
+            if (typeof resultado === 'string') {
+              this.notificar(resultado, 'error', {
                 id: notificacao.id,
                 atualizarNotificacao: true,
               });
             } else {
-              this.notificar(resultado.conteudo, "error", {
+              this.notificar(resultado.conteudo, 'error', {
                 ...resultado,
                 id: notificacao.id,
                 atualizarNotificacao: true,
@@ -426,9 +426,9 @@ class WellNotify {
           }
         } else {
           this.removerNotificacao(notificacao);
-          console.log("WellNotify: configurações de error não informadas");
+          console.log('WellNotify: configurações de error não informadas');
         }
-        console.log("WellNotify: Erro na execução da função a aguardar", erro);
+        console.log('WellNotify: Erro na execução da função a aguardar', erro);
       }
     } catch (erro) {
       console.log("WellNotify: erro na função 'aguardar': ", erro);
@@ -438,12 +438,12 @@ class WellNotify {
   };
 
   getFilenameFromHeaders(headers) {
-    const infos = (headers.get("content-disposition") || "").split(";");
+    const infos = (headers.get('content-disposition') || '').split(';');
     for (const info of infos) {
-      if (info.trim().startsWith("filename")) {
-        const filename = info.split("=")[1];
+      if (info.trim().startsWith('filename')) {
+        const filename = info.split('=')[1];
         if (filename) {
-          return filename.replace(/['"]/g, "");
+          return filename.replace(/['"]/g, '');
         }
       }
     }
@@ -465,11 +465,11 @@ class WellNotify {
       );
     }
     const blob = await response.blob();
-    const a = document.createElement("a");
+    const a = document.createElement('a');
     a.href = window.URL.createObjectURL(blob);
     a.download = filename;
     document.body.appendChild(a);
-    a.style.display = "none";
+    a.style.display = 'none';
     a.click();
     window.URL.revokeObjectURL(a.href);
     document.body.removeChild(a);
@@ -503,15 +503,15 @@ class WellNotify {
       },
       {
         loading: {
-          conteudo: opcoes?.msg_loading ?? "Fazendo download, aguarde...",
+          conteudo: opcoes?.msg_loading ?? 'Fazendo download, aguarde...',
         },
         success: {
-          conteudo: opcoes?.msg_success ?? "Download concluído com sucesso!",
+          conteudo: opcoes?.msg_success ?? 'Download concluído com sucesso!',
           duracao: opcoes?.duracao,
         },
         error: {
           conteudo:
-            opcoes?.msg_error ?? "Não foi possível concluir o download!",
+            opcoes?.msg_error ?? 'Não foi possível concluir o download!',
           duracao: opcoes?.duracao,
         },
       }
@@ -520,10 +520,10 @@ class WellNotify {
 
   obterStyleTag = () => {
     const posicao = this.obterPosicao();
-    const regraVertical = posicao.startsWith("topo") ? "top: 0;" : "bottom: 0;";
-    const regraHorizontal = posicao.endsWith("esquerdo")
-      ? "left: 0;"
-      : "right: 0;";
+    const regraVertical = posicao.startsWith('topo') ? 'top: 0;' : 'bottom: 0;';
+    const regraHorizontal = posicao.endsWith('esquerdo')
+      ? 'left: 0;'
+      : 'right: 0;';
     return `
       <style id="${this.idStyleTag}">
         .${this.cssClasses.containerPosicional} {
@@ -659,11 +659,11 @@ class WellNotify {
           cursor:pointer;  
         }
     
-        .${this.cssClasses.mensagem}{
-          display:flex;
-          align-items:center;
+        .${this.cssClasses.mensagem}{                    
           flex-grow: 1;
           padding:10px 0px 10px 0px;
+          overflow-wrap: break-word !important;   
+          overflow:hidden       
         }
     
         .${this.cssClasses.barraProgressoWrapper}{
@@ -706,7 +706,7 @@ class WellNotify {
    * @return {HTMLDivElement} - elemento da notificação criada
    */
   success(conteudo, opcoes) {
-    return this.notificar(conteudo, "success", opcoes);
+    return this.notificar(conteudo, 'success', opcoes);
   }
 
   /**
@@ -716,7 +716,7 @@ class WellNotify {
    * @return {HTMLDivElement} - elemento da notificação criada
    */
   warning(conteudo, opcoes) {
-    return this.notificar(conteudo, "warning", opcoes);
+    return this.notificar(conteudo, 'warning', opcoes);
   }
 
   /**
@@ -726,7 +726,7 @@ class WellNotify {
    * @return {HTMLDivElement} - elemento da notificação criada
    */
   error(conteudo, opcoes) {
-    return this.notificar(conteudo, "error", opcoes);
+    return this.notificar(conteudo, 'error', opcoes);
   }
 
   /**
@@ -736,7 +736,7 @@ class WellNotify {
    * @return {HTMLDivElement} - elemento da notificação criada
    */
   info(conteudo, opcoes) {
-    return this.notificar(conteudo, "info", opcoes);
+    return this.notificar(conteudo, 'info', opcoes);
   }
 
   /**
@@ -746,7 +746,7 @@ class WellNotify {
    * @return {HTMLDivElement} - elemento da notificação criada
    */
   default(conteudo, opcoes) {
-    return this.notificar(conteudo, "default", opcoes);
+    return this.notificar(conteudo, 'default', opcoes);
   }
 
   /**
@@ -756,23 +756,23 @@ class WellNotify {
    * @return {HTMLDivElement} - elemento da notificação criada
    */
   loading(conteudo, opcoes) {
-    return this.notificar(conteudo, "loading", opcoes);
+    return this.notificar(conteudo, 'loading', opcoes);
   }
 
   // fim dos atalhos
 
   cssClasses = {
-    botaoFecharWrapper: "wellnotify_BotaoFecharWrapper",
-    botaoFechar: "wellnotify_BotaoFechar",
-    containerPosicional: "wellnotify_ContainerPosicional",
-    barraAnimada: "wellnotify_BarraAnimada",
-    barraProgressoWrapper: "wellnotify_BarraProgressoWrapper",
-    containerWrapper: "wellnotify_ContainerWrapper",
-    container: "wellnotify_Container",
-    iconeWrapper: "wellnotify_IconeWrapper",
-    icone: "wellnotify_Icone",
-    mensagem: "wellnotify_Mensagem",
-    iconeLoading: "wellnotify_IconeLoading",
+    botaoFecharWrapper: 'wellnotify_BotaoFecharWrapper',
+    botaoFechar: 'wellnotify_BotaoFechar',
+    containerPosicional: 'wellnotify_ContainerPosicional',
+    barraAnimada: 'wellnotify_BarraAnimada',
+    barraProgressoWrapper: 'wellnotify_BarraProgressoWrapper',
+    containerWrapper: 'wellnotify_ContainerWrapper',
+    container: 'wellnotify_Container',
+    iconeWrapper: 'wellnotify_IconeWrapper',
+    icone: 'wellnotify_Icone',
+    mensagem: 'wellnotify_Mensagem',
+    iconeLoading: 'wellnotify_IconeLoading',
   };
 
   icones = {
@@ -790,10 +790,10 @@ class WellNotify {
   };
 
   animacoes = {
-    deslizarParaEsquerda: "wellnotify-animacao-deslizar-para-esquerda",
-    deslizarParaDireita: "wellnotify-animacao-deslizar-para-direita",
-    loadingSpin: "wellnotify-animacao-spin",
+    deslizarParaEsquerda: 'wellnotify-animacao-deslizar-para-esquerda',
+    deslizarParaDireita: 'wellnotify-animacao-deslizar-para-direita',
+    loadingSpin: 'wellnotify-animacao-spin',
   };
 }
 
-const wellNotify = new WellNotify({ posicao: "topo-direito" });
+const wellNotify = new WellNotify({ posicao: 'topo-direito' });
